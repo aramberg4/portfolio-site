@@ -9,20 +9,20 @@ function App() {
     <div className="App">
       <div style={{height: '300px', position: 'relative'}}>
         <Layout fixedHeader>
-            <Header title={<span><strong>Austin Ramberg</strong></span>}>
+            <Header className="header-color" title={<Link to="/"><strong>Austin Ramberg</strong></Link>}>
                 <Navigation>
                     <Link to="/resume">Resume</Link>
-                    <Link to="#">Link</Link>
-                    <Link to="#">Link</Link>
-                    <Link to="#">Link</Link>
+                    <Link to="/projects">Projects</Link>
+                    <Link to="/aboutme">About</Link>
+                    <Link to="/contact">Contact</Link>
                 </Navigation>
             </Header>
-            <Drawer title="Title">
+            <Drawer className="header-drawer" title="Title">
                 <Navigation>
-                    <a href="#">Link</a>
-                    <a href="#">Link</a>
-                    <a href="#">Link</a>
-                    <a href="#">Link</a>
+                  <Link to="/resume">Resume</Link>
+                  <Link to="/projects">Projects</Link>
+                  <Link to="/aboutme">About</Link>
+                  <Link to="/contact">Contact</Link>
                 </Navigation>
             </Drawer>
             <Content>
