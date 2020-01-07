@@ -83,3 +83,9 @@
 .projects-grid {
   display: flex;
 }
+
+.mdl-layout__header .mdl-layout__drawer-button {
+  position: absolute;
+  color: rgb(255,255,255);
+  /* background-color: inherit; */
+}

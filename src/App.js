@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <div style={{height: '300px', position: 'relative'}}>
         <Layout fixedHeader>
-            <Header className="header-color" title={<Link to="/"><strong>Austin Ramberg</strong></Link>}>
+            <Header className="header-color" title={<Link to="/" style={{textDecoration: 'none', color: 'white'}}><strong>Austin Ramberg</strong></Link>}>
                 <Navigation>
                     <Link to="/resume">Resume</Link>
                     <Link to="/projects">Projects</Link>
