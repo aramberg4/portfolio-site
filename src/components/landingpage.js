@@ -4,7 +4,7 @@ import { Grid, Cell } from 'react-mdl';
 class Landing extends Component {
     render() {
         return(
-            <div style={{width: '100%', margin: 'auto'}}>
+            <div className="landing-content">
                 <Grid className="landing-grid">
                     <Cell col={12}>
                         <img 
@@ -13,9 +13,10 @@ class Landing extends Component {
                             className="avatar-img"
                         />
                         <div className="banner-text">
-                            <h1>Full Stack Web Developer</h1>
+                            <h1>Austin Ramberg</h1>
+                            <h2>Analytics | Machine Learning | WebDev</h2>
                             <hr/>
-                            <p>Python | C# | SQL | React | Angular</p>
+                            <p>Python | C# | SQL | React | Angular | Tensorflow</p>
                             <div className="social-links">
                                 <a href="https://github.com/aramberg4" rel="noopener noreferrer" target="_blank">
                                     <i class="fa fa-github" aria-hidden="true"></i>

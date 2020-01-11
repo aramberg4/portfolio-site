@@ -1,28 +1,28 @@
 import React from 'react';
 import './App.css';
-import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl'
+import {Layout, Header, Navigation, Drawer, Content, Footer, FooterSection, FooterLinkList} from 'react-mdl'
 import Main from './components/main';
 import { Link } from 'react-router-dom'
+import Pdf from './resources/resumeFullNoPhone.pdf';
 
 function App() {
   return (
     <div className="App">
-      <div style={{height: '300px', position: 'relative'}}>
+      <div>
         <Layout fixedHeader>
-            <Header className="header-color" title={<Link to="/" style={{textDecoration: 'none', color: 'white'}}><strong>Austin Ramberg</strong></Link>}>
-                <Navigation>
-                    <Link to="/resume">Resume</Link>
-                    <Link to="/projects">Projects</Link>
-                    <Link to="/aboutme">About</Link>
-                    <Link to="/contact">Contact</Link>
+            <Header className="header" title={<Link to="/" style={{textDecoration: 'none', color: 'white'}}><i class="fa fa-bolt" aria-hidden="true"></i>  Austin Ramberg</Link>}>
+                <Navigation className="horizontal-nav">
+                    <Link to = {Pdf} target = "_blank" className="nav-item">Resume</Link>
+                    <Link to="/projects" className="nav-item">Projects</Link>
+                    <Link to="/aboutme" className="nav-item">About</Link>
                 </Navigation>
             </Header>
-            <Drawer className="header-drawer" title="Title">
+            <Drawer className="header-drawer" title="Austin Ramberg">
                 <Navigation>
-                  <Link to="/resume">Resume</Link>
+                  <Link to="/">Home</Link>
+                  <Link to = {Pdf} target = "_blank">Resume</Link>
                   <Link to="/projects">Projects</Link>
                   <Link to="/aboutme">About</Link>
-                  <Link to="/contact">Contact</Link>
                 </Navigation>
             </Drawer>
             <Content>
