@@ -29,13 +29,17 @@ class About extends Component {
                                 </ListItem>
                                 <ListItem>
                                     <ListItemContent style={{fontSize: '16px' }}>
-                                        <i className="fa fa-linkedin-square" aria-hidden="true" />
+                                        <a href="https://www.linkedin.com/in/austinramberg/" rel="noopener noreferrer" target="_blank">
+                                            <i className="fa fa-linkedin-square" aria-hidden="true" />
+                                        </a>
                                         /in/austinramberg
                                     </ListItemContent>
                                 </ListItem>
                                 <ListItem>
                                     <ListItemContent style={{fontSize: '16px'}}>
-                                        <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                        <a href="https://www.facebook.com/austin.ramberg" rel="noopener noreferrer" target="_blank">
+                                            <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                            </a>
                                         Austin Ramberg
                                     </ListItemContent>
                                 </ListItem>
