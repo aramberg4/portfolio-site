@@ -11,7 +11,7 @@ class Projects extends Component {
         return(
             <div className="content">
                 <div className="flex-box">
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px'}}>
+                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: 'white', height: '230px', background: `url( ${pitch} ) center / cover`}}>Pitch</CardTitle>
                         <CardText>
                         Angular App that helps local musicians and venues connect.
@@ -24,7 +24,7 @@ class Projects extends Component {
                         </CardMenu>
                     </Card>
 
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px'}}>
+                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: '#3494E6', height: '230px', background: `url( ${mongodd} ) center / cover`}}>MongoD&D</CardTitle>
                         <CardText>
                         D&D 5e spell management tool built using Python and MongoDB.
@@ -37,7 +37,7 @@ class Projects extends Component {
                         </CardMenu>
                     </Card>
 
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px'}}>
+                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: '#3494E6', height: '230px', background: 'url(https://anthonybonato.files.wordpress.com/2017/06/illustration3.png?w=980&h=400&crop=1) center / cover'}}>PageRank</CardTitle>
                         <CardText>
                         My own basic implementation of the Page Rank Algorithm derived by Lawrence Page and Sergey Brin using Python 2.
