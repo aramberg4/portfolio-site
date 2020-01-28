@@ -42,8 +42,8 @@
 
 .avatar-img {
   border-radius: 50%;
-  height: 250px;
-  margin: 5em;
+  height: 20%;
+  margin: 3em;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -56,22 +56,22 @@
   width: 75%;
   margin: auto;
   border-radius: 10px;
-  margin-bottom: 5em;
+  /* margin-bottom: 2em; */
 }
 
 .banner-text h1 {
-  font-size: 5vw;
+  font-size: 4vw;
   /* font-weight: bold; */
   color: white;
   text-align: center;
-  padding-top: 1em;
+  padding-top: 0.5em;
   margin-bottom: 0px;
 }
 
 .banner-text h2 {
   color: white;
   text-align: center;
-  font-size: 3vw;
+  font-size: 2vw;
   margin-top: 1vw;
   margin-bottom: 1vw;
 }
@@ -85,7 +85,7 @@
 .banner-text p {
   color: white;
   padding: 1vw;
-  font-size: 2vw;
+  font-size: 1vw;
   text-align: center;
 }
 .social-links {
@@ -94,7 +94,7 @@
   width: 50%;
   margin: auto;
   text-align: center;
-  padding-top: 2vw;
+  padding-top: 1vw;
 }
 
 .social-links a {
