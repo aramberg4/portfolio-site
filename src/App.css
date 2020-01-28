@@ -56,6 +56,7 @@
   width: 75%;
   margin: auto;
   border-radius: 10px;
+  margin-bottom: 5em;
 }
 
 .banner-text h1 {
@@ -63,12 +64,16 @@
   /* font-weight: bold; */
   color: white;
   text-align: center;
+  padding-top: 1em;
+  margin-bottom: 0px;
 }
 
 .banner-text h2 {
   color: white;
   text-align: center;
   font-size: 3vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
 }
 
 .banner-text hr {
@@ -89,12 +94,13 @@
   width: 50%;
   margin: auto;
   text-align: center;
+  padding-top: 2vw;
 }
 
 .social-links a {
   color: white;
   font-size: 5vw;
-  padding: 8px;
+  padding-bottom: 2vw;
 }
 
 /* Projects Page CSS */

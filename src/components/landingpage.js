@@ -19,10 +19,10 @@ class Landing extends Component {
                             <p>Python | C# | SQL | React | Angular | Tensorflow</p>
                             <div className="social-links">
                                 <a href="https://github.com/aramberg4" rel="noopener noreferrer" target="_blank">
-                                    <i class="fa fa-github" aria-hidden="true"></i>
+                                    <i class="iconify" data-icon="simple-icons:github" data-inline="false"></i>
                                 </a>
                                 <a href="https://www.linkedin.com/in/austinramberg/" rel="noopener noreferrer" target="_blank">
-                                    <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                                    <i class="iconify" data-icon="simple-icons:linkedin" data-inline="false"></i>
                                 </a>
                                 <a href="https://leetcode.com/aero11/" rel="noopener noreferrer" target="_blank">
                                     <i class="iconify" data-icon="simple-icons:leetcode" data-inline="false"></i>
