@@ -34,9 +34,9 @@
   background: linear-gradient(to right, #dc2430, #7b4397); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   position: fixed;
   width: 100%;
-  height: calc(100% - 56px);
+  /* height: calc(100% - 56px); */
   text-align: center;
-  margin-bottom: 140px;
+  /* margin-bottom: 140px; */
   /* padding-top: 5em; */
 }
 
