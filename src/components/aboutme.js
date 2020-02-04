@@ -20,30 +20,15 @@ class About extends Component {
                         <hr style={{borderTop: '3px solid #833fb2', width: '50%'}} />
                         <h4>Contact Me</h4>
                         <div className="about-list">
-                            <List>                 
-                                <ListItem>
-                                    <ListItemContent style={{fontSize: '16px' }}>
-                                        <i className="fa fa-envelope" aria-hidden="true" />
-                                        aramberg4@gmail.com
-                                    </ListItemContent>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemContent style={{fontSize: '16px' }}>
-                                        <a href="https://www.linkedin.com/in/austinramberg/" rel="noopener noreferrer" target="_blank">
-                                            <i className="fa fa-linkedin-square" aria-hidden="true" />
-                                        </a>
-                                        /in/austinramberg
-                                    </ListItemContent>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemContent style={{fontSize: '16px'}}>
-                                        <a href="https://www.facebook.com/austin.ramberg" rel="noopener noreferrer" target="_blank">
-                                            <i class="fa fa-facebook-official" aria-hidden="true"></i>
-                                            </a>
-                                        Austin Ramberg
-                                    </ListItemContent>
-                                </ListItem>
-                            </List>
+                            <a href="mailto:aramberg4@gmail.com" rel="noopener noreferrer" target="_blank">
+                                <i className="fa fa-envelope" aria-hidden="true" />
+                            </a>
+                            <a href="https://www.linkedin.com/in/austinramberg/" rel="noopener noreferrer" target="_blank">
+                                <i className="fa fa-linkedin-square" aria-hidden="true" />
+                            </a>
+                            <a href="https://www.facebook.com/austin.ramberg" rel="noopener noreferrer" target="_blank">
+                                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                            </a>
                         </div>
 
                     </Cell>

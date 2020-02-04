@@ -27,7 +27,6 @@ class Landing extends Component {
                                 <a href="https://leetcode.com/aero11/" rel="noopener noreferrer" target="_blank">
                                     <i class="iconify" data-icon="simple-icons:leetcode" data-inline="false"></i>
                                 </a>
-                                
                             </div>
                         </div>
                     </Cell>
