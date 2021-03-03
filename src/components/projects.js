@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Card, CardTitle, CardActions, Button, CardMenu, IconButton, CardText } from 'react-mdl';
+import { Card, CardTitle, CardActions, Button, CardMenu, IconButton, CardText } from 'react-mdl';
 import pitch from '../resources/pitch2.png'
 import mongodd from '../resources/mongoD&D.png'
 import lamps from '../resources/lamps.PNG'
@@ -14,7 +14,7 @@ class Projects extends Component {
             <div className="content">
                 <div className="flex-box">
 
-                <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
+                <Card shadow={0} style={{width: '600px', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: '#3494E6', height: '230px', background: `url( ${lamps}) center / cover`}}></CardTitle>
                         <CardText>
                             <h3>Lamps.com</h3>
@@ -28,7 +28,7 @@ class Projects extends Component {
                         </CardMenu>
                     </Card>
 
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
+                    <Card shadow={0} style={{width: '600px', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: 'white', height: '230px', background: `url( ${pitch} ) center / cover`}}></CardTitle>
                         <CardText>
                             <h3>Pitch</h3>
@@ -42,7 +42,7 @@ class Projects extends Component {
                         </CardMenu>
                     </Card>
 
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
+                    <Card shadow={0} style={{width: '600px', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: '#3494E6', height: '230px', background: 'url(https://anthonybonato.files.wordpress.com/2017/06/illustration3.png?w=980&h=400&crop=1) center / cover'}}></CardTitle>
                         <CardText>
                             <h3>PageRank</h3>
@@ -56,7 +56,7 @@ class Projects extends Component {
                         </CardMenu>
                     </Card>
 
-                    <Card shadow={0} style={{width: '600px', margin: 'auto', borderRadius: '10px', margin: '20px'}}>
+                    <Card shadow={0} style={{width: '600px', borderRadius: '10px', margin: '20px'}}>
                         <CardTitle style={{color: '#3494E6', height: '230px', background: `url( ${mongodd} ) center / cover`}}></CardTitle>
                         <CardText>
                             <h3>MongoD&D</h3>
