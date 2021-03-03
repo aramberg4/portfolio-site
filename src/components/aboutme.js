@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Cell, List, ListItem, ListItemContent } from 'react-mdl';
+import { Grid, Cell } from 'react-mdl';
 import pfp from '../resources/headShot.PNG'
 
 class About extends Component {
