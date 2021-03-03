@@ -1,9 +1,9 @@
 /* Header CSSS */
 .header {
   text-decoration: none;
-  background: ##00ff26;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #00d4ff, ##00ff26);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #00d4ff, ##00ff26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #00ff26;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #00aeff, #77c48a);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #00aeff, #77c48a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 
@@ -11,56 +11,61 @@
   background: none !important;
 }
 
-.nav-item:hover {background-color: rgb(41, 39, 39);;}
+.nav-item {
+  size: 20px;
+  color: black !important;
+}
+
+.nav-item:hover {
+  color: white !important;
+  background-color:rgb(41, 39, 39);
+}
 
 /* Landing Page CSS */
 .landing-content {
   margin: auto;
   overflow: auto;
-  background: ##00ff26;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #00d4ff, ##00ff26);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #00d4ff, ##00ff26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   position: fixed;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .landing-grid {
   margin: auto;
   overflow: auto;  margin: auto;
   overflow: auto;
-  background: ##00ff26;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #00d4ff, ##00ff26);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #00d4ff, ##00ff26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: rgb(41, 39, 39);
   position: fixed;
   width: 100%;
-  /* height: calc(100% - 56px); */
+  height: 100%;
   text-align: center;
   /* margin-bottom: 140px; */
   /* padding-top: 5em; */
 }
 
 .avatar-img {
-  border-radius: 50%;
+  width: 100%;
+  /* border-radius: 50%;
   height: 30%;
   margin: 3em;
   text-align: center;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto; */
   /* border: solid rgb(41, 39, 39); */
 }
 
 .banner-text {
   background-color: black;
   opacity: .8;
-  width: 75%;
+  width: 100%;
   margin: auto;
   border-radius: 10px;
+
   /* margin-bottom: 2em; */
 }
 
 .banner-text h1 {
-  font-size: 4vw;
+  font-size: 30px;
   /* font-weight: bold; */
   color: white;
   text-align: center;
@@ -71,7 +76,7 @@
 .banner-text h2 {
   color: white;
   text-align: center;
-  font-size: 2vw;
+  font-size: 16px;
   margin-top: 1vw;
   margin-bottom: 1vw;
 }
@@ -85,9 +90,10 @@
 .banner-text p {
   color: white;
   padding: 1vw;
-  font-size: 1vw;
+  font-size: 12px;
   text-align: center;
 }
+
 .social-links {
   display: flex;
   justify-content: space-between;
@@ -126,7 +132,7 @@
 
 /* About Page CSS */
 .about-body {
-  margin: auto;
+  /* margin: auto; */
   overflow: auto;
   background: rgb(41, 39, 39);
   position: fixed;
@@ -137,9 +143,14 @@
 }
 
 .about-grid {
-  width: 80%;
+  width: 100%;
   /* height: calc(100% - 56px); */
   justify-content: center;
+}
+
+.about-hr {
+  border-top: 3px solid #00aeff;
+  width: 50%;
 }
 
 .about-left-col {
@@ -151,7 +162,7 @@
 .about-list i {
   font-size: 3rem;
   padding-right: 1rem;
-  color: #833fb2;
+  color: #00aeff;
   
 }
 
@@ -188,10 +199,32 @@
     .mdl-layout__drawer-button {
         display: none !important;
     }
+    
+    .banner-text{
+      width: 40%;
+      position: fixed;
+      top: 140px;
+      left: 40px;
+    }
 
-    /* .mdl-layout__header-row {
-      padding-left: 16px !important;
-  } */   
+    .banner-text h1 {
+      font-size: 36px;
+    }
+    
+    .banner-text h2 {
+      font-size: 24px;
+    }
+    
+    .banner-text p {
+      padding: 1vw;
+      font-size: 18px;
+
+    }
+
+
+    .about-grid {
+      width: 80%;
+    }
 }
 
 .mdl-grid {
