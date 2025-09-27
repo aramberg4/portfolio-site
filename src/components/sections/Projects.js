@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import pitch from '../../resources/pitch2.png';
 import mongodd from '../../resources/mongoD&D.png';
 import lamps from '../../resources/lamps.PNG';
-import Pdf from '../../resources/resumeFullNoPhone.pdf';
 
 const projects = [
   {

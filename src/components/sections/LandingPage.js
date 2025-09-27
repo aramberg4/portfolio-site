@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import banner from '../../resources/headshot2.jpg';
-import Pdf from '../../resources/resumeFullNoPhone.pdf';
 
 const socialLinks = [
   {
