@@ -10,3 +10,56 @@
     @apply font-sans antialiased;
   }
 }
+
+@layer utilities {
+  /* Enhanced gradient compatibility */
+  .bg-gradient-modern {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(17, 24, 39, 1) 50%, rgba(20, 83, 45, 0.1) 100%);
+  }
+
+  .bg-gradient-card {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2) 0%, rgba(74, 222, 128, 0.2) 100%);
+  }
+
+  .border-gradient {
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  /* Particle animation with better compatibility */
+  .particle {
+    width: 4px;
+    height: 4px;
+    background: rgba(96, 165, 250, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Custom animations */
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes bounceCustom {
+    0%, 100% { transform: translateY(-25%); }
+    50% { transform: translateY(0); }
+  }
+
+  .animate-fade-custom {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .animate-slide-custom {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-bounce-custom {
+    animation: bounceCustom 2s infinite;
+  }
+}

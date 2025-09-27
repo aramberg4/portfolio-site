@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { AcademicCapIcon, BriefcaseIcon, StarIcon, HeartIcon } from '@heroicons/react/24/outline';
+import Pdf from '../../resources/resumeFullNoPhone.pdf';
 
 const experiences = [
   {
@@ -97,20 +99,22 @@ const personalQualities = [
 
 export default function AboutMe() {
   return (
-    <div className="min-h-screen bg-gray-900 py-16">
+    <div className="min-h-screen bg-gray-900 py-16 pt-24">
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
-      {/* Animated background particles */}
+      {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
-        {[...Array(25)].map((_, i) => (
+        {[...Array(35)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full animate-pulse"
+            className="particle"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 2}s`,
             }}
           />
         ))}

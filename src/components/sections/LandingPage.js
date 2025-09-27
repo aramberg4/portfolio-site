@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import banner from '../../resources/headshot2.jpg';
+import Pdf from '../../resources/resumeFullNoPhone.pdf';
 
 const socialLinks = [
   {
@@ -35,22 +37,37 @@ const skills = [
   'Python', 'C#', 'SQL', 'React', 'Angular', 'TensorFlow'
 ];
 
+// Generate stable particle positions and timing
+const generateParticles = () => {
+  return Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 2 + Math.random() * 2,
+  }));
+};
+
+const particleData = generateParticles();
+
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden pt-20">
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-gray-900 to-green-900/20"></div>
 
-      {/* CSS-only animated background particles */}
+      {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {particleData.map((particle) => (
           <div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400/30 rounded-full animate-pulse"
+            key={particle.id}
+            className="particle"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
+              animationDelay: `${particle.delay}s`,
+              animationDuration: `${particle.duration}s`,
             }}
           />
         ))}
@@ -121,6 +138,19 @@ export default function LandingPage() {
               {/* Floating decoration */}
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-500 to-green-400 rounded-full opacity-80 animate-bounce-slow"></div>
               <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-full opacity-60 animate-pulse"></div>
+              <div style={{
+                position: 'absolute',
+                top: '-16px',
+                right: '-24px',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: 'linear-gradient(to right, #4ade80, #3b82f6)',
+                opacity: 0.85,
+                zIndex: 10,
+                animation: 'bounce 2s infinite',
+                animationDelay: '0.8s'
+              }}></div>
             </div>
           </div>
         </div>

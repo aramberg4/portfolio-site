@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import pitch from '../../resources/pitch2.png';
 import mongodd from '../../resources/mongoD&D.png';
 import lamps from '../../resources/lamps.PNG';
+import Pdf from '../../resources/resumeFullNoPhone.pdf';
 
 const projects = [
   {
@@ -133,20 +135,22 @@ export default function Projects() {
   const otherProjects = projects.filter(project => !project.featured);
 
   return (
-    <div className="min-h-screen bg-gray-900 py-16">
+    <div className="min-h-screen bg-gray-900 py-16 pt-24">
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
-      {/* Animated background particles */}
+      {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(40)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full animate-pulse"
+            className="particle"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 2}s`,
             }}
           />
         ))}
