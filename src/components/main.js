@@ -1,9 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import LandingPage from './landingpage';
-import AboutMe from './aboutme';
-import Projects from './projects';
-
+import LandingPage from './sections/LandingPage';
+import AboutMe from './sections/AboutMe';
+import Projects from './sections/Projects';
 
 const Main = () => (
     <Switch>
@@ -11,6 +10,6 @@ const Main = () => (
         <Route exact path="/aboutme" component={AboutMe} />
         <Route exact path="/projects" component={Projects} />
     </Switch>
-)
+);
 
 export default Main;
