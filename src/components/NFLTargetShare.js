@@ -101,7 +101,7 @@ const NFLTargetShare = () => {
       },
       title: {
         display: true,
-        text: `${getTeamById(selectedTeam)?.name || 'Team'} - Week ${selectedWeek} Target Share`,
+        text: `${getTeamById(selectedTeam)?.name || 'Team'} Target Share`,
         color: '#F9FAFB',
         font: {
           size: 16,
@@ -165,6 +165,15 @@ const NFLTargetShare = () => {
         // setDataSource(result.source || 'api'); // unused
         setSeason(result.season);
 
+        // Update available weeks if provided by API
+        if (result.availableWeeks && result.availableWeeks.length > 0) {
+          const weeks = result.availableWeeks.map(week => ({
+            value: week,
+            label: `Week ${week}`
+          }));
+          setAvailableWeeks(weeks);
+        }
+
         // Show warning if using mock data
         if (result.source === 'mock' && result.warning) {
           console.warn(result.warning);
@@ -179,6 +188,20 @@ const NFLTargetShare = () => {
       } else {
         setError(result.error || 'Failed to load data');
         // setDataSource('error'); // unused
+
+        // Update available weeks if provided even on error
+        if (result.availableWeeks && result.availableWeeks.length > 0) {
+          const weeks = result.availableWeeks.map(week => ({
+            value: week,
+            label: `Week ${week}`
+          }));
+          setAvailableWeeks(weeks);
+        }
+
+        // Show notice about data limitations
+        if (result.notice) {
+          setDataNotice(result.notice);
+        }
       }
     } catch (err) {
       setError('An unexpected error occurred');

@@ -222,16 +222,26 @@ class FantasyProsScraper:
             print(f"Error scraping FantasyPros: {e}")
             return []
 
-    def get_team_target_data_multi_position(self, team: str, weeks: str = "1-3") -> List[Dict]:
+    def get_team_target_data_multi_position(self, team: str, week: int = None) -> List[Dict]:
         """
         Get target share data for a specific team from all positions (WR, RB, TE)
         Returns top 5 target leaders plus "Other" slice for remaining targets
         """
         try:
-            # Scrape data from all three position tables
-            wr_players, wr_totals = self.scrape_position_targets('wr')
-            rb_players, rb_totals = self.scrape_position_targets('rb')
-            te_players, te_totals = self.scrape_position_targets('te')
+            # If specific week requested, use that week; otherwise default to aggregated weeks 1-3
+            if week is not None:
+                start_week = week
+                end_week = week
+                print(f"Scraping FantasyPros data for week {week} (individual week)")
+            else:
+                start_week = 1
+                end_week = 3
+                print(f"Scraping FantasyPros data for weeks {start_week}-{end_week} (aggregated)")
+
+            # Scrape data from all three position tables with specific week parameters
+            wr_players, wr_totals = self.scrape_position_targets('wr', start_week=start_week, end_week=end_week)
+            rb_players, rb_totals = self.scrape_position_targets('rb', start_week=start_week, end_week=end_week)
+            te_players, te_totals = self.scrape_position_targets('te', start_week=start_week, end_week=end_week)
 
             # Combine all players for the specified team
             all_team_players = []

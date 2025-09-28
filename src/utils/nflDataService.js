@@ -90,7 +90,11 @@ export class NFLDataService {
         week: week,
         season: result.season,
         lastUpdated: result.lastUpdated,
-        source: result.source || 'api'
+        source: result.source || 'api',
+        notice: result.notice,
+        dataType: result.dataType,
+        weekRange: result.weekRange,
+        availableWeeks: result.availableWeeks
       };
     } catch (error) {
       console.error('Error fetching target share data:', error);
