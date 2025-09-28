@@ -7,8 +7,8 @@ const experiences = [
     role: 'Software Engineer',
     company: 'Lamps.com',
     period: 'Current',
-    description: 'Building scalable e-commerce solutions with React and Node.js, focusing on performance optimization and user experience.',
-    technologies: ['React', 'Node.js', 'AWS', 'E-commerce'],
+    description: 'Building scalable e-commerce solutions with Django and more.',
+    technologies: ['Django', 'Python', 'PostgreSQL', 'AWS', 'E-commerce'],
     type: 'professional'
   },
   {
@@ -17,7 +17,7 @@ const experiences = [
     company: 'Brandywine Global Investment Mgmt., LLC',
     period: 'Mar 2017 – Mar 2019',
     description: 'Built ASP.NET web application for Foreign Exchange Netting report creation and dissemination. Contributed to full software life cycle and collaborated on maintenance of over 1,000 internal batch jobs during accounting engine upgrade.',
-    technologies: ['ASP.NET', 'C#', 'SQL', 'Production Support'],
+    technologies: ['Perl', 'ASP.NET', 'C#', 'SQL', 'Production Support'],
     type: 'professional'
   },
   {
@@ -26,7 +26,7 @@ const experiences = [
     company: 'Susquehanna International Group, LLP',
     period: 'Mar 2016 – Sep 2016',
     description: 'Created a web-based market test order status monitoring tool and monitored latency of trading TCP traffic using exponential moving averages. Developed automated batch jobs for business reports and alerts.',
-    technologies: ['JavaScript', 'AJAX', 'Trading Systems', 'Performance Monitoring'],
+    technologies: ['Python', 'JavaScript', 'AJAX', 'Trading Systems', 'Performance Monitoring'],
     type: 'professional'
   },
   {
