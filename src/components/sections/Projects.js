@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import pitch from '../../resources/pitch2.png';
 import mongodd from '../../resources/mongoD&D.png';
@@ -7,17 +8,29 @@ import lamps from '../../resources/lamps.PNG';
 const projects = [
   {
     id: 1,
+    title: 'NFL Target Share Analyzer',
+    description: 'Interactive data visualization tool showing wide receiver target distribution by team and week. Perfect for fantasy football analysis with weekly data updates.',
+    image: 'https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png',
+    technologies: ['React', 'Chart.js', 'NFL Data APIs', 'Fantasy Football'],
+    liveUrl: '/nfl-target-share',
+    githubUrl: 'https://github.com/aramberg4/portfolio-site',
+    type: 'Data Visualization',
+    featured: true,
+    isInternal: true
+  },
+  {
+    id: 2,
     title: 'Lamps.com',
     description: 'I am currently a software engineer at Lamps.com - an online retailer for everything lighting and more.',
     image: lamps,
-    technologies: ['React', 'Node.js', 'E-commerce', 'AWS'],
+    technologies: ['Django', 'PostgreSQL', 'E-commerce', 'AWS'],
     liveUrl: 'https://lamps.com',
     githubUrl: null,
     type: 'Professional',
     featured: true
   },
   {
-    id: 2,
+    id: 3,
     title: 'Pitch',
     description: 'Angular App that helps local musicians and venues connect.',
     image: pitch,
@@ -28,7 +41,7 @@ const projects = [
     featured: true
   },
   {
-    id: 3,
+    id: 4,
     title: 'PageRank',
     description: 'My own basic implementation of the Page Rank Algorithm derived by Lawrence Page and Sergey Brin using Python 2.',
     image: 'https://anthonybonato.files.wordpress.com/2017/06/illustration3.png?w=980&h=400&crop=1',
@@ -39,7 +52,7 @@ const projects = [
     featured: false
   },
   {
-    id: 4,
+    id: 5,
     title: 'MongoD&D',
     description: 'D&D 5e spell management tool built using Python and MongoDB.',
     image: mongodd,
@@ -100,15 +113,25 @@ const ProjectCard = ({ project }) => {
         {/* Action Buttons */}
         <div className="flex gap-3">
           {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
-            >
-              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-              Visit Site
-            </a>
+            project.isInternal ? (
+              <Link
+                to={project.liveUrl}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+              >
+                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                Try Demo
+              </Link>
+            ) : (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+              >
+                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                Visit Site
+              </a>
+            )
           )}
 
           {project.githubUrl && (

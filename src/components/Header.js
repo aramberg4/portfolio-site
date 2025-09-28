@@ -44,6 +44,14 @@ const Header = () => {
             }}>
               Projects
             </Link>
+            <Link to="/nfl-target-share" style={{
+              color: 'white',
+              textDecoration: 'none',
+              fontWeight: '500',
+              transition: 'color 0.2s'
+            }}>
+              NFL Stats
+            </Link>
             <Link to="/aboutme" style={{
               color: 'white',
               textDecoration: 'none',
