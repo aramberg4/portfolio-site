@@ -9,6 +9,10 @@ import pandas as pd
 import json
 from typing import Dict, List, Optional
 import time
+try:
+    from .nfl_player_db import get_player_photo_url, get_player_espn_id
+except ImportError:
+    from nfl_player_db import get_player_photo_url, get_player_espn_id
 
 
 class FantasyProsScraper:
@@ -283,8 +287,8 @@ class FantasyProsScraper:
                     'receptions': 0,  # Not provided in FantasyPros target distribution
                     'receiving_yards': 0,  # Not provided in FantasyPros target distribution
                     'targetShare': round(target_share, 1),
-                    'player_id': f"fp_{player['name'].replace(' ', '_').lower()}",
-                    'photo': f"https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+                    'player_id': get_player_espn_id(player['name']),
+                    'photo': get_player_photo_url(player['name'])
                 })
 
             # Add "Other" slice if there are remainder targets
@@ -298,7 +302,7 @@ class FantasyProsScraper:
                     'receiving_yards': 0,
                     'targetShare': round(other_target_share, 1),
                     'player_id': 'other',
-                    'photo': f"https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+                    'photo': "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
                 })
 
             print(f"Team {team}: Total targets={total_team_targets}, Named targets={total_named_targets}, Other targets={remainder_targets}")
@@ -328,8 +332,8 @@ class FantasyProsScraper:
                     'receptions': player['receptions'],
                     'receiving_yards': player['receiving_yards'],
                     'targetShare': round(player['target_share'], 1),
-                    'player_id': f"fp_{player['name'].replace(' ', '_').lower()}",
-                    'photo': f"https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+                    'player_id': get_player_espn_id(player['name']),
+                    'photo': get_player_photo_url(player['name'])
                 })
 
         # Sort by target share descending

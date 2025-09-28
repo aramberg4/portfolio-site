@@ -225,7 +225,7 @@ const NFLTargetShare = () => {
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
             <span role="img" aria-label="football">🏈</span> NFL Target Share Analyzer
           </h1>
 

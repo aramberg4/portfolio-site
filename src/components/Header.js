@@ -60,7 +60,7 @@ const Header = () => {
             }}>
               About
             </Link>
-            <a
+            {/* <a
               href={Pdf}
               target="_blank"
               rel="noopener noreferrer"
@@ -72,7 +72,7 @@ const Header = () => {
               }}
             >
               Resume
-            </a>
+            </a> */}
           </nav>
         </div>
       </div>

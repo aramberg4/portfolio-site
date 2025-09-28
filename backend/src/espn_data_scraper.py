@@ -338,7 +338,7 @@ class ESPNDataScraper:
                     'receiving_yards': receiving_yards,
                     'targetShare': player['targetShare'],
                     'player_id': player['player_id'],
-                    'photo': f"https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+                    'photo': player['photo']  # Use the real photo URL from FantasyPros scraper
                 })
 
             print(f"Found {len(real_players)} players with real 2025 target data for {team}")

@@ -1,0 +1,1193 @@
+{
+  "source": "fantasypros_2025_real_data",
+  "total_players": 160,
+  "team_rosters": {
+    "KC": [
+      {
+        "name": "Marquise Brown",
+        "position": "WR",
+        "targets": 27,
+        "team": "KC"
+      },
+      {
+        "name": "Tyquan Thornton",
+        "position": "WR",
+        "targets": 18,
+        "team": "KC"
+      },
+      {
+        "name": "Travis Kelce",
+        "position": "TE",
+        "targets": 17,
+        "team": "KC"
+      },
+      {
+        "name": "JuJu Smith-Schuster",
+        "position": "WR",
+        "targets": 12,
+        "team": "KC"
+      },
+      {
+        "name": "Noah Gray",
+        "position": "TE",
+        "targets": 12,
+        "team": "KC"
+      }
+    ],
+    "BUF": [
+      {
+        "name": "Keon Coleman",
+        "position": "WR",
+        "targets": 18,
+        "team": "BUF"
+      },
+      {
+        "name": "Dalton Kincaid",
+        "position": "TE",
+        "targets": 16,
+        "team": "BUF"
+      },
+      {
+        "name": "Khalil Shakir",
+        "position": "WR",
+        "targets": 15,
+        "team": "BUF"
+      },
+      {
+        "name": "Joshua Palmer",
+        "position": "WR",
+        "targets": 13,
+        "team": "BUF"
+      },
+      {
+        "name": "James Cook III",
+        "position": "RB",
+        "targets": 9,
+        "team": "BUF"
+      }
+    ],
+    "LAR": [
+      {
+        "name": "Puka Nacua",
+        "position": "WR",
+        "targets": 35,
+        "team": "LAR"
+      },
+      {
+        "name": "Davante Adams",
+        "position": "WR",
+        "targets": 29,
+        "team": "LAR"
+      },
+      {
+        "name": "Kyren Williams",
+        "position": "RB",
+        "targets": 7,
+        "team": "LAR"
+      },
+      {
+        "name": "Tyler Higbee",
+        "position": "TE",
+        "targets": 6,
+        "team": "LAR"
+      },
+      {
+        "name": "Jordan Whittington",
+        "position": "WR",
+        "targets": 5,
+        "team": "LAR"
+      }
+    ],
+    "TB": [
+      {
+        "name": "Mike Evans",
+        "position": "WR",
+        "targets": 27,
+        "team": "TB"
+      },
+      {
+        "name": "Emeka Egbuka",
+        "position": "WR",
+        "targets": 21,
+        "team": "TB"
+      },
+      {
+        "name": "Sterling Shepard",
+        "position": "WR",
+        "targets": 15,
+        "team": "TB"
+      },
+      {
+        "name": "Bucky Irving",
+        "position": "RB",
+        "targets": 14,
+        "team": "TB"
+      },
+      {
+        "name": "Cade Otton",
+        "position": "TE",
+        "targets": 7,
+        "team": "TB"
+      }
+    ],
+    "DAL": [
+      {
+        "name": "Jake Ferguson",
+        "position": "TE",
+        "targets": 32,
+        "team": "DAL"
+      },
+      {
+        "name": "CeeDee Lamb",
+        "position": "WR",
+        "targets": 24,
+        "team": "DAL"
+      },
+      {
+        "name": "George Pickens",
+        "position": "WR",
+        "targets": 22,
+        "team": "DAL"
+      },
+      {
+        "name": "Javonte Williams",
+        "position": "RB",
+        "targets": 15,
+        "team": "DAL"
+      },
+      {
+        "name": "Jalen Tolbert",
+        "position": "WR",
+        "targets": 12,
+        "team": "DAL"
+      }
+    ],
+    "GB": [
+      {
+        "name": "Tucker Kraft",
+        "position": "TE",
+        "targets": 15,
+        "team": "GB"
+      },
+      {
+        "name": "Dontayvion Wicks",
+        "position": "WR",
+        "targets": 12,
+        "team": "GB"
+      },
+      {
+        "name": "Romeo Doubs",
+        "position": "WR",
+        "targets": 11,
+        "team": "GB"
+      },
+      {
+        "name": "Josh Jacobs",
+        "position": "RB",
+        "targets": 10,
+        "team": "GB"
+      },
+      {
+        "name": "Matthew Golden",
+        "position": "WR",
+        "targets": 8,
+        "team": "GB"
+      }
+    ],
+    "SF": [
+      {
+        "name": "Christian McCaffrey",
+        "position": "RB",
+        "targets": 32,
+        "team": "SF"
+      },
+      {
+        "name": "Ricky Pearsall",
+        "position": "WR",
+        "targets": 24,
+        "team": "SF"
+      },
+      {
+        "name": "Jauan Jennings",
+        "position": "WR",
+        "targets": 15,
+        "team": "SF"
+      },
+      {
+        "name": "Jake Tonges",
+        "position": "TE",
+        "targets": 11,
+        "team": "SF"
+      },
+      {
+        "name": "Kendrick Bourne",
+        "position": "WR",
+        "targets": 9,
+        "team": "SF"
+      }
+    ],
+    "MIA": [
+      {
+        "name": "Tyreek Hill",
+        "position": "WR",
+        "targets": 23,
+        "team": "MIA"
+      },
+      {
+        "name": "De'Von Achane",
+        "position": "RB",
+        "targets": 23,
+        "team": "MIA"
+      },
+      {
+        "name": "Jaylen Waddle",
+        "position": "WR",
+        "targets": 17,
+        "team": "MIA"
+      },
+      {
+        "name": "Malik Washington",
+        "position": "WR",
+        "targets": 12,
+        "team": "MIA"
+      },
+      {
+        "name": "Tanner Conner",
+        "position": "TE",
+        "targets": 6,
+        "team": "MIA"
+      }
+    ],
+    "MIN": [
+      {
+        "name": "Justin Jefferson",
+        "position": "WR",
+        "targets": 20,
+        "team": "MIN"
+      },
+      {
+        "name": "Jalen Nailor",
+        "position": "WR",
+        "targets": 13,
+        "team": "MIN"
+      },
+      {
+        "name": "T.J. Hockenson",
+        "position": "TE",
+        "targets": 13,
+        "team": "MIN"
+      },
+      {
+        "name": "Adam Thielen",
+        "position": "WR",
+        "targets": 6,
+        "team": "MIN"
+      },
+      {
+        "name": "Aaron Jones Sr.",
+        "position": "RB",
+        "targets": 4,
+        "team": "MIN"
+      }
+    ],
+    "CHI": [
+      {
+        "name": "Rome Odunze",
+        "position": "WR",
+        "targets": 27,
+        "team": "CHI"
+      },
+      {
+        "name": "DJ Moore",
+        "position": "WR",
+        "targets": 16,
+        "team": "CHI"
+      },
+      {
+        "name": "Olamide Zaccheaus",
+        "position": "WR",
+        "targets": 16,
+        "team": "CHI"
+      },
+      {
+        "name": "D'Andre Swift",
+        "position": "RB",
+        "targets": 12,
+        "team": "CHI"
+      },
+      {
+        "name": "Cole Kmet",
+        "position": "TE",
+        "targets": 7,
+        "team": "CHI"
+      }
+    ],
+    "CIN": [
+      {
+        "name": "Ja'Marr Chase",
+        "position": "WR",
+        "targets": 27,
+        "team": "CIN"
+      },
+      {
+        "name": "Tee Higgins",
+        "position": "WR",
+        "targets": 14,
+        "team": "CIN"
+      },
+      {
+        "name": "Noah Fant",
+        "position": "TE",
+        "targets": 14,
+        "team": "CIN"
+      },
+      {
+        "name": "Chase Brown",
+        "position": "RB",
+        "targets": 11,
+        "team": "CIN"
+      },
+      {
+        "name": "Mike Gesicki",
+        "position": "TE",
+        "targets": 10,
+        "team": "CIN"
+      }
+    ],
+    "NE": [
+      {
+        "name": "Hunter Henry",
+        "position": "TE",
+        "targets": 22,
+        "team": "NE"
+      },
+      {
+        "name": "Stefon Diggs",
+        "position": "WR",
+        "targets": 15,
+        "team": "NE"
+      },
+      {
+        "name": "DeMario Douglas",
+        "position": "WR",
+        "targets": 13,
+        "team": "NE"
+      },
+      {
+        "name": "Kayshon Boutte",
+        "position": "WR",
+        "targets": 12,
+        "team": "NE"
+      },
+      {
+        "name": "Rhamondre Stevenson",
+        "position": "RB",
+        "targets": 11,
+        "team": "NE"
+      }
+    ],
+    "NYJ": [
+      {
+        "name": "Garrett Wilson",
+        "position": "WR",
+        "targets": 30,
+        "team": "NYJ"
+      },
+      {
+        "name": "Breece Hall",
+        "position": "RB",
+        "targets": 13,
+        "team": "NYJ"
+      },
+      {
+        "name": "Mason Taylor",
+        "position": "TE",
+        "targets": 9,
+        "team": "NYJ"
+      },
+      {
+        "name": "Tyler Johnson",
+        "position": "WR",
+        "targets": 6,
+        "team": "NYJ"
+      },
+      {
+        "name": "Arian Smith",
+        "position": "WR",
+        "targets": 4,
+        "team": "NYJ"
+      }
+    ],
+    "LV": [
+      {
+        "name": "Jakobi Meyers",
+        "position": "WR",
+        "targets": 26,
+        "team": "LV"
+      },
+      {
+        "name": "Brock Bowers",
+        "position": "TE",
+        "targets": 21,
+        "team": "LV"
+      },
+      {
+        "name": "Tre Tucker",
+        "position": "WR",
+        "targets": 20,
+        "team": "LV"
+      },
+      {
+        "name": "Dont'e Thornton Jr.",
+        "position": "WR",
+        "targets": 12,
+        "team": "LV"
+      },
+      {
+        "name": "Michael Mayer",
+        "position": "TE",
+        "targets": 7,
+        "team": "LV"
+      }
+    ],
+    "LAC": [
+      {
+        "name": "Keenan Allen",
+        "position": "WR",
+        "targets": 28,
+        "team": "LAC"
+      },
+      {
+        "name": "Quentin Johnston",
+        "position": "WR",
+        "targets": 24,
+        "team": "LAC"
+      },
+      {
+        "name": "Ladd McConkey",
+        "position": "WR",
+        "targets": 21,
+        "team": "LAC"
+      },
+      {
+        "name": "Omarion Hampton",
+        "position": "RB",
+        "targets": 11,
+        "team": "LAC"
+      },
+      {
+        "name": "Oronde Gadsden II",
+        "position": "TE",
+        "targets": 7,
+        "team": "LAC"
+      }
+    ],
+    "DEN": [
+      {
+        "name": "Courtland Sutton",
+        "position": "WR",
+        "targets": 21,
+        "team": "DEN"
+      },
+      {
+        "name": "Troy Franklin",
+        "position": "WR",
+        "targets": 19,
+        "team": "DEN"
+      },
+      {
+        "name": "Marvin Mims Jr.",
+        "position": "WR",
+        "targets": 10,
+        "team": "DEN"
+      },
+      {
+        "name": "Tyler Badie",
+        "position": "RB",
+        "targets": 8,
+        "team": "DEN"
+      },
+      {
+        "name": "RJ Harvey",
+        "position": "RB",
+        "targets": 6,
+        "team": "DEN"
+      }
+    ],
+    "PIT": [
+      {
+        "name": "DK Metcalf",
+        "position": "WR",
+        "targets": 17,
+        "team": "PIT"
+      },
+      {
+        "name": "Calvin Austin III",
+        "position": "WR",
+        "targets": 15,
+        "team": "PIT"
+      },
+      {
+        "name": "Jonnu Smith",
+        "position": "TE",
+        "targets": 13,
+        "team": "PIT"
+      },
+      {
+        "name": "Jaylen Warren",
+        "position": "RB",
+        "targets": 12,
+        "team": "PIT"
+      },
+      {
+        "name": "Kenneth Gainwell",
+        "position": "RB",
+        "targets": 10,
+        "team": "PIT"
+      }
+    ],
+    "CLE": [
+      {
+        "name": "Jerry Jeudy",
+        "position": "WR",
+        "targets": 21,
+        "team": "CLE"
+      },
+      {
+        "name": "Cedric Tillman",
+        "position": "WR",
+        "targets": 18,
+        "team": "CLE"
+      },
+      {
+        "name": "Harold Fannin Jr.",
+        "position": "TE",
+        "targets": 18,
+        "team": "CLE"
+      },
+      {
+        "name": "David Njoku",
+        "position": "TE",
+        "targets": 18,
+        "team": "CLE"
+      },
+      {
+        "name": "Dylan Sampson",
+        "position": "RB",
+        "targets": 11,
+        "team": "CLE"
+      }
+    ],
+    "BAL": [
+      {
+        "name": "Zay Flowers",
+        "position": "WR",
+        "targets": 23,
+        "team": "BAL"
+      },
+      {
+        "name": "Rashod Bateman",
+        "position": "WR",
+        "targets": 15,
+        "team": "BAL"
+      },
+      {
+        "name": "Mark Andrews",
+        "position": "TE",
+        "targets": 10,
+        "team": "BAL"
+      },
+      {
+        "name": "Justice Hill",
+        "position": "RB",
+        "targets": 9,
+        "team": "BAL"
+      },
+      {
+        "name": "DeAndre Hopkins",
+        "position": "WR",
+        "targets": 6,
+        "team": "BAL"
+      }
+    ],
+    "TEN": [
+      {
+        "name": "Calvin Ridley",
+        "position": "WR",
+        "targets": 21,
+        "team": "TEN"
+      },
+      {
+        "name": "Elic Ayomanor",
+        "position": "WR",
+        "targets": 18,
+        "team": "TEN"
+      },
+      {
+        "name": "Chig Okonkwo",
+        "position": "TE",
+        "targets": 16,
+        "team": "TEN"
+      },
+      {
+        "name": "Chimere Dike",
+        "position": "WR",
+        "targets": 10,
+        "team": "TEN"
+      },
+      {
+        "name": "Gunnar Helm",
+        "position": "TE",
+        "targets": 7,
+        "team": "TEN"
+      }
+    ],
+    "IND": [
+      {
+        "name": "Tyler Warren",
+        "position": "TE",
+        "targets": 21,
+        "team": "IND"
+      },
+      {
+        "name": "Michael Pittman Jr.",
+        "position": "WR",
+        "targets": 19,
+        "team": "IND"
+      },
+      {
+        "name": "Josh Downs",
+        "position": "WR",
+        "targets": 14,
+        "team": "IND"
+      },
+      {
+        "name": "Alec Pierce",
+        "position": "WR",
+        "targets": 13,
+        "team": "IND"
+      },
+      {
+        "name": "Jonathan Taylor",
+        "position": "RB",
+        "targets": 9,
+        "team": "IND"
+      }
+    ],
+    "HOU": [
+      {
+        "name": "Nico Collins",
+        "position": "WR",
+        "targets": 25,
+        "team": "HOU"
+      },
+      {
+        "name": "Dalton Schultz",
+        "position": "TE",
+        "targets": 15,
+        "team": "HOU"
+      },
+      {
+        "name": "Xavier Hutchinson",
+        "position": "WR",
+        "targets": 8,
+        "team": "HOU"
+      },
+      {
+        "name": "Christian Kirk",
+        "position": "WR",
+        "targets": 8,
+        "team": "HOU"
+      },
+      {
+        "name": "Nick Chubb",
+        "position": "RB",
+        "targets": 7,
+        "team": "HOU"
+      }
+    ],
+    "JAX": [
+      {
+        "name": "Brian Thomas Jr.",
+        "position": "WR",
+        "targets": 25,
+        "team": "JAX"
+      },
+      {
+        "name": "Travis Hunter",
+        "position": "WR",
+        "targets": 16,
+        "team": "JAX"
+      },
+      {
+        "name": "Parker Washington",
+        "position": "WR",
+        "targets": 16,
+        "team": "JAX"
+      },
+      {
+        "name": "Brenton Strange",
+        "position": "TE",
+        "targets": 16,
+        "team": "JAX"
+      },
+      {
+        "name": "Travis Etienne Jr.",
+        "position": "RB",
+        "targets": 8,
+        "team": "JAX"
+      }
+    ],
+    "WAS": [
+      {
+        "name": "Deebo Samuel Sr.",
+        "position": "WR",
+        "targets": 21,
+        "team": "WAS"
+      },
+      {
+        "name": "Terry McLaurin",
+        "position": "WR",
+        "targets": 17,
+        "team": "WAS"
+      },
+      {
+        "name": "Zach Ertz",
+        "position": "TE",
+        "targets": 16,
+        "team": "WAS"
+      },
+      {
+        "name": "Jaylin Lane",
+        "position": "WR",
+        "targets": 8,
+        "team": "WAS"
+      },
+      {
+        "name": "Austin Ekeler",
+        "position": "RB",
+        "targets": 7,
+        "team": "WAS"
+      }
+    ],
+    "NYG": [
+      {
+        "name": "Malik Nabers",
+        "position": "WR",
+        "targets": 32,
+        "team": "NYG"
+      },
+      {
+        "name": "Wan'Dale Robinson",
+        "position": "WR",
+        "targets": 22,
+        "team": "NYG"
+      },
+      {
+        "name": "Cam Skattebo",
+        "position": "RB",
+        "targets": 13,
+        "team": "NYG"
+      },
+      {
+        "name": "Tyrone Tracy Jr.",
+        "position": "RB",
+        "targets": 13,
+        "team": "NYG"
+      },
+      {
+        "name": "Theo Johnson",
+        "position": "TE",
+        "targets": 10,
+        "team": "NYG"
+      }
+    ],
+    "PHI": [
+      {
+        "name": "A.J. Brown",
+        "position": "WR",
+        "targets": 19,
+        "team": "PHI"
+      },
+      {
+        "name": "DeVonta Smith",
+        "position": "WR",
+        "targets": 18,
+        "team": "PHI"
+      },
+      {
+        "name": "Saquon Barkley",
+        "position": "RB",
+        "targets": 12,
+        "team": "PHI"
+      },
+      {
+        "name": "Dallas Goedert",
+        "position": "TE",
+        "targets": 9,
+        "team": "PHI"
+      },
+      {
+        "name": "Jahan Dotson",
+        "position": "WR",
+        "targets": 7,
+        "team": "PHI"
+      }
+    ],
+    "SEA": [
+      {
+        "name": "Jaxon Smith-Njigba",
+        "position": "WR",
+        "targets": 29,
+        "team": "SEA"
+      },
+      {
+        "name": "Cooper Kupp",
+        "position": "WR",
+        "targets": 15,
+        "team": "SEA"
+      },
+      {
+        "name": "Tory Horton",
+        "position": "WR",
+        "targets": 8,
+        "team": "SEA"
+      },
+      {
+        "name": "AJ Barner",
+        "position": "TE",
+        "targets": 6,
+        "team": "SEA"
+      },
+      {
+        "name": "Kenneth Walker III",
+        "position": "RB",
+        "targets": 5,
+        "team": "SEA"
+      }
+    ],
+    "ARI": [
+      {
+        "name": "Trey McBride",
+        "position": "TE",
+        "targets": 24,
+        "team": "ARI"
+      },
+      {
+        "name": "Marvin Harrison Jr.",
+        "position": "WR",
+        "targets": 17,
+        "team": "ARI"
+      },
+      {
+        "name": "Trey Benson",
+        "position": "RB",
+        "targets": 11,
+        "team": "ARI"
+      },
+      {
+        "name": "James Conner",
+        "position": "RB",
+        "targets": 9,
+        "team": "ARI"
+      },
+      {
+        "name": "Michael Wilson",
+        "position": "WR",
+        "targets": 8,
+        "team": "ARI"
+      }
+    ],
+    "ATL": [
+      {
+        "name": "Drake London",
+        "position": "WR",
+        "targets": 27,
+        "team": "ATL"
+      },
+      {
+        "name": "Kyle Pitts Sr.",
+        "position": "TE",
+        "targets": 19,
+        "team": "ATL"
+      },
+      {
+        "name": "Bijan Robinson",
+        "position": "RB",
+        "targets": 18,
+        "team": "ATL"
+      },
+      {
+        "name": "Darnell Mooney",
+        "position": "WR",
+        "targets": 15,
+        "team": "ATL"
+      },
+      {
+        "name": "Ray-Ray McCloud III",
+        "position": "WR",
+        "targets": 12,
+        "team": "ATL"
+      }
+    ],
+    "CAR": [
+      {
+        "name": "Tetairoa McMillan",
+        "position": "WR",
+        "targets": 27,
+        "team": "CAR"
+      },
+      {
+        "name": "Hunter Renfrow",
+        "position": "WR",
+        "targets": 19,
+        "team": "CAR"
+      },
+      {
+        "name": "Xavier Legette",
+        "position": "WR",
+        "targets": 15,
+        "team": "CAR"
+      },
+      {
+        "name": "Chuba Hubbard",
+        "position": "RB",
+        "targets": 14,
+        "team": "CAR"
+      },
+      {
+        "name": "Ja'Tavion Sanders",
+        "position": "TE",
+        "targets": 14,
+        "team": "CAR"
+      }
+    ],
+    "NO": [
+      {
+        "name": "Chris Olave",
+        "position": "WR",
+        "targets": 37,
+        "team": "NO"
+      },
+      {
+        "name": "Juwan Johnson",
+        "position": "TE",
+        "targets": 28,
+        "team": "NO"
+      },
+      {
+        "name": "Rashid Shaheed",
+        "position": "WR",
+        "targets": 20,
+        "team": "NO"
+      },
+      {
+        "name": "Brandin Cooks",
+        "position": "WR",
+        "targets": 11,
+        "team": "NO"
+      },
+      {
+        "name": "Alvin Kamara",
+        "position": "RB",
+        "targets": 10,
+        "team": "NO"
+      }
+    ],
+    "DET": [
+      {
+        "name": "Amon-Ra St. Brown",
+        "position": "WR",
+        "targets": 25,
+        "team": "DET"
+      },
+      {
+        "name": "Jahmyr Gibbs",
+        "position": "RB",
+        "targets": 19,
+        "team": "DET"
+      },
+      {
+        "name": "Sam LaPorta",
+        "position": "TE",
+        "targets": 17,
+        "team": "DET"
+      },
+      {
+        "name": "Jameson Williams",
+        "position": "WR",
+        "targets": 12,
+        "team": "DET"
+      },
+      {
+        "name": "Kalif Raymond",
+        "position": "WR",
+        "targets": 6,
+        "team": "DET"
+      }
+    ]
+  },
+  "player_mappings": {
+    "Marquise Brown": "4241372",
+    "Tyquan Thornton": "4362921",
+    "Travis Kelce": "15847",
+    "JuJu Smith-Schuster": "NEEDS_LOOKUP",
+    "Noah Gray": "4240472",
+    "Keon Coleman": "4686254",
+    "Dalton Kincaid": "4432577",
+    "Khalil Shakir": "4426335",
+    "Joshua Palmer": "4241479",
+    "James Cook III": "NEEDS_LOOKUP",
+    "Puka Nacua": "NEEDS_LOOKUP",
+    "Davante Adams": "NEEDS_LOOKUP",
+    "Kyren Williams": "NEEDS_LOOKUP",
+    "Tyler Higbee": "NEEDS_LOOKUP",
+    "Jordan Whittington": "NEEDS_LOOKUP",
+    "Mike Evans": "NEEDS_LOOKUP",
+    "Emeka Egbuka": "NEEDS_LOOKUP",
+    "Sterling Shepard": "NEEDS_LOOKUP",
+    "Bucky Irving": "NEEDS_LOOKUP",
+    "Cade Otton": "NEEDS_LOOKUP",
+    "Jake Ferguson": "NEEDS_LOOKUP",
+    "CeeDee Lamb": "NEEDS_LOOKUP",
+    "George Pickens": "NEEDS_LOOKUP",
+    "Javonte Williams": "NEEDS_LOOKUP",
+    "Jalen Tolbert": "NEEDS_LOOKUP",
+    "Tucker Kraft": "NEEDS_LOOKUP",
+    "Dontayvion Wicks": "NEEDS_LOOKUP",
+    "Romeo Doubs": "NEEDS_LOOKUP",
+    "Josh Jacobs": "NEEDS_LOOKUP",
+    "Matthew Golden": "NEEDS_LOOKUP",
+    "Christian McCaffrey": "NEEDS_LOOKUP",
+    "Ricky Pearsall": "NEEDS_LOOKUP",
+    "Jauan Jennings": "NEEDS_LOOKUP",
+    "Jake Tonges": "NEEDS_LOOKUP",
+    "Kendrick Bourne": "NEEDS_LOOKUP",
+    "Tyreek Hill": "2976499",
+    "De'Von Achane": "NEEDS_LOOKUP",
+    "Jaylen Waddle": "NEEDS_LOOKUP",
+    "Malik Washington": "NEEDS_LOOKUP",
+    "Tanner Conner": "NEEDS_LOOKUP",
+    "Justin Jefferson": "NEEDS_LOOKUP",
+    "Jalen Nailor": "NEEDS_LOOKUP",
+    "T.J. Hockenson": "NEEDS_LOOKUP",
+    "Adam Thielen": "NEEDS_LOOKUP",
+    "Aaron Jones Sr.": "NEEDS_LOOKUP",
+    "Rome Odunze": "NEEDS_LOOKUP",
+    "DJ Moore": "NEEDS_LOOKUP",
+    "Olamide Zaccheaus": "NEEDS_LOOKUP",
+    "D'Andre Swift": "NEEDS_LOOKUP",
+    "Cole Kmet": "NEEDS_LOOKUP",
+    "Ja'Marr Chase": "NEEDS_LOOKUP",
+    "Tee Higgins": "NEEDS_LOOKUP",
+    "Noah Fant": "NEEDS_LOOKUP",
+    "Chase Brown": "NEEDS_LOOKUP",
+    "Mike Gesicki": "NEEDS_LOOKUP",
+    "Hunter Henry": "NEEDS_LOOKUP",
+    "Stefon Diggs": "NEEDS_LOOKUP",
+    "DeMario Douglas": "NEEDS_LOOKUP",
+    "Kayshon Boutte": "NEEDS_LOOKUP",
+    "Rhamondre Stevenson": "NEEDS_LOOKUP",
+    "Garrett Wilson": "NEEDS_LOOKUP",
+    "Breece Hall": "NEEDS_LOOKUP",
+    "Mason Taylor": "NEEDS_LOOKUP",
+    "Tyler Johnson": "NEEDS_LOOKUP",
+    "Arian Smith": "NEEDS_LOOKUP",
+    "Jakobi Meyers": "NEEDS_LOOKUP",
+    "Brock Bowers": "NEEDS_LOOKUP",
+    "Tre Tucker": "NEEDS_LOOKUP",
+    "Dont'e Thornton Jr.": "NEEDS_LOOKUP",
+    "Michael Mayer": "NEEDS_LOOKUP",
+    "Keenan Allen": "NEEDS_LOOKUP",
+    "Quentin Johnston": "NEEDS_LOOKUP",
+    "Ladd McConkey": "NEEDS_LOOKUP",
+    "Omarion Hampton": "NEEDS_LOOKUP",
+    "Oronde Gadsden II": "NEEDS_LOOKUP",
+    "Courtland Sutton": "NEEDS_LOOKUP",
+    "Troy Franklin": "NEEDS_LOOKUP",
+    "Marvin Mims Jr.": "NEEDS_LOOKUP",
+    "Tyler Badie": "NEEDS_LOOKUP",
+    "RJ Harvey": "NEEDS_LOOKUP",
+    "DK Metcalf": "NEEDS_LOOKUP",
+    "Calvin Austin III": "NEEDS_LOOKUP",
+    "Jonnu Smith": "NEEDS_LOOKUP",
+    "Jaylen Warren": "NEEDS_LOOKUP",
+    "Kenneth Gainwell": "NEEDS_LOOKUP",
+    "Jerry Jeudy": "NEEDS_LOOKUP",
+    "Cedric Tillman": "NEEDS_LOOKUP",
+    "Harold Fannin Jr.": "NEEDS_LOOKUP",
+    "David Njoku": "NEEDS_LOOKUP",
+    "Dylan Sampson": "NEEDS_LOOKUP",
+    "Zay Flowers": "NEEDS_LOOKUP",
+    "Rashod Bateman": "NEEDS_LOOKUP",
+    "Mark Andrews": "NEEDS_LOOKUP",
+    "Justice Hill": "NEEDS_LOOKUP",
+    "DeAndre Hopkins": "NEEDS_LOOKUP",
+    "Calvin Ridley": "NEEDS_LOOKUP",
+    "Elic Ayomanor": "NEEDS_LOOKUP",
+    "Chig Okonkwo": "NEEDS_LOOKUP",
+    "Chimere Dike": "NEEDS_LOOKUP",
+    "Gunnar Helm": "NEEDS_LOOKUP",
+    "Tyler Warren": "NEEDS_LOOKUP",
+    "Michael Pittman Jr.": "NEEDS_LOOKUP",
+    "Josh Downs": "NEEDS_LOOKUP",
+    "Alec Pierce": "NEEDS_LOOKUP",
+    "Jonathan Taylor": "NEEDS_LOOKUP",
+    "Nico Collins": "NEEDS_LOOKUP",
+    "Dalton Schultz": "NEEDS_LOOKUP",
+    "Xavier Hutchinson": "NEEDS_LOOKUP",
+    "Christian Kirk": "NEEDS_LOOKUP",
+    "Nick Chubb": "NEEDS_LOOKUP",
+    "Brian Thomas Jr.": "NEEDS_LOOKUP",
+    "Travis Hunter": "NEEDS_LOOKUP",
+    "Parker Washington": "NEEDS_LOOKUP",
+    "Brenton Strange": "NEEDS_LOOKUP",
+    "Travis Etienne Jr.": "NEEDS_LOOKUP",
+    "Deebo Samuel Sr.": "NEEDS_LOOKUP",
+    "Terry McLaurin": "NEEDS_LOOKUP",
+    "Zach Ertz": "NEEDS_LOOKUP",
+    "Jaylin Lane": "NEEDS_LOOKUP",
+    "Austin Ekeler": "NEEDS_LOOKUP",
+    "Malik Nabers": "NEEDS_LOOKUP",
+    "Wan'Dale Robinson": "NEEDS_LOOKUP",
+    "Cam Skattebo": "NEEDS_LOOKUP",
+    "Tyrone Tracy Jr.": "NEEDS_LOOKUP",
+    "Theo Johnson": "NEEDS_LOOKUP",
+    "A.J. Brown": "NEEDS_LOOKUP",
+    "DeVonta Smith": "NEEDS_LOOKUP",
+    "Saquon Barkley": "NEEDS_LOOKUP",
+    "Dallas Goedert": "NEEDS_LOOKUP",
+    "Jahan Dotson": "NEEDS_LOOKUP",
+    "Jaxon Smith-Njigba": "NEEDS_LOOKUP",
+    "Cooper Kupp": "2977187",
+    "Tory Horton": "NEEDS_LOOKUP",
+    "AJ Barner": "NEEDS_LOOKUP",
+    "Kenneth Walker III": "NEEDS_LOOKUP",
+    "Trey McBride": "NEEDS_LOOKUP",
+    "Marvin Harrison Jr.": "NEEDS_LOOKUP",
+    "Trey Benson": "NEEDS_LOOKUP",
+    "James Conner": "NEEDS_LOOKUP",
+    "Michael Wilson": "NEEDS_LOOKUP",
+    "Drake London": "NEEDS_LOOKUP",
+    "Kyle Pitts Sr.": "NEEDS_LOOKUP",
+    "Bijan Robinson": "NEEDS_LOOKUP",
+    "Darnell Mooney": "NEEDS_LOOKUP",
+    "Ray-Ray McCloud III": "NEEDS_LOOKUP",
+    "Tetairoa McMillan": "NEEDS_LOOKUP",
+    "Hunter Renfrow": "NEEDS_LOOKUP",
+    "Xavier Legette": "NEEDS_LOOKUP",
+    "Chuba Hubbard": "NEEDS_LOOKUP",
+    "Ja'Tavion Sanders": "NEEDS_LOOKUP",
+    "Chris Olave": "NEEDS_LOOKUP",
+    "Juwan Johnson": "NEEDS_LOOKUP",
+    "Rashid Shaheed": "NEEDS_LOOKUP",
+    "Brandin Cooks": "NEEDS_LOOKUP",
+    "Alvin Kamara": "NEEDS_LOOKUP",
+    "Amon-Ra St. Brown": "NEEDS_LOOKUP",
+    "Jahmyr Gibbs": "NEEDS_LOOKUP",
+    "Sam LaPorta": "NEEDS_LOOKUP",
+    "Jameson Williams": "NEEDS_LOOKUP",
+    "Kalif Raymond": "NEEDS_LOOKUP"
+  },
+  "notes": "ESPN IDs need manual verification for accuracy"
+}
