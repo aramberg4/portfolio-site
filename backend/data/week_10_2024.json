@@ -1,0 +1,2152 @@
+{
+  "KC": [
+    {
+      "name": "Travis Kelce",
+      "position": "TE",
+      "targets": 12,
+      "receptions": 8,
+      "receiving_yards": 64,
+      "targetShare": 30.0,
+      "player_id": "00-0030506",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ilk4qbxxs6mt3v9zfvtg"
+    },
+    {
+      "name": "Kareem Hunt",
+      "position": "RB",
+      "targets": 10,
+      "receptions": 7,
+      "receiving_yards": 65,
+      "targetShare": 25.0,
+      "player_id": "00-0033923",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mm0t1ghvbpdhy6m5utcq"
+    },
+    {
+      "name": "DeAndre Hopkins",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 4,
+      "receiving_yards": 56,
+      "targetShare": 12.5,
+      "player_id": "00-0030564",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/viymeohipdn0voptrkzh"
+    },
+    {
+      "name": "Xavier Worthy",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 1,
+      "receiving_yards": 11,
+      "targetShare": 10.0,
+      "player_id": "00-0039894",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fvzbx5gpiqkogglyoo1w"
+    },
+    {
+      "name": "Samaje Perine",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 37,
+      "targetShare": 5.0,
+      "player_id": "00-0033526",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/liorwdmj8gelxh5u7rc4"
+    },
+    {
+      "name": "Justin Watson",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 6,
+      "targetShare": 5.0,
+      "player_id": "00-0034386",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/vr9tayyujt23takv3hv3"
+    },
+    {
+      "name": "Noah Gray",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 18,
+      "targetShare": 5.0,
+      "player_id": "00-0036637",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/erihh0eiq4m76k2ejvax"
+    },
+    {
+      "name": "Mecole Hardman",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 3,
+      "targetShare": 2.5,
+      "player_id": "00-0035140",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/cfbjutuygqg7imy0qwpt"
+    },
+    {
+      "name": "Justyn Ross",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 2.5,
+      "player_id": "00-0037216",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/sdhlpsccscg6u97qy3ef"
+    },
+    {
+      "name": "Peyton Hendershot",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 2.5,
+      "player_id": "00-0037569",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/d8plvjsvwdadr1ap93ci"
+    }
+  ],
+  "BUF": [
+    {
+      "name": "Khalil Shakir",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 6,
+      "receiving_yards": 58,
+      "targetShare": 25.7,
+      "player_id": "00-0037261",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ch2yarhiobqlvr9ls2yw"
+    },
+    {
+      "name": "Curtis Samuel",
+      "position": "WR",
+      "targets": 8,
+      "receptions": 4,
+      "receiving_yards": 35,
+      "targetShare": 22.9,
+      "player_id": "00-0033282",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mq62ulflifrpjrcyknbj"
+    },
+    {
+      "name": "Dalton Kincaid",
+      "position": "TE",
+      "targets": 5,
+      "receptions": 2,
+      "receiving_yards": 24,
+      "targetShare": 14.3,
+      "player_id": "00-0038933",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rsimqxdfwlb1n9qd4w3g"
+    },
+    {
+      "name": "Mack Hollins",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 86,
+      "targetShare": 11.4,
+      "player_id": "00-0033555",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/xchw7quzjszgrm6psbyg"
+    },
+    {
+      "name": "Ty Johnson",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 32,
+      "targetShare": 8.6,
+      "player_id": "00-0035537",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zdedn4xqr2jy6mddh5pb"
+    },
+    {
+      "name": "Dawson Knox",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 40,
+      "targetShare": 8.6,
+      "player_id": "00-0035689",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/uazfj5l5vzow2oyfa1s6"
+    },
+    {
+      "name": "James Cook",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 5,
+      "targetShare": 8.6,
+      "player_id": "00-0037248",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/bzdvrarxum9zate4te4b"
+    }
+  ],
+  "LAR": [
+    {
+      "name": "Puka Nacua",
+      "position": "WR",
+      "targets": 14,
+      "receptions": 9,
+      "receiving_yards": 98,
+      "targetShare": 31.8,
+      "player_id": "00-0039075",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/i1pmrhua5gpvwgsqphxa"
+    },
+    {
+      "name": "Cooper Kupp",
+      "position": "WR",
+      "targets": 7,
+      "receptions": 7,
+      "receiving_yards": 80,
+      "targetShare": 15.9,
+      "player_id": "00-0033908",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sq7zwzcgrajuk0hwwph2"
+    },
+    {
+      "name": "Kyren Williams",
+      "position": "RB",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 20,
+      "targetShare": 13.6,
+      "player_id": "00-0037840",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vcvstwywz6iufk7iul3x"
+    },
+    {
+      "name": "Davis Allen",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 34,
+      "targetShare": 13.6,
+      "player_id": "00-0039074",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ihbec16pwn2ki5woyr4m"
+    },
+    {
+      "name": "Demarcus Robinson",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 1,
+      "receiving_yards": 23,
+      "targetShare": 11.4,
+      "player_id": "00-0032775",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/lakf0xue1qqb7ed4p6ge"
+    },
+    {
+      "name": "Tyler Johnson",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 25,
+      "targetShare": 9.1,
+      "player_id": "00-0036427",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vktiajeyqc8s9s6mjws7"
+    },
+    {
+      "name": "Tutu Atwell",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 2.3,
+      "player_id": "00-0036849",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hpvbp9pn7ifbh62nde0n"
+    },
+    {
+      "name": "Blake Corum",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 7,
+      "targetShare": 2.3,
+      "player_id": "00-0039738",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ehpbxs9iiosm4xs7nhnl"
+    }
+  ],
+  "TB": [
+    {
+      "name": "Cade Otton",
+      "position": "TE",
+      "targets": 8,
+      "receptions": 5,
+      "receiving_yards": 35,
+      "targetShare": 27.6,
+      "player_id": "00-0038129",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mljam77kst1wlqd5y91v"
+    },
+    {
+      "name": "Rachaad White",
+      "position": "RB",
+      "targets": 7,
+      "receptions": 6,
+      "receiving_yards": 39,
+      "targetShare": 24.1,
+      "player_id": "00-0037256",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/przphhlw0zga7b45qlyb"
+    },
+    {
+      "name": "Rakim Jarrett",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 10,
+      "targetShare": 13.8,
+      "player_id": "00-0038821",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mnbgtrdhyuofclpct6tl"
+    },
+    {
+      "name": "Sterling Shepard",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 7,
+      "targetShare": 10.3,
+      "player_id": "00-0032385",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/dphqvpkeselgrselrvma"
+    },
+    {
+      "name": "Ryan Miller",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 11,
+      "targetShare": 10.3,
+      "player_id": "00-0038824",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/maywscb6waflzzuaesew"
+    },
+    {
+      "name": "Bucky Irving",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 14,
+      "targetShare": 10.3,
+      "player_id": "00-0039361",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wjaqkrtdhwf16wldi83h"
+    },
+    {
+      "name": "Trey Palmer",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 3.4,
+      "player_id": "00-0039052",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zv0wdsdctgf2zw2ctumy"
+    }
+  ],
+  "DAL": [
+    {
+      "name": "CeeDee Lamb",
+      "position": "WR",
+      "targets": 10,
+      "receptions": 6,
+      "receiving_yards": 21,
+      "targetShare": 35.7,
+      "player_id": "00-0036358",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/tfuj9njqdw2dovkwhryc"
+    },
+    {
+      "name": "Jalen Tolbert",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 3,
+      "receiving_yards": 14,
+      "targetShare": 17.9,
+      "player_id": "00-0037666",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/cek1m1cbly5rfmmmjpcc"
+    },
+    {
+      "name": "Jake Ferguson",
+      "position": "TE",
+      "targets": 5,
+      "receptions": 4,
+      "receiving_yards": 24,
+      "targetShare": 17.9,
+      "player_id": "00-0038041",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/lbvrn1ibwszd6tzgh6o1"
+    },
+    {
+      "name": "Jalen Brooks",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 14.3,
+      "player_id": "00-0038640",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jdwbrmypfsotpdw86w6u"
+    },
+    {
+      "name": "Rico Dowdle",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 3,
+      "targetShare": 10.7,
+      "player_id": "00-0036139",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fe8ge4f6vvtyihou5czu"
+    },
+    {
+      "name": "Luke Schoonmaker",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 3.6,
+      "player_id": "00-0038547",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fd4exg1hqzlm9sk6ruu6"
+    }
+  ],
+  "GB": [],
+  "SF": [
+    {
+      "name": "Jauan Jennings",
+      "position": "WR",
+      "targets": 11,
+      "receptions": 7,
+      "receiving_yards": 93,
+      "targetShare": 32.4,
+      "player_id": "00-0036259",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fqyzagb57zrtegmw69eb"
+    },
+    {
+      "name": "Christian McCaffrey",
+      "position": "RB",
+      "targets": 7,
+      "receptions": 6,
+      "receiving_yards": 68,
+      "targetShare": 20.6,
+      "player_id": "00-0033280",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/umiv5sn2xxrjdjwjtkqm"
+    },
+    {
+      "name": "Deebo Samuel",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 62,
+      "targetShare": 17.6,
+      "player_id": "00-0035719",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/shqoqpjwwoiexzy6cmgb"
+    },
+    {
+      "name": "Ricky Pearsall",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 73,
+      "targetShare": 17.6,
+      "player_id": "00-0039916",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/akwepvt6qxwbgankljmv"
+    },
+    {
+      "name": "George Kittle",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 57,
+      "targetShare": 11.8,
+      "player_id": "00-0033288",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ivkrikewqqdllzvano8h"
+    }
+  ],
+  "MIA": [
+    {
+      "name": "Jaylen Waddle",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 3,
+      "receiving_yards": 57,
+      "targetShare": 21.4,
+      "player_id": "00-0036613",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/qjsz2h6shbdnksctzeka"
+    },
+    {
+      "name": "Devon Achane",
+      "position": "RB",
+      "targets": 5,
+      "receptions": 5,
+      "receiving_yards": 15,
+      "targetShare": 17.9,
+      "player_id": "00-0039040",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zqfkz3hbyurjcwhw7xoi"
+    },
+    {
+      "name": "Tyreek Hill",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 16,
+      "targetShare": 14.3,
+      "player_id": "00-0033040",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gdwjlpbkenmnsibawkht"
+    },
+    {
+      "name": "Jonnu Smith",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 45,
+      "targetShare": 14.3,
+      "player_id": "00-0033858",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/p8uldtljkzb6sile3wgx"
+    },
+    {
+      "name": "Raheem Mostert",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 34,
+      "targetShare": 10.7,
+      "player_id": "00-0031687",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ayii5q2am51xeipp1h8v"
+    },
+    {
+      "name": "Odell Beckham",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 17,
+      "targetShare": 7.1,
+      "player_id": "00-0031235",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ffmalg3wr7lwnsz59i7v"
+    },
+    {
+      "name": "Malik Washington",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 17,
+      "targetShare": 7.1,
+      "player_id": "00-0039880",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mlnnipvmbl92w7mmr1pa"
+    },
+    {
+      "name": "Durham Smythe",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 3.6,
+      "player_id": "00-0034798",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/twxkgrnpjotgyhwawfsv"
+    },
+    {
+      "name": "Julian Hill",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 3.6,
+      "player_id": "00-0038720",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ycrsps9cgsfkyppucwrr"
+    }
+  ],
+  "MIN": [
+    {
+      "name": "T.J. Hockenson",
+      "position": "TE",
+      "targets": 9,
+      "receptions": 8,
+      "receiving_yards": 72,
+      "targetShare": 24.3,
+      "player_id": "00-0035229",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/n9zhffstwzae8i5di6tk"
+    },
+    {
+      "name": "Justin Jefferson",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 5,
+      "receiving_yards": 48,
+      "targetShare": 24.3,
+      "player_id": "00-0036322",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vrftbpzwk6qmv0zjcysg"
+    },
+    {
+      "name": "Josh Oliver",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 52,
+      "targetShare": 16.2,
+      "player_id": "00-0035249",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/pwd3muzyjclgjlwwtdah"
+    },
+    {
+      "name": "Jordan Addison",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 2,
+      "receiving_yards": 25,
+      "targetShare": 13.5,
+      "player_id": "00-0038994",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/tmyckmignrvy8truccwm"
+    },
+    {
+      "name": "Aaron Jones",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 13,
+      "targetShare": 8.1,
+      "player_id": "00-0033293",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/bktkfvgfwujkdbzkcfim"
+    },
+    {
+      "name": "Jalen Nailor",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 11,
+      "targetShare": 8.1,
+      "player_id": "00-0037291",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fe9b3l4fz6n02gbr5zbt"
+    },
+    {
+      "name": "Trent Sherfield",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 11,
+      "targetShare": 2.7,
+      "player_id": "00-0034487",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/esdvav44ezzmwbwe1rju"
+    },
+    {
+      "name": "Cam Akers",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 9,
+      "targetShare": 2.7,
+      "player_id": "00-0036414",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/dutj0wamu7giwghnmr4m"
+    }
+  ],
+  "CHI": [
+    {
+      "name": "Keenan Allen",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 44,
+      "targetShare": 23.1,
+      "player_id": "00-0030279",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/lngo1onvkcqjnq7ozkuu"
+    },
+    {
+      "name": "D.J. Moore",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 3,
+      "receiving_yards": 24,
+      "targetShare": 23.1,
+      "player_id": "00-0034827",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hqb9xnzm9brx79zl6wve"
+    },
+    {
+      "name": "Rome Odunze",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 3,
+      "receiving_yards": 23,
+      "targetShare": 23.1,
+      "player_id": "00-0039919",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/labs8tstecnehvzfmrs5"
+    },
+    {
+      "name": "Cole Kmet",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 13,
+      "targetShare": 15.4,
+      "player_id": "00-0036290",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fdxpctcmwjupassg9g9d"
+    },
+    {
+      "name": "Roschon Johnson",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 5,
+      "targetShare": 7.7,
+      "player_id": "00-0039021",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/skajjk8i3zdrvzqmucww"
+    },
+    {
+      "name": "DeAndre Carter",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 5,
+      "targetShare": 3.8,
+      "player_id": "00-0031763",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/mh4cvggohuakwwhobzrk"
+    },
+    {
+      "name": "D'Andre Swift",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 3.8,
+      "player_id": "00-0036275",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/xlqznrxbapcjhxxazkbx"
+    }
+  ],
+  "CIN": [
+    {
+      "name": "Ja'Marr Chase",
+      "position": "WR",
+      "targets": 17,
+      "receptions": 11,
+      "receiving_yards": 264,
+      "targetShare": 31.5,
+      "player_id": "00-0036900",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qkcb3qt2fhasfgtfuprd"
+    },
+    {
+      "name": "Chase Brown",
+      "position": "RB",
+      "targets": 11,
+      "receptions": 9,
+      "receiving_yards": 52,
+      "targetShare": 20.4,
+      "player_id": "00-0038597",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rxzzjpgjgjsmmkekp6zu"
+    },
+    {
+      "name": "Mike Gesicki",
+      "position": "TE",
+      "targets": 9,
+      "receptions": 4,
+      "receiving_yards": 30,
+      "targetShare": 16.7,
+      "player_id": "00-0034829",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zabpknonv9ozmkyw4qqt"
+    },
+    {
+      "name": "Tanner Hudson",
+      "position": "TE",
+      "targets": 7,
+      "receptions": 6,
+      "receiving_yards": 42,
+      "targetShare": 13.0,
+      "player_id": "00-0034613",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fbtxfvqvgv0al8msbr1e"
+    },
+    {
+      "name": "Jermaine Burton",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 1,
+      "receiving_yards": 11,
+      "targetShare": 9.3,
+      "player_id": "00-0039810",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ifbhq7ghxf2mcvhzuxsz"
+    },
+    {
+      "name": "Andrei Iosivas",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 29,
+      "targetShare": 7.4,
+      "player_id": "00-0038619",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/pgbqgzrxmbnmpcnkhsya"
+    },
+    {
+      "name": "Cam Grandy",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 0,
+      "targetShare": 1.9,
+      "player_id": "00-0039631",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/uay5dmniqx1baal3q3uu"
+    }
+  ],
+  "NE": [
+    {
+      "name": "Kayshon Boutte",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 47,
+      "targetShare": 26.1,
+      "player_id": "00-0038608",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/nz6t7jhx6erszovbv1bd"
+    },
+    {
+      "name": "Demario Douglas",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 4,
+      "receiving_yards": 50,
+      "targetShare": 21.7,
+      "player_id": "00-0038621",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/svnh61ottqtfmcqvnbj3"
+    },
+    {
+      "name": "Austin Hooper",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 64,
+      "targetShare": 17.4,
+      "player_id": "00-0032392",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hj0ybtjspne3t1cso961"
+    },
+    {
+      "name": "Hunter Henry",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 1,
+      "receiving_yards": 14,
+      "targetShare": 17.4,
+      "player_id": "00-0033090",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/sdjob9akppefyo7py5tj"
+    },
+    {
+      "name": "Jamycal Hasty",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 4.3,
+      "player_id": "00-0035806",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/stvclosmy6zi864kfxw7"
+    },
+    {
+      "name": "K.J. Osborn",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 4.3,
+      "player_id": "00-0036345",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sbz79g8kzinzebiwzauv"
+    },
+    {
+      "name": "Rhamondre Stevenson",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 3,
+      "targetShare": 4.3,
+      "player_id": "00-0036875",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/ro2fqabc4qndtnxykvm7"
+    },
+    {
+      "name": "Ja'Lynn Polk",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 2,
+      "targetShare": 4.3,
+      "player_id": "00-0039907",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jladubt1cwxq46uslmu9"
+    }
+  ],
+  "NYJ": [
+    {
+      "name": "Davante Adams",
+      "position": "WR",
+      "targets": 13,
+      "receptions": 6,
+      "receiving_yards": 31,
+      "targetShare": 39.4,
+      "player_id": "00-0031381",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jweoujpjv9u2a8k7wnos"
+    },
+    {
+      "name": "Garrett Wilson",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 41,
+      "targetShare": 18.2,
+      "player_id": "00-0037740",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/llgosx4tokddwnyrgvbx"
+    },
+    {
+      "name": "Breece Hall",
+      "position": "RB",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 31,
+      "targetShare": 12.1,
+      "player_id": "00-0038120",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ekmqygsmfkwwwdmuox4r"
+    },
+    {
+      "name": "Tyler Conklin",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 8,
+      "targetShare": 6.1,
+      "player_id": "00-0034270",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/chajhumpfogd8effewe6"
+    },
+    {
+      "name": "Jeremy Ruckert",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 17,
+      "targetShare": 6.1,
+      "player_id": "00-0037805",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/w6bf97vbqitoyo5o7xaa"
+    },
+    {
+      "name": "Malachi Corley",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 2,
+      "targetShare": 6.1,
+      "player_id": "00-0039920",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wukmdigs85jyubxw0iur"
+    },
+    {
+      "name": "Kenny Yeboah",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 3.0,
+      "player_id": "00-0036510",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zjdw9hyw3jc7pmjf5nbv"
+    },
+    {
+      "name": "Xavier Gipson",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 3.0,
+      "player_id": "00-0038496",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/tqo7wkjetkgupevxfvnv"
+    },
+    {
+      "name": "Braelon Allen",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 7,
+      "targetShare": 3.0,
+      "player_id": "00-0039794",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/p0fylkec7poarrjosefz"
+    },
+    {
+      "name": "Isaiah Davis",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 10,
+      "targetShare": 3.0,
+      "player_id": "00-0039798",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/yx5kxu7fsb1oe4jlqvyh"
+    }
+  ],
+  "LV": [],
+  "LAC": [
+    {
+      "name": "Will Dissly",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 30,
+      "targetShare": 33.3,
+      "player_id": "00-0034159",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/opdpeoconvviwkufolxr"
+    },
+    {
+      "name": "J.K. Dobbins",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 5,
+      "targetShare": 16.7,
+      "player_id": "00-0036158",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rbuyzj3kv10xrq1rfy2l"
+    },
+    {
+      "name": "Josh Palmer",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 36,
+      "targetShare": 11.1,
+      "player_id": "00-0036988",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/dexbsmmldvsqtr83or5l"
+    },
+    {
+      "name": "Quentin Johnston",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 24,
+      "targetShare": 11.1,
+      "player_id": "00-0038544",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jbxlvsbokf9qdqtet1qr"
+    },
+    {
+      "name": "Ladd McConkey",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 52,
+      "targetShare": 11.1,
+      "player_id": "00-0039915",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wcx39ialovvxxnvs2bke"
+    },
+    {
+      "name": "Hayden Hurst",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 5.6,
+      "player_id": "00-0034830",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qxvkvmi2fphxjqyb21nv"
+    },
+    {
+      "name": "Jalen Reagor",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 5.6,
+      "player_id": "00-0036387",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/myazqfr7pzfyofksuyet"
+    },
+    {
+      "name": "Derius Davis",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 17,
+      "targetShare": 5.6,
+      "player_id": "00-0038573",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ctk98ws4ps6p4gaei6uu"
+    }
+  ],
+  "DEN": [
+    {
+      "name": "Courtland Sutton",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 6,
+      "receiving_yards": 70,
+      "targetShare": 32.1,
+      "player_id": "00-0034348",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qts95gbd6hv65s9eiseq"
+    },
+    {
+      "name": "Marvin Mims",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 13,
+      "targetShare": 14.3,
+      "player_id": "00-0038976",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/trvilnckw7nprw1gkghl"
+    },
+    {
+      "name": "Devaughn Vele",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 39,
+      "targetShare": 14.3,
+      "player_id": "00-0039424",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/f2lz4vsh2daurrwdamzv"
+    },
+    {
+      "name": "Lil'Jordan Humphrey",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 23,
+      "targetShare": 10.7,
+      "player_id": "00-0035406",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/yjmyfuozafxd7zwf3mlr"
+    },
+    {
+      "name": "Troy Franklin",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 9,
+      "targetShare": 10.7,
+      "player_id": "00-0039868",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/w429urxwxc8sw4bsbvxz"
+    },
+    {
+      "name": "Javonte Williams",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 6,
+      "targetShare": 7.1,
+      "player_id": "00-0036997",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/dm8qipfrz2nes9kgpcyp"
+    },
+    {
+      "name": "Lucas Krull",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 21,
+      "targetShare": 7.1,
+      "player_id": "00-0037539",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/v3rdtydz7dh4s5oyzejs"
+    },
+    {
+      "name": "Adam Trautman",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 34,
+      "targetShare": 3.6,
+      "player_id": "00-0036422",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qvqigum2qjhil0z3er2c"
+    }
+  ],
+  "PIT": [
+    {
+      "name": "George Pickens",
+      "position": "WR",
+      "targets": 7,
+      "receptions": 5,
+      "receiving_yards": 91,
+      "targetShare": 28.0,
+      "player_id": "00-0037247",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/klxzcb6p7ekngcognpiy"
+    },
+    {
+      "name": "Calvin Austin",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 2,
+      "receiving_yards": 20,
+      "targetShare": 24.0,
+      "player_id": "00-0037837",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/qlt6ztqcbu0uzad6aavt"
+    },
+    {
+      "name": "Pat Freiermuth",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 17,
+      "targetShare": 12.0,
+      "player_id": "00-0036894",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sozfjyy3bmntjv8tmqah"
+    },
+    {
+      "name": "Darnell Washington",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 12.0,
+      "player_id": "00-0038558",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/i6bxioxqzrc9hepszyjf"
+    },
+    {
+      "name": "Van Jefferson",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 8.0,
+      "player_id": "00-0036415",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/v2vkt9htky3xawu8yskx"
+    },
+    {
+      "name": "Jaylen Warren",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 29,
+      "targetShare": 8.0,
+      "player_id": "00-0037228",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/aaw4yacm6azisxqy273i"
+    },
+    {
+      "name": "MyCole Pruitt",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 4.0,
+      "player_id": "00-0031585",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jazo8egu5luwyxxcpjh8"
+    },
+    {
+      "name": "Mike Williams",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 32,
+      "targetShare": 4.0,
+      "player_id": "00-0033536",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vwu8nudrnk3l7samz8mf"
+    }
+  ],
+  "CLE": [],
+  "BAL": [
+    {
+      "name": "Rashod Bateman",
+      "position": "WR",
+      "targets": 8,
+      "receptions": 6,
+      "receiving_yards": 54,
+      "targetShare": 25.0,
+      "player_id": "00-0036550",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jkcapzvd65fxivefjv8l"
+    },
+    {
+      "name": "Mark Andrews",
+      "position": "TE",
+      "targets": 7,
+      "receptions": 6,
+      "receiving_yards": 68,
+      "targetShare": 21.9,
+      "player_id": "00-0034753",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/y5maejm3puruskwc344y"
+    },
+    {
+      "name": "Zay Flowers",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 34,
+      "targetShare": 18.8,
+      "player_id": "00-0039064",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/oidhqwg0fjvanyk57nc1"
+    },
+    {
+      "name": "Tylan Wallace",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 115,
+      "targetShare": 9.4,
+      "player_id": "00-0036630",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/e3ghtadqh39zhu0iieht"
+    },
+    {
+      "name": "Nelson Agholor",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 6.2,
+      "player_id": "00-0031549",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wyxfkarcjgqdz3pl8nnr"
+    },
+    {
+      "name": "Justice Hill",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 0,
+      "targetShare": 6.2,
+      "player_id": "00-0034975",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jeeq17ah67zxc6vdamhk"
+    },
+    {
+      "name": "Diontae Johnson",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 6,
+      "targetShare": 6.2,
+      "player_id": "00-0035216",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rjtil6ilydmwoy0btlt7"
+    },
+    {
+      "name": "Derrick Henry",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 3,
+      "targetShare": 3.1,
+      "player_id": "00-0032764",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/m7bv3lv9puapabltvykk"
+    },
+    {
+      "name": "Charlie Kolar",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 3.1,
+      "player_id": "00-0038046",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/n7duzqver13movvgcint"
+    }
+  ],
+  "TEN": [
+    {
+      "name": "Calvin Ridley",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 5,
+      "receiving_yards": 84,
+      "targetShare": 39.1,
+      "player_id": "00-0034837",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/tmeij0cfgylmurfybs74"
+    },
+    {
+      "name": "Tony Pollard",
+      "position": "RB",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 19,
+      "targetShare": 17.4,
+      "player_id": "00-0035261",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/koxn5qhfnsgvnqfqfmpp"
+    },
+    {
+      "name": "Nick Westbrook-Ikhine",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 31,
+      "targetShare": 13.0,
+      "player_id": "00-0036182",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rt9ic9wzwl2pevlxt1nd"
+    },
+    {
+      "name": "Tyjae Spears",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 4,
+      "targetShare": 13.0,
+      "player_id": "00-0039032",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qb4us1f96uox7v3poxzj"
+    },
+    {
+      "name": "Bryce Oliver",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 23,
+      "targetShare": 8.7,
+      "player_id": "00-0039650",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/njv8cbvhuobk2fe6uslj"
+    },
+    {
+      "name": "Chigoziem Okonkwo",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 14,
+      "targetShare": 4.3,
+      "player_id": "00-0037809",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ut2gqeq2lowknrro0wlu"
+    },
+    {
+      "name": "Josh Whyle",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 4.3,
+      "player_id": "00-0038589",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ccstvnbjzprcpb2j9xnb"
+    }
+  ],
+  "IND": [
+    {
+      "name": "Josh Downs",
+      "position": "WR",
+      "targets": 10,
+      "receptions": 7,
+      "receiving_yards": 72,
+      "targetShare": 28.6,
+      "player_id": "00-0038997",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zue2xxvfrignllqlhagu"
+    },
+    {
+      "name": "Alec Pierce",
+      "position": "WR",
+      "targets": 7,
+      "receptions": 4,
+      "receiving_yards": 81,
+      "targetShare": 20.0,
+      "player_id": "00-0037664",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hvtcpccoigf9cghzkxcg"
+    },
+    {
+      "name": "Adonai Mitchell",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 6,
+      "receiving_yards": 71,
+      "targetShare": 17.1,
+      "player_id": "00-0039890",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/fztxucnxhoxep6utluyc"
+    },
+    {
+      "name": "Jonathan Taylor",
+      "position": "RB",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 8,
+      "targetShare": 11.4,
+      "player_id": "00-0036223",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ye4runp84oku1vnodsa7"
+    },
+    {
+      "name": "Tyler Goodson",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 9,
+      "targetShare": 8.6,
+      "player_id": "00-0037120",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/z4ugeazvmccxxhqjoxzv"
+    },
+    {
+      "name": "Kylen Granson",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 15,
+      "targetShare": 5.7,
+      "player_id": "00-0036876",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rydvwc7sqwucvx14s8b4"
+    },
+    {
+      "name": "Trey Sermon",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 2.9,
+      "player_id": "00-0036984",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/freievsvipthuvrwn7uw"
+    },
+    {
+      "name": "Andrew Ogletree",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 2,
+      "targetShare": 2.9,
+      "player_id": "00-0037292",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/xrp8dougs6jb0denyorz"
+    },
+    {
+      "name": "Will Mallory",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 10,
+      "targetShare": 2.9,
+      "player_id": "00-0038394",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rxeygxqtsnqqzgmjl71g"
+    }
+  ],
+  "HOU": [
+    {
+      "name": "Tank Dell",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 5,
+      "receiving_yards": 39,
+      "targetShare": 28.1,
+      "player_id": "00-0038977",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/tqxgovzlhxj0jnwkcvtq"
+    },
+    {
+      "name": "John Metchie",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 74,
+      "targetShare": 18.8,
+      "player_id": "00-0037614",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/zf0d6hiyqnmtst0vwdpv"
+    },
+    {
+      "name": "Joe Mixon",
+      "position": "RB",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 44,
+      "targetShare": 12.5,
+      "player_id": "00-0033897",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gwyhozfhjgedwdmmjjcf"
+    },
+    {
+      "name": "Dalton Schultz",
+      "position": "TE",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 66,
+      "targetShare": 12.5,
+      "player_id": "00-0034383",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ooatvpu1knzypdmjljo9"
+    },
+    {
+      "name": "Xavier Hutchinson",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 6,
+      "targetShare": 12.5,
+      "player_id": "00-0038618",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vlxzxhej5ffelkxrqf4g"
+    },
+    {
+      "name": "Robert Woods",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 1,
+      "targetShare": 9.4,
+      "player_id": "00-0030431",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ydjg5fylwkf5aaxiul6v"
+    },
+    {
+      "name": "Cade Stover",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 2,
+      "targetShare": 6.2,
+      "player_id": "00-0039359",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ehruudekjzjney5dircm"
+    }
+  ],
+  "JAX": [
+    {
+      "name": "Evan Engram",
+      "position": "TE",
+      "targets": 8,
+      "receptions": 6,
+      "receiving_yards": 40,
+      "targetShare": 38.1,
+      "player_id": "00-0033881",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sea0atk2feif4n75dvq8"
+    },
+    {
+      "name": "Gabe Davis",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 1,
+      "receiving_yards": 19,
+      "targetShare": 19.0,
+      "player_id": "00-0036196",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rlmgjtfct5qjtbwcjqg6"
+    },
+    {
+      "name": "Brenton Strange",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 25,
+      "targetShare": 14.3,
+      "player_id": "00-0038935",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/trfk78mrfsafnbatyx2x"
+    },
+    {
+      "name": "Brian Thomas",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 12,
+      "targetShare": 14.3,
+      "player_id": "00-0039893",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gsz15iz0ppibhslzzgch"
+    },
+    {
+      "name": "Luke Farrell",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 16,
+      "targetShare": 9.5,
+      "player_id": "00-0036887",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/f2z7wpmx7ngtxcqqedla"
+    },
+    {
+      "name": "Travis Etienne",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": -1,
+      "targetShare": 4.8,
+      "player_id": "00-0036973",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/ne5lyv8n6elqw77yrz9w"
+    }
+  ],
+  "WAS": [
+    {
+      "name": "Zach Ertz",
+      "position": "TE",
+      "targets": 8,
+      "receptions": 4,
+      "receiving_yards": 31,
+      "targetShare": 25.0,
+      "player_id": "00-0030061",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/xktmmeumuoglbuam75iz"
+    },
+    {
+      "name": "Noah Brown",
+      "position": "WR",
+      "targets": 7,
+      "receptions": 3,
+      "receiving_yards": 33,
+      "targetShare": 21.9,
+      "player_id": "00-0033591",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/nv6ix0p8965yiugsuhwh"
+    },
+    {
+      "name": "Terry McLaurin",
+      "position": "WR",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 113,
+      "targetShare": 18.8,
+      "player_id": "00-0035659",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wokz1etv1wj1vhbmvxgs"
+    },
+    {
+      "name": "Olamide Zaccheaus",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 8,
+      "targetShare": 9.4,
+      "player_id": "00-0035208",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hcmdnfgnnvcp0qbktpxd"
+    },
+    {
+      "name": "Dyami Brown",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": -13,
+      "targetShare": 9.4,
+      "player_id": "00-0036626",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/mibh7ud59ygmzm19ivac"
+    },
+    {
+      "name": "Luke McCaffrey",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 1,
+      "receiving_yards": 23,
+      "targetShare": 9.4,
+      "player_id": "00-0039355",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/iqzscuxu9lxjfhoyxsjg"
+    },
+    {
+      "name": "Austin Ekeler",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 7,
+      "targetShare": 6.2,
+      "player_id": "00-0033699",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sldndpn2zwt4uhkj2zks"
+    }
+  ],
+  "NYG": [
+    {
+      "name": "Malik Nabers",
+      "position": "WR",
+      "targets": 10,
+      "receptions": 6,
+      "receiving_yards": 50,
+      "targetShare": 31.2,
+      "player_id": "00-0039337",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/w3edoyyuomqlovvp9ixc"
+    },
+    {
+      "name": "Wan'Dale Robinson",
+      "position": "WR",
+      "targets": 8,
+      "receptions": 5,
+      "receiving_yards": 51,
+      "targetShare": 25.0,
+      "player_id": "00-0038117",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/z94hnehk9vgmvtad6sgi"
+    },
+    {
+      "name": "Theo Johnson",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 37,
+      "targetShare": 18.8,
+      "player_id": "00-0039847",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gljwzcxubvoqjxwnakze"
+    },
+    {
+      "name": "Jalin Hyatt",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 4,
+      "receiving_yards": 39,
+      "targetShare": 12.5,
+      "player_id": "00-0038938",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/ibftqfglvcqaipfdnr4f"
+    },
+    {
+      "name": "Tyrone Tracy",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 1,
+      "targetShare": 6.2,
+      "player_id": "00-0039384",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hc2uk0xrbc6qizrerwxd"
+    },
+    {
+      "name": "Devin Singletary",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 5,
+      "targetShare": 3.1,
+      "player_id": "00-0035250",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wz8mp8xb5bdspcxosreh"
+    },
+    {
+      "name": "Isaiah Hodgins",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 7,
+      "targetShare": 3.1,
+      "player_id": "00-0036165",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gc1gaxelm41o1luldpek"
+    }
+  ],
+  "PHI": [
+    {
+      "name": "A.J. Brown",
+      "position": "WR",
+      "targets": 7,
+      "receptions": 5,
+      "receiving_yards": 109,
+      "targetShare": 35.0,
+      "player_id": "00-0035676",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/a014sgzctarbvhwb35lw"
+    },
+    {
+      "name": "Dallas Goedert",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 25,
+      "targetShare": 15.0,
+      "player_id": "00-0034351",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wfj54vhw1zxwwb3vdi61"
+    },
+    {
+      "name": "DeVonta Smith",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 14,
+      "targetShare": 15.0,
+      "player_id": "00-0036912",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/bmdflwy52nsk7zpnfhwb"
+    },
+    {
+      "name": "Ainias Smith",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 6,
+      "targetShare": 10.0,
+      "player_id": "00-0039747",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/curtawk9bzyg88w5jrg8"
+    },
+    {
+      "name": "Saquon Barkley",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 12,
+      "targetShare": 5.0,
+      "player_id": "00-0034844",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ugiuanl8bf6uoya5mgid"
+    },
+    {
+      "name": "Kenneth Gainwell",
+      "position": "RB",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 9,
+      "targetShare": 5.0,
+      "player_id": "00-0036919",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/prer0j0tkzsdva1yrd0i"
+    },
+    {
+      "name": "Grant Calcaterra",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 5.0,
+      "player_id": "00-0037086",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vxl0kathuej280k01d2r"
+    },
+    {
+      "name": "Jahan Dotson",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 27,
+      "targetShare": 5.0,
+      "player_id": "00-0037741",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/myxhp9oqtcv1peactbhv"
+    },
+    {
+      "name": "Johnny Wilson",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 5,
+      "targetShare": 5.0,
+      "player_id": "00-0039236",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/cj13ngp4tjmi9621trrk"
+    }
+  ],
+  "SEA": [],
+  "ARI": [
+    {
+      "name": "James Conner",
+      "position": "RB",
+      "targets": 5,
+      "receptions": 5,
+      "receiving_yards": 80,
+      "targetShare": 20.8,
+      "player_id": "00-0033553",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rtvys5j7sxjrlbpy5iim"
+    },
+    {
+      "name": "Trey McBride",
+      "position": "TE",
+      "targets": 5,
+      "receptions": 4,
+      "receiving_yards": 71,
+      "targetShare": 20.8,
+      "player_id": "00-0037744",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hfdgljgi9gfaskomdl1h"
+    },
+    {
+      "name": "Marvin Harrison",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 5,
+      "receiving_yards": 54,
+      "targetShare": 20.8,
+      "player_id": "00-0039849",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/o6hg5zeofmxvzjjpo2sf"
+    },
+    {
+      "name": "Michael Wilson",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 24,
+      "targetShare": 16.7,
+      "player_id": "00-0038559",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/spsbduvpqe21tgkwhvbc"
+    },
+    {
+      "name": "Elijah Higgins",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 13,
+      "targetShare": 8.3,
+      "player_id": "00-0039041",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/sodpdh4uhbhzjxbnmao1"
+    },
+    {
+      "name": "Trey Benson",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 25,
+      "targetShare": 8.3,
+      "player_id": "00-0039921",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/iu0gbspz3kjdqlazvtkn"
+    },
+    {
+      "name": "Greg Dortch",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": -1,
+      "targetShare": 4.2,
+      "player_id": "00-0035500",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/gkog6lrht3rnktwiberj"
+    }
+  ],
+  "ATL": [
+    {
+      "name": "Drake London",
+      "position": "WR",
+      "targets": 13,
+      "receptions": 8,
+      "receiving_yards": 97,
+      "targetShare": 35.1,
+      "player_id": "00-0037238",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wikjazqtt3uunjufgqrf"
+    },
+    {
+      "name": "Darnell Mooney",
+      "position": "WR",
+      "targets": 9,
+      "receptions": 5,
+      "receiving_yards": 96,
+      "targetShare": 24.3,
+      "player_id": "00-0036309",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/c1ixyspw0eshl3a2qrly"
+    },
+    {
+      "name": "Kyle Pitts",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 55,
+      "targetShare": 16.2,
+      "player_id": "00-0036970",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/t8ymqyhvv8i1r80jyhy2"
+    },
+    {
+      "name": "Ray-Ray McCloud",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 30,
+      "targetShare": 10.8,
+      "player_id": "00-0034407",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/nvwn3sdihyyd2itjt7vy"
+    },
+    {
+      "name": "Bijan Robinson",
+      "position": "RB",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 28,
+      "targetShare": 10.8,
+      "player_id": "00-0038542",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/rydwvaod6ethdjap41l6"
+    },
+    {
+      "name": "Charlie Woerner",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 2.7,
+      "player_id": "00-0036429",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hllqdtlyjbs2gbdgn6lj"
+    }
+  ],
+  "CAR": [
+    {
+      "name": "Jalen Coker",
+      "position": "WR",
+      "targets": 8,
+      "receptions": 3,
+      "receiving_yards": 41,
+      "targetShare": 32.0,
+      "player_id": "00-0039491",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/wk9xewrixauh09f71pqh"
+    },
+    {
+      "name": "Chuba Hubbard",
+      "position": "RB",
+      "targets": 6,
+      "receptions": 4,
+      "receiving_yards": 16,
+      "targetShare": 24.0,
+      "player_id": "00-0036555",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/oyis5zooijf0xfme9csj"
+    },
+    {
+      "name": "David Moore",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 2,
+      "receiving_yards": 18,
+      "targetShare": 16.0,
+      "player_id": "00-0033589",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/i2esmsczxxoq7pzvg6yf"
+    },
+    {
+      "name": "Xavier Legette",
+      "position": "WR",
+      "targets": 4,
+      "receptions": 3,
+      "receiving_yards": 40,
+      "targetShare": 16.0,
+      "player_id": "00-0039342",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/a3etuvp3kqtwmtkioq8g"
+    },
+    {
+      "name": "Ja'Tavion Sanders",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 8,
+      "targetShare": 8.0,
+      "player_id": "00-0039356",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/egisbinbqmttmub4po1g"
+    },
+    {
+      "name": "Ian Thomas",
+      "position": "TE",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 3,
+      "targetShare": 4.0,
+      "player_id": "00-0034365",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/qrcffo16hdkcvxuvjppy"
+    }
+  ],
+  "NO": [
+    {
+      "name": "Alvin Kamara",
+      "position": "RB",
+      "targets": 6,
+      "receptions": 5,
+      "receiving_yards": 54,
+      "targetShare": 28.6,
+      "player_id": "00-0033906",
+      "photo": "https://static.www.nfl.com/image/private/f_auto,q_auto/league/tl9enad6kiwv6cukf4vt"
+    },
+    {
+      "name": "Marquez Valdes-Scantling",
+      "position": "WR",
+      "targets": 3,
+      "receptions": 3,
+      "receiving_yards": 109,
+      "targetShare": 14.3,
+      "player_id": "00-0034272",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vn2bg6lhyl15xrymtd5g"
+    },
+    {
+      "name": "Juwan Johnson",
+      "position": "TE",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 22,
+      "targetShare": 14.3,
+      "player_id": "00-0036040",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/pdsl9w3agc9uvjqpq1jy"
+    },
+    {
+      "name": "Taysom Hill",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 36,
+      "targetShare": 9.5,
+      "player_id": "00-0033357",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/q8itjlocg5do60qat4l3"
+    },
+    {
+      "name": "Foster Moreau",
+      "position": "TE",
+      "targets": 2,
+      "receptions": 0,
+      "receiving_yards": 0,
+      "targetShare": 9.5,
+      "player_id": "00-0034981",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/hfcik9okcbwsbhgoaljy"
+    },
+    {
+      "name": "Kevin Austin",
+      "position": "WR",
+      "targets": 2,
+      "receptions": 2,
+      "receiving_yards": 36,
+      "targetShare": 9.5,
+      "player_id": "00-0037231",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/vdah0xfiadl04o4s6xd0"
+    },
+    {
+      "name": "Jordan Mims",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 4,
+      "targetShare": 9.5,
+      "player_id": "00-0038678",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/nvamfcrdqvkwtnpgmzdh"
+    },
+    {
+      "name": "Dante Pettis",
+      "position": "WR",
+      "targets": 1,
+      "receptions": 1,
+      "receiving_yards": 8,
+      "targetShare": 4.8,
+      "player_id": "00-0034860",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/bkn6mnwboawe7iucprxe"
+    }
+  ],
+  "DET": [
+    {
+      "name": "Amon-Ra St. Brown",
+      "position": "WR",
+      "targets": 8,
+      "receptions": 6,
+      "receiving_yards": 60,
+      "targetShare": 33.3,
+      "player_id": "00-0036963",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/jmfuamqblg8jag0stpnq"
+    },
+    {
+      "name": "Sam LaPorta",
+      "position": "TE",
+      "targets": 6,
+      "receptions": 3,
+      "receiving_yards": 66,
+      "targetShare": 25.0,
+      "player_id": "00-0039065",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/ucw8cfj5t5nwkx670wzu"
+    },
+    {
+      "name": "Jameson Williams",
+      "position": "WR",
+      "targets": 5,
+      "receptions": 3,
+      "receiving_yards": 53,
+      "targetShare": 20.8,
+      "player_id": "00-0037240",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/kt6xzcnjbe9affdfsayt"
+    },
+    {
+      "name": "Jahmyr Gibbs",
+      "position": "RB",
+      "targets": 3,
+      "receptions": 2,
+      "receiving_yards": 37,
+      "targetShare": 12.5,
+      "player_id": "00-0039139",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/f5y3osxxtov5rgfv4ra5"
+    },
+    {
+      "name": "David Montgomery",
+      "position": "RB",
+      "targets": 2,
+      "receptions": 1,
+      "receiving_yards": 24,
+      "targetShare": 8.3,
+      "player_id": "00-0035685",
+      "photo": "https://static.www.nfl.com/image/upload/f_auto,q_auto/league/nwdb4paueb1x4gv7tlb9"
+    }
+  ]
+}

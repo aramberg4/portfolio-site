@@ -62,67 +62,149 @@ export const getPlayerColor = (position, index, teamId) => {
   return allColors[index] || '#6B7280'; // Default gray if index exceeds available colors
 };
 
+// API Configuration
+const API_BASE_URL = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+
 // Main data fetching service
 export class NFLDataService {
   static async getTargetShareData(teamId, week) {
     try {
-      // For now, return mock data
-      // TODO: Replace with actual API call to ESPN/nfl-data-py backend
-      const data = generateMockTargetShareData(teamId, week);
+      console.log(`Fetching real NFL data for ${teamId} week ${week}...`);
 
-      if (!data) {
-        throw new Error('Team not found');
+      const response = await fetch(`${API_BASE_URL}/target-share/${teamId}/${week}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch data');
       }
 
       return {
         success: true,
-        data: data,
+        data: result.data,
         team: getTeamById(teamId),
         week: week,
-        lastUpdated: new Date().toISOString()
+        season: result.season,
+        lastUpdated: result.lastUpdated,
+        source: result.source || 'api'
       };
     } catch (error) {
       console.error('Error fetching target share data:', error);
+
+      // Fallback to mock data if API fails
+      console.log('Falling back to mock data...');
+      try {
+        const mockData = generateMockTargetShareData(teamId, week);
+        if (mockData) {
+          return {
+            success: true,
+            data: mockData,
+            team: getTeamById(teamId),
+            week: week,
+            lastUpdated: new Date().toISOString(),
+            source: 'mock',
+            warning: 'Using mock data - API unavailable'
+          };
+        }
+      } catch (mockError) {
+        console.error('Mock data fallback also failed:', mockError);
+      }
+
       return {
         success: false,
         error: error.message,
-        data: []
+        data: [],
+        source: 'error'
       };
     }
   }
 
   static async getAllTeamsTargetShare(week) {
     try {
-      const promises = nflTeams.map(team =>
-        this.getTargetShareData(team.id, week)
-      );
+      console.log(`Fetching all teams data for week ${week}...`);
 
-      const results = await Promise.all(promises);
+      const response = await fetch(`${API_BASE_URL}/target-share/all/${week}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch all teams data');
+      }
 
       return {
         success: true,
-        data: results.filter(result => result.success),
+        data: result.data,
         week: week,
-        lastUpdated: new Date().toISOString()
+        season: result.season,
+        lastUpdated: result.lastUpdated,
+        source: 'api'
       };
     } catch (error) {
       console.error('Error fetching all teams data:', error);
-      return {
-        success: false,
-        error: error.message,
-        data: []
-      };
+
+      // Fallback to individual team requests
+      console.log('Falling back to individual team requests...');
+      try {
+        const promises = nflTeams.map(team =>
+          this.getTargetShareData(team.id, week)
+        );
+
+        const results = await Promise.all(promises);
+
+        return {
+          success: true,
+          data: results.filter(result => result.success),
+          week: week,
+          lastUpdated: new Date().toISOString(),
+          source: 'fallback'
+        };
+      } catch (fallbackError) {
+        console.error('Fallback also failed:', fallbackError);
+        return {
+          success: false,
+          error: error.message,
+          data: [],
+          source: 'error'
+        };
+      }
     }
   }
 
   // Helper method to get current NFL week
-  static getCurrentWeek() {
-    const now = new Date();
-    const seasonStart = new Date('2024-09-05'); // Approximate 2024 season start
-    const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+  static async getCurrentWeek() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/current-week`);
 
-    // Clamp between 1 and 18
-    return Math.max(1, Math.min(18, weeksSinceStart + 1));
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success && result.week) {
+        return result.week;
+      } else {
+        throw new Error('Invalid API response for current week');
+      }
+    } catch (error) {
+      console.error('Error fetching current week from API:', error);
+
+      // Fallback to calculation
+      const now = new Date();
+      const seasonStart = new Date('2024-09-05'); // Approximate 2024 season start
+      const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
+
+      // Clamp between 1 and 18
+      return Math.max(1, Math.min(18, weeksSinceStart + 1));
+    }
   }
 
   // Generate weeks array for dropdown

@@ -16,13 +16,16 @@ ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const NFLTargetShare = () => {
   const [selectedTeam, setSelectedTeam] = useState('KC'); // Default to Chiefs
-  const [selectedWeek, setSelectedWeek] = useState(NFLDataService.getCurrentWeek());
+  const [selectedWeek, setSelectedWeek] = useState(4); // Default to week 4, will update from API
   const [targetShareData, setTargetShareData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [teamDropdownOpen, setTeamDropdownOpen] = useState(false);
   const [weekDropdownOpen, setWeekDropdownOpen] = useState(false);
+  const [dataSource, setDataSource] = useState('loading'); // 'api', 'mock', 'error', 'loading'
+  const [season, setSeason] = useState(null); // Track which season's data we're showing
+  const [dataNotice, setDataNotice] = useState(null); // Track any important notices about the data
 
   // Helper function to get team primary color
   const getTeamColor = (teamId) => {
@@ -115,6 +118,21 @@ const NFLTargetShare = () => {
     }
   };
 
+  // Load current week on component mount
+  useEffect(() => {
+    const loadCurrentWeek = async () => {
+      try {
+        const currentWeek = await NFLDataService.getCurrentWeek();
+        setSelectedWeek(currentWeek);
+      } catch (error) {
+        console.error('Failed to load current week:', error);
+        // Keep default week 4
+      }
+    };
+
+    loadCurrentWeek();
+  }, []);
+
   // Load data when team or week changes
   useEffect(() => {
     loadTargetShareData();
@@ -123,6 +141,7 @@ const NFLTargetShare = () => {
   const loadTargetShareData = async () => {
     setLoading(true);
     setError(null);
+    setDataSource('loading');
 
     try {
       const result = await NFLDataService.getTargetShareData(selectedTeam, selectedWeek);
@@ -131,11 +150,27 @@ const NFLTargetShare = () => {
         setTargetShareData(result.data);
         const formattedData = NFLDataService.formatForPieChart(result.data, result.team);
         setChartData(formattedData);
+        setDataSource(result.source || 'api');
+        setSeason(result.season);
+
+        // Show warning if using mock data
+        if (result.source === 'mock' && result.warning) {
+          console.warn(result.warning);
+          setDataNotice(result.warning);
+        }
+
+        // Show notice about data availability
+        if (result.notice) {
+          console.warn('Data Notice:', result.notice);
+          setDataNotice(result.notice);
+        }
       } else {
         setError(result.error || 'Failed to load data');
+        setDataSource('error');
       }
     } catch (err) {
       setError('An unexpected error occurred');
+      setDataSource('error');
       console.error('Error loading target share data:', err);
     } finally {
       setLoading(false);
@@ -178,9 +213,30 @@ const NFLTargetShare = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
             <span role="img" aria-label="football">🏈</span> NFL Target Share Analyzer
           </h1>
+
+          {/* Season Indicator */}
+          {season && (
+            <div className="mb-4">
+              <span className="inline-block px-4 py-2 bg-blue-600 text-white rounded-full text-lg font-semibold">
+                {season} Season Data
+              </span>
+            </div>
+          )}
+
+          {/* Data Notice */}
+          {dataNotice && (
+            <div className="mb-4 max-w-2xl mx-auto">
+              <div className="px-4 py-3 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg">
+                <p className="text-sm font-medium">
+                  📅 {dataNotice}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Interactive visualization of wide receiver target distribution by team and week.
@@ -382,6 +438,38 @@ const NFLTargetShare = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Data Source Indicator */}
+                {dataSource !== 'loading' && (
+                  <div className="mt-4 p-3 bg-gray-700 rounded-lg border-l-4 border-blue-500">
+                    <div className="flex items-center gap-2 text-xs">
+                      {dataSource === 'api' && (
+                        <>
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-green-400 font-medium">Live NFL Data (2024 Season)</span>
+                        </>
+                      )}
+                      {dataSource === 'cache' && (
+                        <>
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <span className="text-blue-400 font-medium">Live NFL Data (Cached)</span>
+                        </>
+                      )}
+                      {dataSource === 'mock' && (
+                        <>
+                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                          <span className="text-yellow-400 font-medium">Mock Data (API Unavailable)</span>
+                        </>
+                      )}
+                      {dataSource === 'fallback' && (
+                        <>
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <span className="text-orange-400 font-medium">Fallback Data</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
