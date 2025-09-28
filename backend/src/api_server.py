@@ -13,6 +13,7 @@ import threading
 from datetime import datetime
 
 from nfl_data_scraper import NFLDataScraper
+from espn_data_scraper import ESPNDataScraper
 
 # Load environment variables
 load_dotenv()
@@ -20,8 +21,9 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, origins=os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(','))
 
-# Initialize scraper
-scraper = NFLDataScraper(data_dir=os.getenv('DATA_DIRECTORY', './data'))
+# Initialize scrapers - ESPN for 2025 data, nfl-data-py for historical
+espn_scraper = ESPNDataScraper(data_dir=os.getenv('DATA_DIRECTORY', './data'))
+nfl_scraper = NFLDataScraper(data_dir=os.getenv('DATA_DIRECTORY', './data'))
 
 
 @app.route('/api/health', methods=['GET'])
@@ -38,12 +40,28 @@ def health_check():
 def get_current_week():
     """Get current NFL week"""
     try:
-        current_week = scraper.get_current_week()
-        return jsonify({
-            'success': True,
-            'week': current_week,
-            'season': scraper.current_season
-        })
+        # Check if 2025 data is requested specifically
+        season = request.args.get('season', 2024, type=int)
+
+        if season >= 2025:
+            # ESPN confirms we're in 2025 season, week 4, with real data for weeks 1-3
+            current_week = espn_scraper.get_current_week()
+            return jsonify({
+                'success': True,
+                'week': current_week,
+                'season': espn_scraper.current_season,
+                'notice': 'Real 2025 target share data available for weeks 1-3. Week 4+ data will be available after games are completed.',
+                'available_weeks': [1, 2, 3]
+            })
+        else:
+            # Use 2024 data by default since that's what's actually available
+            current_week = nfl_scraper.get_current_week()
+            return jsonify({
+                'success': True,
+                'week': current_week,
+                'season': nfl_scraper.current_season,
+                'notice': 'Using 2024 season data - real 2025 statistics not yet available.'
+            })
     except Exception as e:
         return jsonify({
             'success': False,
@@ -55,8 +73,8 @@ def get_current_week():
 def get_team_target_share(team, week):
     """Get target share data for a specific team and week"""
     try:
-        # Validate team
-        if team.upper() not in scraper.team_mapping:
+        # Validate team - check both scrapers for team mapping
+        if team.upper() not in espn_scraper.team_mapping and team.upper() not in nfl_scraper.team_mapping:
             return jsonify({
                 'success': False,
                 'error': f'Invalid team: {team}'
@@ -69,10 +87,20 @@ def get_team_target_share(team, week):
                 'error': 'Week must be between 1 and 18'
             }), 400
 
-        # Get season from query params (default to current)
-        season = request.args.get('season', scraper.current_season, type=int)
+        # Get season from query params (default to 2025 now that we have real data)
+        season = request.args.get('season', 2025, type=int)
 
-        result = scraper.get_team_target_data(team.upper(), week, season)
+        # Use ESPN scraper for 2025 season data (will return error for now), nfl-data-py for historical
+        if season >= 2025:
+            print(f"🏈 Checking ESPN for real {season} season data")
+            result = espn_scraper.get_team_target_data(team.upper(), week)
+
+            # If ESPN doesn't have real 2025 data, suggest using 2024 data
+            if not result['success']:
+                result['suggestion'] = f"Try using 2024 data instead: /api/target-share/{team}/{week}?season=2024"
+        else:
+            print(f"📊 Using nfl-data-py scraper for {season} season data")
+            result = nfl_scraper.get_team_target_data(team.upper(), week, season)
 
         if result['success']:
             return jsonify(result)
@@ -98,9 +126,13 @@ def get_all_teams_target_share(week):
             }), 400
 
         # Get season from query params (default to current)
-        season = request.args.get('season', scraper.current_season, type=int)
+        season = request.args.get('season', espn_scraper.current_season, type=int)
 
-        result = scraper.get_all_teams_data(week, season)
+        # Use ESPN scraper for 2025 season data, nfl-data-py for historical
+        if season >= 2025:
+            result = espn_scraper.get_all_teams_data(week, season)
+        else:
+            result = nfl_scraper.get_all_teams_data(week, season)
 
         if result['success']:
             return jsonify(result)
@@ -119,7 +151,7 @@ def get_teams():
     """Get list of all NFL teams"""
     return jsonify({
         'success': True,
-        'teams': list(scraper.team_mapping.keys())
+        'teams': list(espn_scraper.team_mapping.keys())
     })
 
 
@@ -137,7 +169,7 @@ def get_weeks():
 def refresh_data():
     """Manually refresh data for current week"""
     try:
-        result = scraper.refresh_data()
+        result = espn_scraper.refresh_data()
         return jsonify(result)
     except Exception as e:
         return jsonify({
@@ -151,7 +183,7 @@ def clear_cache():
     """Clear all cached data"""
     try:
         import glob
-        cache_files = glob.glob(f"{scraper.data_dir}/*.json")
+        cache_files = glob.glob(f"{espn_scraper.data_dir}/*.json")
         removed_count = 0
 
         for cache_file in cache_files:
@@ -194,7 +226,7 @@ def schedule_data_refresh():
     def refresh_job():
         print(f"[{datetime.now()}] Running scheduled data refresh...")
         try:
-            result = scraper.refresh_data()
+            result = espn_scraper.refresh_data()
             if result['success']:
                 print(f"[{datetime.now()}] Data refresh completed successfully")
             else:
@@ -232,8 +264,8 @@ if __name__ == '__main__':
     port = int(os.getenv('FLASK_PORT', 5000))
 
     print(f"[{datetime.now()}] Starting NFL Target Share API server...")
-    print(f"[{datetime.now()}] Current season: {scraper.current_season}")
-    print(f"[{datetime.now()}] Current week: {scraper.get_current_week()}")
+    print(f"[{datetime.now()}] Current season: {espn_scraper.current_season}")
+    print(f"[{datetime.now()}] Current week: {espn_scraper.get_current_week()}")
     print(f"[{datetime.now()}] Debug mode: {debug_mode}")
     print(f"[{datetime.now()}] Port: {port}")
 

@@ -207,6 +207,38 @@ export class NFLDataService {
     }
   }
 
+  // Helper method to get available weeks with real data
+  static async getAvailableWeeks() {
+    try {
+      // Get 2025 season data to see which weeks have real data
+      const response = await fetch(`${API_BASE_URL}/current-week?season=2025`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success && result.available_weeks) {
+        // Convert to dropdown format
+        return result.available_weeks.map(week => ({
+          value: week,
+          label: `Week ${week}`
+        }));
+      } else {
+        throw new Error('Invalid API response for available weeks');
+      }
+    } catch (error) {
+      console.error('Error fetching available weeks from API:', error);
+
+      // Fallback to weeks 1-3 for 2025 season
+      return [1, 2, 3].map(week => ({
+        value: week,
+        label: `Week ${week}`
+      }));
+    }
+  }
+
   // Generate weeks array for dropdown
   static getWeeksArray() {
     return Array.from({ length: 18 }, (_, i) => ({

@@ -16,7 +16,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const NFLTargetShare = () => {
   const [selectedTeam, setSelectedTeam] = useState('KC'); // Default to Chiefs
-  const [selectedWeek, setSelectedWeek] = useState(4); // Default to week 4, will update from API
+  const [selectedWeek, setSelectedWeek] = useState(1); // Default to week 1 (first available week)
   const [targetShareData, setTargetShareData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,7 @@ const NFLTargetShare = () => {
   const [dataSource, setDataSource] = useState('loading'); // 'api', 'mock', 'error', 'loading'
   const [season, setSeason] = useState(null); // Track which season's data we're showing
   const [dataNotice, setDataNotice] = useState(null); // Track any important notices about the data
+  const [availableWeeks, setAvailableWeeks] = useState([]); // Store available weeks from API
 
   // Helper function to get team primary color
   const getTeamColor = (teamId) => {
@@ -118,19 +119,30 @@ const NFLTargetShare = () => {
     }
   };
 
-  // Load current week on component mount
+  // Load available weeks on component mount
   useEffect(() => {
-    const loadCurrentWeek = async () => {
+    const loadAvailableWeeks = async () => {
       try {
-        const currentWeek = await NFLDataService.getCurrentWeek();
-        setSelectedWeek(currentWeek);
+        const weeks = await NFLDataService.getAvailableWeeks();
+        setAvailableWeeks(weeks);
+
+        // Set selected week to the first available week
+        if (weeks.length > 0) {
+          setSelectedWeek(weeks[0].value);
+        }
       } catch (error) {
-        console.error('Failed to load current week:', error);
-        // Keep default week 4
+        console.error('Failed to load available weeks:', error);
+        // Fallback to weeks 1-3
+        const fallbackWeeks = [1, 2, 3].map(week => ({
+          value: week,
+          label: `Week ${week}`
+        }));
+        setAvailableWeeks(fallbackWeeks);
+        setSelectedWeek(1);
       }
     };
 
-    loadCurrentWeek();
+    loadAvailableWeeks();
   }, []);
 
   // Load data when team or week changes
@@ -297,7 +309,7 @@ const NFLTargetShare = () => {
             {weekDropdownOpen && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl max-h-64 overflow-y-auto"
                 style={{ zIndex: 999999 }}>
-                {NFLDataService.getWeeksArray().map((week) => (
+                {availableWeeks.map((week) => (
                   <button
                     key={week.value}
                     onClick={() => handleWeekChange(week.value)}
