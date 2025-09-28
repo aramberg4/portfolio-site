@@ -23,7 +23,7 @@ const NFLTargetShare = () => {
   const [error, setError] = useState(null);
   const [teamDropdownOpen, setTeamDropdownOpen] = useState(false);
   const [weekDropdownOpen, setWeekDropdownOpen] = useState(false);
-  const [dataSource, setDataSource] = useState('loading'); // 'api', 'mock', 'error', 'loading'
+  // const [dataSource, setDataSource] = useState('loading'); // 'api', 'mock', 'error', 'loading' - unused
   const [season, setSeason] = useState(null); // Track which season's data we're showing
   const [dataNotice, setDataNotice] = useState(null); // Track any important notices about the data
   const [availableWeeks, setAvailableWeeks] = useState([]); // Store available weeks from API
@@ -153,7 +153,7 @@ const NFLTargetShare = () => {
   const loadTargetShareData = async () => {
     setLoading(true);
     setError(null);
-    setDataSource('loading');
+    // setDataSource('loading'); // unused
 
     try {
       const result = await NFLDataService.getTargetShareData(selectedTeam, selectedWeek);
@@ -162,7 +162,7 @@ const NFLTargetShare = () => {
         setTargetShareData(result.data);
         const formattedData = NFLDataService.formatForPieChart(result.data, result.team);
         setChartData(formattedData);
-        setDataSource(result.source || 'api');
+        // setDataSource(result.source || 'api'); // unused
         setSeason(result.season);
 
         // Show warning if using mock data
@@ -178,11 +178,11 @@ const NFLTargetShare = () => {
         }
       } else {
         setError(result.error || 'Failed to load data');
-        setDataSource('error');
+        // setDataSource('error'); // unused
       }
     } catch (err) {
       setError('An unexpected error occurred');
-      setDataSource('error');
+      // setDataSource('error'); // unused
       console.error('Error loading target share data:', err);
     } finally {
       setLoading(false);
@@ -243,7 +243,7 @@ const NFLTargetShare = () => {
             <div className="mb-6 max-w-3xl mx-auto">
               <div className="px-6 py-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-xl shadow-sm">
                 <p className="text-sm font-medium">
-                  📅 {dataNotice}
+                  <span role="img" aria-label="calendar">📅</span> {dataNotice}
                 </p>
               </div>
             </div>
