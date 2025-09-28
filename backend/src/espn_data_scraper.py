@@ -308,8 +308,8 @@ class ESPNDataScraper:
                 print(f"Week {week} has not been completed yet. Only weeks 1-3 have real data.")
                 return None
 
-            # Get team target data from FantasyPros
-            team_players = fp_scraper.get_team_target_data(team)
+            # Get team target data from FantasyPros (multi-position)
+            team_players = fp_scraper.get_team_target_data_multi_position(team)
 
             if not team_players:
                 print(f"No real target data found for {team}")
