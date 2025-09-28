@@ -222,17 +222,17 @@ const NFLTargetShare = () => {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
             <span role="img" aria-label="football">🏈</span> NFL Target Share Analyzer
           </h1>
 
           {/* Season Indicator */}
           {season && (
-            <div className="mb-4">
-              <span className="inline-block px-4 py-2 bg-blue-600 text-white rounded-full text-lg font-semibold">
+            <div className="mb-6">
+              <span className="inline-block px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-semibold shadow-lg">
                 {season} Season Data
               </span>
             </div>
@@ -240,8 +240,8 @@ const NFLTargetShare = () => {
 
           {/* Data Notice */}
           {dataNotice && (
-            <div className="mb-4 max-w-2xl mx-auto">
-              <div className="px-4 py-3 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg">
+            <div className="mb-6 max-w-3xl mx-auto">
+              <div className="px-6 py-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-xl shadow-sm">
                 <p className="text-sm font-medium">
                   📅 {dataNotice}
                 </p>
@@ -249,20 +249,20 @@ const NFLTargetShare = () => {
             </div>
           )}
 
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-8"></div>
+          <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
             Interactive visualization of wide receiver target distribution by team and week.
             Perfect for fantasy football analysis and NFL insights.
           </p>
         </div>
 
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
           {/* Team Selector */}
           <div className="relative" style={{ zIndex: 999999 }}>
             <button
               onClick={() => setTeamDropdownOpen(!teamDropdownOpen)}
-              className="flex items-center gap-3 px-6 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 hover:border-blue-500 transition-all duration-200 min-w-[250px] justify-between"
+              className="flex items-center gap-3 px-8 py-4 bg-gray-800 text-white rounded-xl border border-gray-700 hover:border-blue-500 transition-all duration-200 min-w-[280px] justify-between shadow-lg hover:shadow-xl"
             >
               <div className="flex items-center gap-3">
                 {selectedTeamData && (
@@ -280,16 +280,16 @@ const NFLTargetShare = () => {
             </button>
 
             {teamDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl max-h-64 overflow-y-auto"
+              <div className="absolute top-full left-0 right-0 mt-3 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-h-64 overflow-y-auto"
                 style={{ zIndex: 999999 }}>
                 {nflTeams.map((team) => (
                   <button
                     key={team.id}
                     onClick={() => handleTeamChange(team.id)}
-                    className="flex items-center gap-3 w-full px-4 py-3 text-left hover:bg-gray-700 text-gray-100 hover:text-white transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                    className="flex items-center gap-3 w-full px-6 py-4 text-left hover:bg-gray-700 text-gray-100 hover:text-white transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl"
                   >
-                    <img src={team.logo} alt={team.name} className="w-5 h-5" />
-                    <span className="text-gray-100 hover:text-white">{team.name}</span>
+                    <img src={team.logo} alt={team.name} className="w-6 h-6" />
+                    <span className="text-gray-100 hover:text-white font-medium">{team.name}</span>
                   </button>
                 ))}
               </div>
@@ -300,22 +300,22 @@ const NFLTargetShare = () => {
           <div className="relative" style={{ zIndex: 999999 }}>
             <button
               onClick={() => setWeekDropdownOpen(!weekDropdownOpen)}
-              className="flex items-center gap-3 px-6 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 hover:border-blue-500 transition-all duration-200 min-w-[150px] justify-between"
+              className="flex items-center gap-3 px-8 py-4 bg-gray-800 text-white rounded-xl border border-gray-700 hover:border-blue-500 transition-all duration-200 min-w-[180px] justify-between shadow-lg hover:shadow-xl"
             >
               <span className="font-medium">Week {selectedWeek}</span>
               <ChevronDownIcon className={`w-5 h-5 transition-transform duration-200 ${weekDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {weekDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl max-h-64 overflow-y-auto"
+              <div className="absolute top-full left-0 right-0 mt-3 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-h-64 overflow-y-auto"
                 style={{ zIndex: 999999 }}>
                 {availableWeeks.map((week) => (
                   <button
                     key={week.value}
                     onClick={() => handleWeekChange(week.value)}
-                    className="w-full px-4 py-3 text-left hover:bg-gray-700 text-gray-100 hover:text-white transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                    className="w-full px-6 py-4 text-left hover:bg-gray-700 text-gray-100 hover:text-white transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl"
                   >
-                    <span className="text-gray-100 hover:text-white">{week.label}</span>
+                    <span className="text-gray-100 hover:text-white font-medium">{week.label}</span>
                   </button>
                 ))}
               </div>
@@ -326,7 +326,7 @@ const NFLTargetShare = () => {
           <button
             onClick={loadTargetShareData}
             disabled={loading}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:scale-100"
+            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-xl font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:scale-100 shadow-lg hover:shadow-xl"
           >
             <ArrowPathIcon className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             {loading ? 'Loading...' : 'Refresh'}
@@ -334,7 +334,7 @@ const NFLTargetShare = () => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div className="bg-gray-800 rounded-xl p-10 shadow-2xl border border-gray-700">
           {loading && (
             <div className="flex items-center justify-center py-16">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -354,22 +354,26 @@ const NFLTargetShare = () => {
           )}
 
           {!loading && !error && chartData && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Chart */}
               <div className="lg:col-span-2">
-                <div className="h-96 relative">
-                  <Pie data={chartData} options={chartOptions} />
+                <div className="bg-gray-700 rounded-xl p-6 border border-gray-600">
+                  <h3 className="text-xl font-bold text-white mb-6 text-center">Target Share Distribution</h3>
+                  <div className="h-96 relative">
+                    <Pie data={chartData} options={chartOptions} />
+                  </div>
                 </div>
               </div>
 
               {/* Stats Table */}
               <div className="lg:col-span-1">
-                <h3 className="text-xl font-bold text-white mb-4">Target Breakdown</h3>
-                <div className="space-y-3">
+                <div className="bg-gray-700 rounded-xl p-6 border border-gray-600 h-full">
+                  <h3 className="text-xl font-bold text-white mb-6">Target Breakdown</h3>
+                  <div className="space-y-4">
                   {targetShareData?.map((player, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 border border-gray-600"
+                      className="flex items-center justify-between p-4 bg-gray-600 rounded-xl hover:bg-gray-500 transition-all duration-200 border border-gray-500 hover:border-gray-400 hover:shadow-md"
                     >
                       <div className="flex items-center gap-4">
                         {/* Player Photo */}
@@ -426,9 +430,10 @@ const NFLTargetShare = () => {
                       </div>
                     </div>
                   ))}
+                  </div>
                 </div>
 
-                {/* Legend */}
+                {/* Legend
                 <div className="mt-6 p-4 bg-gray-700 rounded-lg">
                   <h4 className="text-white font-medium mb-3 text-sm">Position Colors</h4>
                   <div className="grid grid-cols-2 gap-2 text-xs">
@@ -449,10 +454,10 @@ const NFLTargetShare = () => {
                       <span className="text-gray-300">Others</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Data Source Indicator */}
-                {dataSource !== 'loading' && (
+                {/* {dataSource !== 'loading' && (
                   <div className="mt-4 p-3 bg-gray-700 rounded-lg border-l-4 border-blue-500">
                     <div className="flex items-center gap-2 text-xs">
                       {dataSource === 'api' && (
@@ -481,7 +486,7 @@ const NFLTargetShare = () => {
                       )}
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           )}
