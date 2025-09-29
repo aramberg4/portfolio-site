@@ -62,16 +62,52 @@ export const getPlayerColor = (position, index, teamId) => {
   return allColors[index] || '#6B7280'; // Default gray if index exceeds available colors
 };
 
-// API Configuration
-const API_BASE_URL = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+// Static data fetching from build-time generated files
 
 // Main data fetching service
 export class NFLDataService {
   static async getTargetShareData(teamId, week) {
     try {
-      console.log(`Fetching real NFL data for ${teamId} week ${week}...`);
+      console.log(`Fetching NFL data for ${teamId} week ${week}...`);
 
-      const response = await fetch(`${API_BASE_URL}/target-share/${teamId}/${week}`);
+      // In production, use static data file generated at build time
+      if (process.env.NODE_ENV === 'production' || !process.env.REACT_APP_NFL_API_URL) {
+        const response = await fetch('/nfl-data.json');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Static data indicates failure');
+        }
+
+        // Get team data from static file
+        const teamData = result.teams[teamId.toUpperCase()];
+        if (!teamData) {
+          throw new Error(`No data available for team ${teamId}`);
+        }
+
+        return {
+          success: true,
+          data: teamData,
+          team: getTeamById(teamId),
+          week: week,
+          season: result.season,
+          lastUpdated: result.lastUpdated,
+          source: result.source || 'static',
+          notice: result.notice,
+          dataType: result.dataType,
+          weekRange: result.weeks,
+          availableWeeks: [1, 2, 3] // Based on scraped weeks 1-3
+        };
+      }
+
+      // Development mode - try API first
+      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const response = await fetch(`${apiUrl}/target-share/${teamId}/${week}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -99,7 +135,7 @@ export class NFLDataService {
     } catch (error) {
       console.error('Error fetching target share data:', error);
 
-      // Fallback to mock data if API fails
+      // Fallback to mock data if both static and API fail
       console.log('Falling back to mock data...');
       try {
         const mockData = generateMockTargetShareData(teamId, week);
@@ -111,7 +147,7 @@ export class NFLDataService {
             week: week,
             lastUpdated: new Date().toISOString(),
             source: 'mock',
-            warning: 'Using mock data - API unavailable'
+            warning: 'Using mock data - data unavailable'
           };
         }
       } catch (mockError) {
@@ -131,7 +167,8 @@ export class NFLDataService {
     try {
       console.log(`Fetching all teams data for week ${week}...`);
 
-      const response = await fetch(`${API_BASE_URL}/target-share/all/${week}`);
+      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const response = await fetch(`${apiUrl}/target-share/all/${week}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -185,7 +222,8 @@ export class NFLDataService {
   // Helper method to get current NFL week
   static async getCurrentWeek() {
     try {
-      const response = await fetch(`${API_BASE_URL}/current-week`);
+      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const response = await fetch(`${apiUrl}/current-week`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -215,7 +253,8 @@ export class NFLDataService {
   static async getAvailableWeeks() {
     try {
       // Get 2025 season data to see which weeks have real data
-      const response = await fetch(`${API_BASE_URL}/current-week?season=2025`);
+      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const response = await fetch(`${apiUrl}/current-week?season=2025`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

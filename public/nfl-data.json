@@ -1,0 +1,644 @@
+{
+  "success": true,
+  "source": "sample_build_time",
+  "dataType": "sample",
+  "season": 2025,
+  "weeks": "1-3",
+  "lastUpdated": "2025-09-29T00:54:07.455Z",
+  "notice": "Sample 2025 NFL target data for development",
+  "teams": {
+    "KC": [
+      {
+        "name": "Travis Kelce",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_travis_kelce",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Tyreek Hill",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_tyreek_hill",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "JuJu Smith-Schuster",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_juju_smith-schuster",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Clyde Edwards-Helaire",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_clyde_edwards-helaire",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Mecole Hardman",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_mecole_hardman",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "BUF": [
+      {
+        "name": "Stefon Diggs",
+        "position": "WR",
+        "targets": 48,
+        "receptions": 33,
+        "receiving_yards": 576,
+        "targetShare": 19.8,
+        "player_id": "sample_stefon_diggs",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Dawson Knox",
+        "position": "TE",
+        "targets": 35,
+        "receptions": 24,
+        "receiving_yards": 420,
+        "targetShare": 14.5,
+        "player_id": "sample_dawson_knox",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Cole Beasley",
+        "position": "WR",
+        "targets": 32,
+        "receptions": 22,
+        "receiving_yards": 384,
+        "targetShare": 13.2,
+        "player_id": "sample_cole_beasley",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Gabe Davis",
+        "position": "WR",
+        "targets": 28,
+        "receptions": 19,
+        "receiving_yards": 336,
+        "targetShare": 11.6,
+        "player_id": "sample_gabe_davis",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Isaiah McKenzie",
+        "position": "WR",
+        "targets": 24,
+        "receptions": 16,
+        "receiving_yards": 288,
+        "targetShare": 9.9,
+        "player_id": "sample_isaiah_mckenzie",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 75,
+        "receptions": 52,
+        "receiving_yards": 900,
+        "targetShare": 31,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "LAR": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "TB": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "DAL": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "GB": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "SF": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "MIA": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "MIN": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ],
+    "CHI": [
+      {
+        "name": "Team Player 1",
+        "position": "TE",
+        "targets": 45,
+        "receptions": 31,
+        "receiving_yards": 540,
+        "targetShare": 18.5,
+        "player_id": "sample_team_player_1",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 2",
+        "position": "WR",
+        "targets": 42,
+        "receptions": 29,
+        "receiving_yards": 504,
+        "targetShare": 17.3,
+        "player_id": "sample_team_player_2",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 3",
+        "position": "WR",
+        "targets": 38,
+        "receptions": 26,
+        "receiving_yards": 456,
+        "targetShare": 15.6,
+        "player_id": "sample_team_player_3",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 4",
+        "position": "RB",
+        "targets": 25,
+        "receptions": 17,
+        "receiving_yards": 300,
+        "targetShare": 10.3,
+        "player_id": "sample_team_player_4",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Team Player 5",
+        "position": "WR",
+        "targets": 22,
+        "receptions": 15,
+        "receiving_yards": 264,
+        "targetShare": 9.1,
+        "player_id": "sample_team_player_5",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      },
+      {
+        "name": "Other",
+        "position": "OTHER",
+        "targets": 71,
+        "receptions": 49,
+        "receiving_yards": 852,
+        "targetShare": 29.2,
+        "player_id": "sample_other",
+        "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+      }
+    ]
+  },
+  "totalPlayers": 60,
+  "availableTeams": [
+    "BUF",
+    "CHI",
+    "DAL",
+    "GB",
+    "KC",
+    "LAR",
+    "MIA",
+    "MIN",
+    "SF",
+    "TB"
+  ]
+}
