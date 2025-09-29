@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Pdf from '../resources/resumeFullNoPhone.pdf';
 
 const Header = () => {
   return (
