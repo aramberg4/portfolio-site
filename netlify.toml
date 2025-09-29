@@ -1,10 +1,16 @@
 [build]
-  publish = "build"
   command = "npm run build"
+  publish = "build"
 
 [build.environment]
   NODE_VERSION = "16"
-  NPM_FLAGS = "--legacy-peer-deps"
+  NODE_OPTIONS = "--openssl-legacy-provider"
+  NPM_VERSION = "8"
+
+[[redirects]]
+  from = "/nfl-target-share"
+  to = "/nfl-target-share.html"
+  status = 200
 
 [[redirects]]
   from = "/*"

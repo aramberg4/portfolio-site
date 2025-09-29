@@ -19,7 +19,7 @@
     "prebuild": "node scripts/buildData.js",
     "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "build:local": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
-    "build:without-data": "react-scripts build",
+    "build:without-data": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

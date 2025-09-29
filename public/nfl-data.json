@@ -3,7 +3,7 @@
   "source": "fantasypros_build_time",
   "dataType": "real",
   "season": 2025,
-  "lastUpdated": "2025-09-28T22:14:44.772499",
+  "lastUpdated": "2025-09-28T22:17:03.505561",
   "notice": "Real 2025 NFL target data from FantasyPros (individual weeks) (using cached data from build)",
   "weeks": {
     "1": {
@@ -3292,7 +3292,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 21.7,
+          "targetShare": 29.4,
           "player_id": "2971618",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/2971618.png"
         },
@@ -3302,28 +3302,8 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 21.7,
+          "targetShare": 29.4,
           "player_id": "4241479",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Austin Hooper",
-          "position": "TE",
-          "targets": 3,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 13,
-          "player_id": "3051926",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Hunter Henry",
-          "position": "TE",
-          "targets": 3,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 13,
-          "player_id": "3139477",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
         {
@@ -3332,17 +3312,37 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.7,
+          "targetShare": 11.8,
+          "player_id": "unknown",
+          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+        },
+        {
+          "name": "TreVeyon Henderson",
+          "position": "RB",
+          "targets": 2,
+          "receptions": 0,
+          "receiving_yards": 0,
+          "targetShare": 11.8,
+          "player_id": "unknown",
+          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+        },
+        {
+          "name": "DeMario Douglas",
+          "position": "WR",
+          "targets": 1,
+          "receptions": 0,
+          "receiving_yards": 0,
+          "targetShare": 5.9,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
         {
           "name": "Other",
           "position": "OTHER",
-          "targets": 5,
+          "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 21.7,
+          "targetShare": 11.8,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -3976,7 +3976,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 23.5,
+          "targetShare": 32,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3986,28 +3986,8 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 17.6,
+          "targetShare": 24,
           "player_id": "4686254",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Trey Benson",
-          "position": "RB",
-          "targets": 4,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 11.8,
-          "player_id": "4686140",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "James Conner",
-          "position": "RB",
-          "targets": 4,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 11.8,
-          "player_id": "3139477",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
         {
@@ -4016,17 +3996,37 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.8,
+          "targetShare": 12,
           "player_id": "unknown",
+          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+        },
+        {
+          "name": "Tip Reiman",
+          "position": "TE",
+          "targets": 3,
+          "receptions": 0,
+          "receiving_yards": 0,
+          "targetShare": 12,
+          "player_id": "unknown",
+          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
+        },
+        {
+          "name": "Greg Dortch",
+          "position": "WR",
+          "targets": 2,
+          "receptions": 0,
+          "receiving_yards": 0,
+          "targetShare": 8,
+          "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
         {
           "name": "Other",
           "position": "OTHER",
-          "targets": 9,
+          "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 26.5,
+          "targetShare": 12,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -4651,68 +4651,6 @@
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
       ],
-      "GB": [
-        {
-          "name": "Josh Jacobs",
-          "position": "RB",
-          "targets": 9,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 36,
-          "player_id": "3139477",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Matthew Golden",
-          "position": "WR",
-          "targets": 4,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 16,
-          "player_id": "unknown",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Dontayvion Wicks",
-          "position": "WR",
-          "targets": 4,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 16,
-          "player_id": "unknown",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Tucker Kraft",
-          "position": "TE",
-          "targets": 4,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 16,
-          "player_id": "4432046",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Romeo Doubs",
-          "position": "WR",
-          "targets": 2,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 8,
-          "player_id": "4426335",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Other",
-          "position": "OTHER",
-          "targets": 2,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 8,
-          "player_id": "other",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        }
-      ],
       "HOU": [
         {
           "name": "Nico Collins",
@@ -5333,68 +5271,6 @@
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
       ],
-      "NO": [
-        {
-          "name": "Chris Olave",
-          "position": "WR",
-          "targets": 14,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 34.1,
-          "player_id": "4426335",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Juwan Johnson",
-          "position": "TE",
-          "targets": 8,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 19.5,
-          "player_id": "4241479",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Rashid Shaheed",
-          "position": "WR",
-          "targets": 6,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 14.6,
-          "player_id": "4426335",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Brandin Cooks",
-          "position": "WR",
-          "targets": 5,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 12.2,
-          "player_id": "2976499",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Jack Stoll",
-          "position": "TE",
-          "targets": 3,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 7.3,
-          "player_id": "unknown",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        },
-        {
-          "name": "Other",
-          "position": "OTHER",
-          "targets": 5,
-          "receptions": 0,
-          "receiving_yards": 0,
-          "targetShare": 12.2,
-          "player_id": "other",
-          "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
-        }
-      ],
       "NYG": [
         {
           "name": "Cam Skattebo",
@@ -5955,7 +5831,7 @@
       ]
     }
   },
-  "totalPlayers": 575,
+  "totalPlayers": 563,
   "availableTeams": [
     "ARI",
     "ATL",
@@ -6000,5 +5876,5 @@
     "totalTeams": 32,
     "successRate": "100.0%"
   },
-  "buildTimestamp": "2025-09-29T02:14:53.277Z"
+  "buildTimestamp": "2025-09-29T02:17:03.592Z"
 }
