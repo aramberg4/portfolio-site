@@ -3,7 +3,7 @@
   "source": "fantasypros_build_time",
   "dataType": "real",
   "season": 2025,
-  "lastUpdated": "2025-09-28T22:09:26.075080",
+  "lastUpdated": "2025-09-28T22:14:44.772499",
   "notice": "Real 2025 NFL target data from FantasyPros (individual weeks) (using cached data from build)",
   "weeks": {
     "1": {
@@ -6000,5 +6000,5 @@
     "totalTeams": 32,
     "successRate": "100.0%"
   },
-  "buildTimestamp": "2025-09-29T02:09:41.205Z"
+  "buildTimestamp": "2025-09-29T02:14:53.277Z"
 }
