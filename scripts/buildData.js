@@ -35,8 +35,8 @@ async function main() {
         throw new Error('Backend directory not found - using existing data');
       }
 
-      // Try to run the Python script
-      execSync('cd backend && source venv/bin/activate && cd .. && python3 scripts/exportNFLData.py', {
+      // Try to run the Python script (use bash explicitly for source command)
+      execSync('bash -c "cd backend && source venv/bin/activate && cd .. && python3 scripts/exportNFLData.py"', {
         stdio: 'inherit',
         cwd: path.join(__dirname, '..')
       });
