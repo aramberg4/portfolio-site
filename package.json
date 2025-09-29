@@ -16,8 +16,8 @@
   },
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-    "prebuild": "node scripts/fetchNFLData.js",
-    "build": "react-scripts build",
+    "prebuild": "cd backend && source venv/bin/activate && cd .. && python3 scripts/exportNFLData.py",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "build:local": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "build:without-data": "react-scripts build",
     "test": "react-scripts test",

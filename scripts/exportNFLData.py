@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""
+Build-time NFL Data Exporter
+Uses the real FantasyPros scraper to export 2025 NFL target share data for all teams
+"""
+
+import sys
+import os
+import json
+from datetime import datetime
+
+# Add the backend src directory to the Python path
+backend_src = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'backend', 'src')
+sys.path.insert(0, backend_src)
+
+try:
+    from fantasypros_scraper import FantasyProsScraper
+    from nfl_data_scraper import NFLDataScraper
+except ImportError as e:
+    print(f"❌ Error importing scraper modules: {e}")
+    print(f"Backend src path: {backend_src}")
+    sys.exit(1)
+
+# All NFL teams
+NFL_TEAMS = [
+    'ARI', 'ATL', 'BAL', 'BUF', 'CAR', 'CHI', 'CIN', 'CLE', 'DAL', 'DEN',
+    'DET', 'GB', 'HOU', 'IND', 'JAX', 'KC', 'LV', 'LAC', 'LAR', 'MIA',
+    'MIN', 'NE', 'NO', 'NYG', 'NYJ', 'PHI', 'PIT', 'SF', 'SEA', 'TB',
+    'TEN', 'WAS'
+]
+
+def export_team_data_for_week(scraper, team, week):
+    """Export target share data for a specific team and week"""
+    try:
+        print(f"  📊 Scraping {team} Week {week}...")
+
+        # Use the multi-position scraper to get WR, RB, and TE data for specific week
+        team_data = scraper.get_team_target_data_multi_position(team, week)
+
+        if team_data:
+            print(f"  ✅ {team} Week {week}: {len(team_data)} players")
+            return team_data
+        else:
+            print(f"  ⚠️  {team} Week {week}: No data found")
+            return []
+
+    except Exception as e:
+        print(f"  ❌ {team} Week {week}: Error - {e}")
+        return []
+
+def main():
+    print('🏈 Exporting real 2025 NFL target share data...')
+    print('📡 Using FantasyPros scraper for individual weeks 1-3')
+
+    # Initialize the scraper
+    scraper = FantasyProsScraper()
+
+    # Export data for all teams and weeks
+    weeks_data = {}
+    total_players = 0
+    successful_teams = 0
+
+    # Scrape data for each week individually
+    for week in [1, 2, 3]:
+        print(f"\n🔄 Scraping Week {week} data...")
+        week_teams_data = {}
+        week_successful = 0
+
+        for team in NFL_TEAMS:
+            team_data = export_team_data_for_week(scraper, team, week)
+            if team_data:
+                week_teams_data[team] = team_data
+                total_players += len(team_data)
+                week_successful += 1
+
+            # Add a small delay to be respectful to FantasyPros
+            import time
+            time.sleep(0.3)
+
+        weeks_data[week] = week_teams_data
+        print(f"Week {week}: {week_successful}/{len(NFL_TEAMS)} teams successful")
+        successful_teams = max(successful_teams, week_successful)
+
+    if successful_teams == 0:
+        print("❌ No team data was successfully scraped")
+        # Create fallback structure
+        output_data = {
+            'success': False,
+            'source': 'fantasypros_build_time_failed',
+            'dataType': 'error',
+            'error': 'No team data could be scraped',
+            'season': 2025,
+            'lastUpdated': datetime.now().isoformat(),
+            'notice': 'Real scraping failed - no data available',
+            'weeks': {},
+            'totalPlayers': 0,
+            'availableTeams': [],
+            'availableWeeks': []
+        }
+    else:
+        print(f"\n✅ Successfully scraped data for weeks 1-3")
+        print(f"📊 Total players across all weeks: {total_players}")
+
+        # Get list of teams that have data in at least one week
+        all_teams = set()
+        for week_data in weeks_data.values():
+            all_teams.update(week_data.keys())
+
+        # Create the output data structure
+        output_data = {
+            'success': True,
+            'source': 'fantasypros_build_time',
+            'dataType': 'real',
+            'season': 2025,
+            'lastUpdated': datetime.now().isoformat(),
+            'notice': f'Real 2025 NFL target data from FantasyPros (individual weeks)',
+            'weeks': weeks_data,
+            'totalPlayers': total_players,
+            'availableTeams': sorted(list(all_teams)),
+            'availableWeeks': [1, 2, 3],
+            'scrapingStats': {
+                'successfulTeams': successful_teams,
+                'totalTeams': len(NFL_TEAMS),
+                'successRate': f"{(successful_teams/len(NFL_TEAMS)*100):.1f}%"
+            }
+        }
+
+    # Ensure public directory exists
+    public_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public')
+    os.makedirs(public_dir, exist_ok=True)
+
+    # Write data to public directory for static serving
+    output_path = os.path.join(public_dir, 'nfl-data.json')
+
+    try:
+        with open(output_path, 'w') as f:
+            json.dump(output_data, f, indent=2)
+
+        print(f"📁 Data exported to: {output_path}")
+
+        if successful_teams > 0:
+            print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
+            print(f"📈 Success rate: {(successful_teams/len(NFL_TEAMS)*100):.1f}%")
+
+    except Exception as e:
+        print(f"❌ Error writing output file: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

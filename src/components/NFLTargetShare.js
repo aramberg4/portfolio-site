@@ -23,7 +23,7 @@ const NFLTargetShare = () => {
   const [error, setError] = useState(null);
   const [teamDropdownOpen, setTeamDropdownOpen] = useState(false);
   const [weekDropdownOpen, setWeekDropdownOpen] = useState(false);
-  // const [dataSource, setDataSource] = useState('loading'); // 'api', 'mock', 'error', 'loading' - unused
+  // const [dataSource, setDataSource] = useState('loading'); // 'api', 'error', 'loading' - unused
   const [season, setSeason] = useState(null); // Track which season's data we're showing
   const [dataNotice, setDataNotice] = useState(null); // Track any important notices about the data
   const [availableWeeks, setAvailableWeeks] = useState([]); // Store available weeks from API
@@ -132,7 +132,7 @@ const NFLTargetShare = () => {
         }
       } catch (error) {
         console.error('Failed to load available weeks:', error);
-        // Fallback to weeks 1-3
+        // Fallback to individual weeks 1-3
         const fallbackWeeks = [1, 2, 3].map(week => ({
           value: week,
           label: `Week ${week}`
@@ -174,11 +174,6 @@ const NFLTargetShare = () => {
           setAvailableWeeks(weeks);
         }
 
-        // Show warning if using mock data
-        if (result.source === 'mock' && result.warning) {
-          console.warn(result.warning);
-          setDataNotice(result.warning);
-        }
 
         // Show notice about data availability
         if (result.notice) {
@@ -493,12 +488,6 @@ const NFLTargetShare = () => {
                         <>
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                           <span className="text-blue-400 font-medium">Live NFL Data (Cached)</span>
-                        </>
-                      )}
-                      {dataSource === 'mock' && (
-                        <>
-                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                          <span className="text-yellow-400 font-medium">Mock Data (API Unavailable)</span>
                         </>
                       )}
                       {dataSource === 'fallback' && (

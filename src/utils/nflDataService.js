@@ -1,17 +1,6 @@
 // NFL Data Service for fetching and processing target share data
 import { nflTeams, getTeamById } from './nflTeams';
-import { getTeamTargetSharePlayers } from './nflPlayers';
 
-// Mock data for development - now using real player names and photos
-const generateMockTargetShareData = (teamId, week) => {
-  const team = getTeamById(teamId);
-  if (!team) return null;
-
-  // Get real player data for the team
-  const players = getTeamTargetSharePlayers(teamId, week);
-
-  return players;
-};
 
 // Expanded NFL Team color schemes (4-6 authentic colors per team)
 const teamColorSchemes = {
@@ -50,7 +39,7 @@ const teamColorSchemes = {
 };
 
 // Get team-specific colors with minimal fallback shades
-export const getPlayerColor = (position, index, teamId) => {
+export const getPlayerColor = (_position, index, teamId) => {
   const teamColors = teamColorSchemes[teamId] || ['#4A5568', '#6B7280', '#9CA3AF']; // Default grays
 
   // Minimal fallback colors: only use when team colors are exhausted
@@ -84,10 +73,15 @@ export class NFLDataService {
           throw new Error(result.error || 'Static data indicates failure');
         }
 
-        // Get team data from static file
-        const teamData = result.teams[teamId.toUpperCase()];
+        // Get team data from static file for specific week
+        const weekData = result.weeks[week];
+        if (!weekData) {
+          throw new Error(`No data available for week ${week}`);
+        }
+
+        const teamData = weekData[teamId.toUpperCase()];
         if (!teamData) {
-          throw new Error(`No data available for team ${teamId}`);
+          throw new Error(`No data available for team ${teamId} in week ${week}`);
         }
 
         return {
@@ -98,10 +92,10 @@ export class NFLDataService {
           season: result.season,
           lastUpdated: result.lastUpdated,
           source: result.source || 'static',
-          notice: result.notice,
+          notice: `${result.notice} - Week ${week} individual data`,
           dataType: result.dataType,
-          weekRange: result.weeks,
-          availableWeeks: [1, 2, 3] // Based on scraped weeks 1-3
+          weekRange: `Week ${week}`,
+          availableWeeks: result.availableWeeks || [1, 2, 3]
         };
       }
 
@@ -135,24 +129,7 @@ export class NFLDataService {
     } catch (error) {
       console.error('Error fetching target share data:', error);
 
-      // Fallback to mock data if both static and API fail
-      console.log('Falling back to mock data...');
-      try {
-        const mockData = generateMockTargetShareData(teamId, week);
-        if (mockData) {
-          return {
-            success: true,
-            data: mockData,
-            team: getTeamById(teamId),
-            week: week,
-            lastUpdated: new Date().toISOString(),
-            source: 'mock',
-            warning: 'Using mock data - data unavailable'
-          };
-        }
-      } catch (mockError) {
-        console.error('Mock data fallback also failed:', mockError);
-      }
+      // No fallback - real data only
 
       return {
         success: false,
@@ -274,7 +251,7 @@ export class NFLDataService {
     } catch (error) {
       console.error('Error fetching available weeks from API:', error);
 
-      // Fallback to weeks 1-3 for 2025 season
+      // Fallback to individual weeks 1-3 for 2025 season
       return [1, 2, 3].map(week => ({
         value: week,
         label: `Week ${week}`
