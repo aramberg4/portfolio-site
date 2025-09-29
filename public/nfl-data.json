@@ -3,8 +3,8 @@
   "source": "fantasypros_build_time",
   "dataType": "real",
   "season": 2025,
-  "lastUpdated": "2025-09-28T22:03:13.379374",
-  "notice": "Real 2025 NFL target data from FantasyPros (individual weeks)",
+  "lastUpdated": "2025-09-28T22:09:26.075080",
+  "notice": "Real 2025 NFL target data from FantasyPros (individual weeks) (using cached data from build)",
   "weeks": {
     "1": {
       "ARI": [
@@ -14,7 +14,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 31.0,
+          "targetShare": 31,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -86,7 +86,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -210,7 +210,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -220,7 +220,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -416,7 +416,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "4432046",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -426,7 +426,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "3116593",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -436,7 +436,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -458,7 +458,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4035687",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -468,7 +468,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4432577",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -478,7 +478,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -820,7 +820,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 31.0,
+          "targetShare": 31,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1254,7 +1254,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 35.0,
+          "targetShare": 35,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1264,7 +1264,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4038524",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1274,7 +1274,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 15.0,
+          "targetShare": 15,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1284,7 +1284,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 15.0,
+          "targetShare": 15,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1294,7 +1294,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 5.0,
+          "targetShare": 5,
           "player_id": "2976212",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1304,7 +1304,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -1398,7 +1398,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 22.0,
+          "targetShare": 22,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1450,7 +1450,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "4427738",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/4427738.png"
         },
@@ -1512,7 +1512,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1564,7 +1564,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 35.0,
+          "targetShare": 35,
           "player_id": "3139477",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1574,7 +1574,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "3116365",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1584,7 +1584,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 15.0,
+          "targetShare": 15,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1594,7 +1594,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 15.0,
+          "targetShare": 15,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1604,7 +1604,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 5.0,
+          "targetShare": 5,
           "player_id": "4035687",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1614,7 +1614,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 5.0,
+          "targetShare": 5,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -1812,7 +1812,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1822,7 +1822,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1842,7 +1842,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1852,7 +1852,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -1864,7 +1864,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 32.0,
+          "targetShare": 32,
           "player_id": "3051926",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1874,7 +1874,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 28.0,
+          "targetShare": 28,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1884,7 +1884,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 16.0,
+          "targetShare": 16,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1894,7 +1894,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1904,7 +1904,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 4.0,
+          "targetShare": 4,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -1914,7 +1914,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 12.0,
+          "targetShare": 12,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -1990,7 +1990,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 28.0,
+          "targetShare": 28,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2000,7 +2000,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 24.0,
+          "targetShare": 24,
           "player_id": "4686140",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2010,7 +2010,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4686254",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2020,7 +2020,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 12.0,
+          "targetShare": 12,
           "player_id": "4686140",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2030,7 +2030,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "4432577",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2040,7 +2040,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -2072,7 +2072,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2082,7 +2082,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 19.0,
+          "targetShare": 19,
           "player_id": "4038524",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2176,7 +2176,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 24.0,
+          "targetShare": 24,
           "player_id": "4432577",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2186,7 +2186,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "3916387",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png"
         },
@@ -2196,7 +2196,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 12.0,
+          "targetShare": 12,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2206,7 +2206,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 12.0,
+          "targetShare": 12,
           "player_id": "4686254",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2216,7 +2216,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2226,7 +2226,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 24.0,
+          "targetShare": 24,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -2248,7 +2248,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 17.0,
+          "targetShare": 17,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2258,7 +2258,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 17.0,
+          "targetShare": 17,
           "player_id": "4686140",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2412,7 +2412,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 14.0,
+          "targetShare": 14,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -2548,7 +2548,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 30.0,
+          "targetShare": 30,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2568,7 +2568,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2578,7 +2578,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2598,7 +2598,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 30.0,
+          "targetShare": 30,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -2754,7 +2754,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -2784,7 +2784,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -3312,7 +3312,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "3051926",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3322,7 +3322,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "3139477",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3426,7 +3426,7 @@
           "targets": 10,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "4427738",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/4427738.png"
         },
@@ -3466,7 +3466,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -3736,7 +3736,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 30.0,
+          "targetShare": 30,
           "player_id": "2977187",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/2977187.png"
         },
@@ -3756,7 +3756,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3766,7 +3766,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3922,7 +3922,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3932,7 +3932,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "2573079",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/2573079.png"
         },
@@ -3942,7 +3942,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -3952,7 +3952,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "3051392",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4100,7 +4100,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4286,7 +4286,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "4686254",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4460,7 +4460,7 @@
           "targets": 8,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -4564,7 +4564,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 13.0,
+          "targetShare": 13,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4658,7 +4658,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 36.0,
+          "targetShare": 36,
           "player_id": "3139477",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4668,7 +4668,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 16.0,
+          "targetShare": 16,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4678,7 +4678,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 16.0,
+          "targetShare": 16,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4688,7 +4688,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 16.0,
+          "targetShare": 16,
           "player_id": "4432046",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4698,7 +4698,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4708,7 +4708,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -4782,7 +4782,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 24.0,
+          "targetShare": 24,
           "player_id": "4035687",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4792,7 +4792,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4802,7 +4802,7 @@
           "targets": 5,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4812,7 +4812,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 16.0,
+          "targetShare": 16,
           "player_id": "4241464",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4822,7 +4822,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 12.0,
+          "targetShare": 12,
           "player_id": "4432577",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -4832,7 +4832,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 8.0,
+          "targetShare": 8,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -4916,7 +4916,7 @@
           "targets": 7,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "15847",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/15847.png"
         },
@@ -5204,7 +5204,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 3.0,
+          "targetShare": 3,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -5226,7 +5226,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 25.0,
+          "targetShare": 25,
           "player_id": "4038524",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -5442,7 +5442,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "4897006",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/4897006.png"
         },
@@ -5536,7 +5536,7 @@
           "targets": 9,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 30.0,
+          "targetShare": 30,
           "player_id": "4241479",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -5556,7 +5556,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -5712,7 +5712,7 @@
           "targets": 6,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 30.0,
+          "targetShare": 30,
           "player_id": "4431719",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/4431719.png"
         },
@@ -5722,7 +5722,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "4897002",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/4897002.png"
         },
@@ -5732,7 +5732,7 @@
           "targets": 3,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 15.0,
+          "targetShare": 15,
           "player_id": "2977187",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/2977187.png"
         },
@@ -5742,7 +5742,7 @@
           "targets": 2,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 10.0,
+          "targetShare": 10,
           "player_id": "unknown",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -5752,7 +5752,7 @@
           "targets": 1,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 5.0,
+          "targetShare": 5,
           "player_id": "4426335",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         },
@@ -5762,7 +5762,7 @@
           "targets": 4,
           "receptions": 0,
           "receiving_yards": 0,
-          "targetShare": 20.0,
+          "targetShare": 20,
           "player_id": "other",
           "photo": "https://a.espncdn.com/i/headshots/nfl/players/full/default.png"
         }
@@ -5999,5 +5999,6 @@
     "successfulTeams": 32,
     "totalTeams": 32,
     "successRate": "100.0%"
-  }
+  },
+  "buildTimestamp": "2025-09-29T02:09:41.205Z"
 }
