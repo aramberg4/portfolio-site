@@ -50,7 +50,7 @@ def export_team_data_for_week(scraper, team, week):
 
 def main():
     print('🏈 Exporting real 2025 NFL target share data...')
-    print('📡 Using FantasyPros scraper for individual weeks 1-3')
+    print('📡 Using FantasyPros scraper - auto-detecting available weeks')
 
     # Initialize the scraper
     scraper = FantasyProsScraper()
@@ -60,8 +60,13 @@ def main():
     total_players = 0
     successful_teams = 0
 
-    # Scrape data for each week individually
-    for week in [1, 2, 3]:
+    # Auto-detect available weeks by incrementing until no data found
+    week = 1
+    max_week = 18  # NFL regular season is 18 weeks max
+    consecutive_empty_weeks = 0
+    max_consecutive_empty = 2  # Stop after 2 consecutive weeks with no data
+
+    while week <= max_week and consecutive_empty_weeks < max_consecutive_empty:
         print(f"\n🔄 Scraping Week {week} data...")
         week_teams_data = {}
         week_successful = 0
@@ -77,9 +82,20 @@ def main():
             import time
             time.sleep(0.3)
 
-        weeks_data[week] = week_teams_data
-        print(f"Week {week}: {week_successful}/{len(NFL_TEAMS)} teams successful")
-        successful_teams = max(successful_teams, week_successful)
+        # Check if this week has any data
+        if week_successful == 0:
+            print(f"⚠️  Week {week}: No data found for any team")
+            consecutive_empty_weeks += 1
+        else:
+            weeks_data[week] = week_teams_data
+            print(f"Week {week}: {week_successful}/{len(NFL_TEAMS)} teams successful")
+            successful_teams = max(successful_teams, week_successful)
+            consecutive_empty_weeks = 0  # Reset counter on successful week
+
+        week += 1
+
+    if consecutive_empty_weeks >= max_consecutive_empty:
+        print(f"\n🛑 Stopped scraping after {consecutive_empty_weeks} consecutive weeks with no data")
 
     if successful_teams == 0:
         print("❌ No team data was successfully scraped")
@@ -98,7 +114,10 @@ def main():
             'availableWeeks': []
         }
     else:
-        print(f"\n✅ Successfully scraped data for weeks 1-3")
+        # Get list of weeks that actually have data
+        available_weeks = sorted([int(week) for week in weeks_data.keys() if weeks_data[week]])
+
+        print(f"\n✅ Successfully scraped data for weeks {available_weeks}")
         print(f"📊 Total players across all weeks: {total_players}")
 
         # Get list of teams that have data in at least one week
@@ -117,7 +136,7 @@ def main():
             'weeks': weeks_data,
             'totalPlayers': total_players,
             'availableTeams': sorted(list(all_teams)),
-            'availableWeeks': [1, 2, 3],
+            'availableWeeks': available_weeks,
             'scrapingStats': {
                 'successfulTeams': successful_teams,
                 'totalTeams': len(NFL_TEAMS),
