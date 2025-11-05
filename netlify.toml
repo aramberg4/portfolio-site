@@ -5,6 +5,7 @@
 [build.environment]
   NODE_VERSION = "16"
   NPM_VERSION = "8"
+  PYTHON_VERSION = "3.11"
 
 [[redirects]]
   from = "/nfl-target-share"
