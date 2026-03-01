@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSIDER MONITOR — System Architecture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0c0f;
+            --bg-surface: #0f1218;
+            --bg-card: #141920;
+            --bg-elevated: #1a2030;
+            --border-dim: #1e2738;
+            --border-subtle: #263040;
+            --border-active: #2a3a50;
+            --text-primary: #c8d6e5;
+            --text-secondary: #6b7f95;
+            --text-dim: #3d4f63;
+            --green-glow: #00ff88;
+            --green-dim: #00cc6a;
+            --green-muted: #0a3d2a;
+            --amber: #ffb020;
+            --amber-dim: #cc8a10;
+            --amber-muted: #3d2a0a;
+            --red-signal: #ff3355;
+            --red-dim: #cc2244;
+            --red-muted: #3d0a15;
+            --blue-data: #4488ff;
+            --blue-dim: #2266cc;
+            --cyan-info: #00ccdd;
+            --purple-phase: #8855ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Scanline overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 136, 0.008) 2px,
+                rgba(0, 255, 136, 0.008) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Noise texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 120px;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            border-bottom: 1px solid var(--border-dim);
+            padding-bottom: 40px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 200px;
+            height: 1px;
+            background: var(--green-glow);
+            box-shadow: 0 0 12px var(--green-glow);
+            animation: headerLine 3s ease-in-out infinite;
+        }
+
+        @keyframes headerLine {
+            0%, 100% { width: 200px; opacity: 1; }
+            50% { width: 400px; opacity: 0.6; }
+        }
+
+        .header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .classification {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--amber);
+            background: var(--amber-muted);
+            padding: 4px 12px;
+            border: 1px solid rgba(255, 176, 32, 0.2);
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .sys-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--green-glow);
+            text-align: right;
+        }
+
+        .sys-status .blink {
+            animation: blink 1.2s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .sys-status span {
+            display: block;
+            color: var(--text-dim);
+        }
+
+        .sys-status span:first-child {
+            color: var(--green-glow);
+        }
+
+        h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        h1 .accent {
+            color: var(--green-glow);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--green-glow);
+            background: var(--green-muted);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 3px 10px;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+
+        /* ─── SECTIONS ─── */
+        .section {
+            margin-bottom: 56px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section:nth-child(2) { animation-delay: 0.05s; }
+        .section:nth-child(3) { animation-delay: 0.1s; }
+        .section:nth-child(4) { animation-delay: 0.15s; }
+        .section:nth-child(5) { animation-delay: 0.2s; }
+        .section:nth-child(6) { animation-delay: 0.25s; }
+        .section:nth-child(7) { animation-delay: 0.3s; }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-dim);
+            position: relative;
+        }
+
+        h2::before {
+            content: '//';
+            color: var(--green-dim);
+            margin-right: 8px;
+            font-weight: 400;
+        }
+
+        .context-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-left: 3px solid var(--green-dim);
+            padding: 20px 24px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .context-block strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* ─── TABLES ─── */
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border-dim);
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: var(--bg-elevated);
+        }
+
+        th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-dim);
+            vertical-align: top;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td {
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        td code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--green-dim);
+            background: rgba(0, 255, 136, 0.06);
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        td .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        td .tag-green {
+            color: var(--green-glow);
+            background: var(--green-muted);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        td .tag-amber {
+            color: var(--amber);
+            background: var(--amber-muted);
+            border: 1px solid rgba(255, 176, 32, 0.15);
+        }
+
+        td .tag-blue {
+            color: var(--blue-data);
+            background: rgba(68, 136, 255, 0.1);
+            border: 1px solid rgba(68, 136, 255, 0.15);
+        }
+
+        td .tag-red {
+            color: var(--red-signal);
+            background: var(--red-muted);
+            border: 1px solid rgba(255, 51, 85, 0.15);
+        }
+
+        /* ─── PROJECT STRUCTURE (File tree) ─── */
+        .file-tree {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 24px 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            white-space: pre;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+
+        .file-tree .dir {
+            color: var(--blue-data);
+        }
+
+        .file-tree .file {
+            color: var(--text-primary);
+        }
+
+        .file-tree .comment {
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .file-tree .highlight {
+            color: var(--green-glow);
+        }
+
+        /* ─── DATA FLOW DIAGRAM ─── */
+        .flow-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-diagram::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(68, 136, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .flow-nodes {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-node {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            padding: 14px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-align: center;
+            min-width: 380px;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .flow-node:hover {
+            border-color: var(--green-dim);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+        }
+
+        .flow-node .node-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .flow-node .node-detail {
+            color: var(--text-dim);
+            font-size: 11px;
+        }
+
+        .flow-node.source {
+            border-color: var(--blue-dim);
+            border-left: 3px solid var(--blue-data);
+        }
+
+        .flow-node.process {
+            border-color: var(--border-subtle);
+            border-left: 3px solid var(--green-dim);
+        }
+
+        .flow-node.score {
+            border-color: var(--amber-dim);
+            border-left: 3px solid var(--amber);
+        }
+
+        .flow-node.output {
+            border-color: var(--red-dim);
+            border-left: 3px solid var(--red-signal);
+        }
+
+        .flow-node.persist {
+            border-color: var(--border-subtle);
+            border-left: 3px solid var(--purple-phase);
+        }
+
+        .flow-connector {
+            width: 1px;
+            height: 28px;
+            background: var(--border-subtle);
+            position: relative;
+        }
+
+        .flow-connector::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -3px;
+            width: 7px;
+            height: 7px;
+            border-right: 1px solid var(--text-dim);
+            border-bottom: 1px solid var(--text-dim);
+            transform: rotate(45deg);
+        }
+
+        .flow-connector.animated {
+            background: linear-gradient(to bottom, transparent, var(--green-dim), transparent);
+            animation: flowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .flow-parallel {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .flow-parallel-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .flow-parallel-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+
+        .flow-merge-indicator {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 0;
+        }
+
+        .flow-condition {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--amber);
+            background: var(--amber-muted);
+            border: 1px solid rgba(255, 176, 32, 0.15);
+            padding: 6px 16px;
+            text-align: center;
+        }
+
+        .latency-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-dim);
+        }
+
+        .latency-note strong {
+            color: var(--green-dim);
+        }
+
+        /* ─── SCORING SECTION ─── */
+        .formula-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-left: 3px solid var(--amber);
+            padding: 16px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--amber);
+            margin-bottom: 20px;
+        }
+
+        .score-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .score-bar-row:last-child { border-bottom: none; }
+
+        .score-bar-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .score-bar-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .score-bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-dim);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .score-bar-fill.green { background: var(--green-dim); box-shadow: 0 0 8px rgba(0, 255, 136, 0.3); }
+        .score-bar-fill.blue { background: var(--blue-dim); box-shadow: 0 0 8px rgba(68, 136, 255, 0.3); }
+        .score-bar-fill.amber { background: var(--amber-dim); box-shadow: 0 0 8px rgba(255, 176, 32, 0.3); }
+        .score-bar-fill.cyan { background: var(--cyan-info); box-shadow: 0 0 8px rgba(0, 204, 221, 0.3); }
+        .score-bar-fill.red { background: var(--red-dim); box-shadow: 0 0 8px rgba(255, 51, 85, 0.3); }
+        .score-bar-fill.purple { background: var(--purple-phase); box-shadow: 0 0 8px rgba(136, 85, 255, 0.3); }
+
+        .score-bar-weight {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            width: 40px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .score-bar-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .score-bars-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Alert tiers */
+        .alert-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .alert-tier {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .alert-tier .tier-range {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .alert-tier .tier-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .alert-tier .tier-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .alert-tier.critical {
+            border-top: 3px solid var(--red-signal);
+        }
+        .alert-tier.critical .tier-range { color: var(--red-signal); }
+        .alert-tier.critical .tier-label { color: var(--red-dim); }
+
+        .alert-tier.warning {
+            border-top: 3px solid var(--amber);
+        }
+        .alert-tier.warning .tier-range { color: var(--amber); }
+        .alert-tier.warning .tier-label { color: var(--amber-dim); }
+
+        .alert-tier.watch {
+            border-top: 3px solid var(--text-dim);
+        }
+        .alert-tier.watch .tier-range { color: var(--text-dim); }
+        .alert-tier.watch .tier-label { color: var(--text-dim); }
+
+        /* ─── DB SCHEMA ─── */
+        .schema-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .schema-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 0;
+        }
+
+        .schema-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-dim);
+            background: var(--bg-elevated);
+        }
+
+        .schema-card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green-glow);
+        }
+
+        .schema-card-purpose {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .schema-card-body {
+            padding: 12px 16px;
+        }
+
+        .schema-field {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 3px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .schema-field .field-name {
+            color: var(--text-primary);
+        }
+
+        .schema-field .field-type {
+            color: var(--text-dim);
+            font-size: 10px;
+        }
+
+        .schema-field .field-key {
+            color: var(--amber);
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* ─── CONFIG BLOCK ─── */
+        .config-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 24px 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        .config-comment {
+            color: var(--text-dim);
+        }
+
+        .config-key {
+            color: var(--text-primary);
+        }
+
+        .config-value {
+            color: var(--green-dim);
+        }
+
+        .config-required {
+            color: var(--red-signal);
+        }
+
+        /* ─── IMPLEMENTATION TIMELINE ─── */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            bottom: 8px;
+            left: 15px;
+            width: 1px;
+            background: var(--border-subtle);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 24px 0;
+        }
+
+        .timeline-item:last-child { padding-bottom: 0; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            background: var(--bg-deep);
+            border: 2px solid var(--green-dim);
+            border-radius: 50%;
+        }
+
+        .timeline-item:hover::before {
+            background: var(--green-dim);
+            box-shadow: 0 0 8px var(--green-glow);
+        }
+
+        .timeline-step {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .timeline-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .timeline-desc code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--green-dim);
+            background: rgba(0, 255, 136, 0.06);
+            padding: 1px 5px;
+            border-radius: 2px;
+        }
+
+        /* ─── FUTURE PHASES ─── */
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .phase-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .phase-card.p2::before { background: var(--blue-data); }
+        .phase-card.p3::before { background: var(--purple-phase); }
+        .phase-card.p4::before { background: var(--red-signal); }
+
+        .phase-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .phase-card.p2 .phase-number { color: var(--blue-data); }
+        .phase-card.p3 .phase-number { color: var(--purple-phase); }
+        .phase-card.p4 .phase-number { color: var(--red-signal); }
+
+        .phase-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .phase-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ─── VERIFICATION ─── */
+        .verify-list {
+            list-style: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 20px 24px;
+        }
+
+        .verify-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verify-list li:last-child { border-bottom: none; }
+
+        .verify-check {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--green-dim);
+            font-size: 10px;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-dim);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 800px) {
+            .page-wrapper { padding: 24px 16px 80px; }
+            h1 { font-size: 24px; }
+            .alert-tiers { grid-template-columns: 1fr; }
+            .schema-grid { grid-template-columns: 1fr; }
+            .phases-grid { grid-template-columns: 1fr; }
+            .flow-node { min-width: 260px; }
+            .flow-parallel { flex-direction: column; gap: 0; }
+            .score-bar-source { display: none; }
+            .header-top { flex-direction: column; }
+        }
+
+        /* Animated entrance for score bars */
+        .score-bar-fill {
+            width: 0;
+        }
+
+        .score-bars-container.visible .score-bar-fill {
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="header">
+        <div class="header-top">
+            <div>
+                <div class="classification">Architecture Specification</div>
+                <h1>INSIDER <span class="accent">MONITOR</span> <span class="phase-badge">PHASE 1</span></h1>
+                <div class="subtitle">Polymarket Prediction Market &mdash; Insider Detection &amp; Alert System</div>
+            </div>
+            <div class="sys-status">
+                <span>SYS.READY <span class="blink">_</span></span>
+                <span>v1.0.0-draft</span>
+                <span>2026.03.01</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════ CONTEXT ═══════════════ -->
+    <div class="section">
+        <div class="section-label">001 &mdash; Overview</div>
+        <h2>Context</h2>
+        <div class="context-block">
+            News articles regularly surface <strong>"insider" prediction market accounts</strong> on Polymarket &mdash; new wallets created hours before major geopolitical events, placing large directional bets that resolve correctly. The goal is to build a <strong>real-time monitoring tool</strong> that detects these accounts, computes an insider likelihood score based on 7 weighted signals, and dispatches <strong>Discord alerts</strong> &mdash; enabling manual evaluation and, in future phases, automated copy-trading.
+            <br><br>
+            <strong>Phase 1 scope:</strong> Monitor + Score + Alert only. No auto-trading. No blockchain node required &mdash; Polymarket's Data API pre-processes on-chain trades.
+        </div>
+    </div>
+
+    <!-- ═══════════════ TECH STACK ═══════════════ -->
+    <div class="section">
+        <div class="section-label">002 &mdash; Infrastructure</div>
+        <h2>Tech Stack</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Choice</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-green">Runtime</span></td>
+                        <td>Node.js 20+ / TypeScript</td>
+                        <td>Official Polymarket SDK, native fetch, event-driven architecture</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-blue">Database</span></td>
+                        <td><code>better-sqlite3</code> + Drizzle ORM</td>
+                        <td>Single-file, zero-config, fast reads for local/VPS deployment</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-amber">Alerts</span></td>
+                        <td>Discord webhooks via <code>discord.js</code></td>
+                        <td>No bot token needed, rich embeds, simple deployment</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-green">Logging</span></td>
+                        <td><code>pino</code></td>
+                        <td>Structured JSON output, fast, low overhead</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-blue">Config</span></td>
+                        <td><code>dotenv</code> + <code>zod</code> validation</td>
+                        <td>Fail-fast on missing config, typed environment</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-amber">Testing</span></td>
+                        <td><code>vitest</code></td>
+                        <td>Fast, TypeScript-native, compatible with Node 20+</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ═══════════════ DATA SOURCES ═══════════════ -->
+    <div class="section">
+        <div class="section-label">003 &mdash; External Dependencies</div>
+        <h2>Data Sources</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Base URL</th>
+                        <th>Endpoints Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-green">Data API</span></td>
+                        <td><code>data-api.polymarket.com</code></td>
+                        <td><code>/trades</code> (filtered by min USDC), <code>/positions</code>, <code>/activity</code> per wallet</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-blue">Gamma API</span></td>
+                        <td><code>gamma-api.polymarket.com</code></td>
+                        <td><code>/markets</code>, <code>/events</code> &mdash; metadata, categories, end dates</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-amber">CLOB API</span></td>
+                        <td><code>clob.polymarket.com</code></td>
+                        <td>Order book depth, best bid/ask, spreads</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-green">PolygonScan</span></td>
+                        <td><code>api.polygonscan.com</code></td>
+                        <td>Wallet age via <code>txlist?sort=asc&amp;offset=1</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-red">Discord</span></td>
+                        <td>Webhook URL</td>
+                        <td>Rich embed alert dispatch</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ═══════════════ PROJECT STRUCTURE ═══════════════ -->
+    <div class="section">
+        <div class="section-label">004 &mdash; Codebase Layout</div>
+        <h2>Project Structure</h2>
+        <div class="file-tree"><span class="dir">polymarket-insider-monitor/</span>
+├── <span class="dir">src/</span>
+│   ├── <span class="highlight">index.ts</span>                  <span class="comment"># Orchestrator: init services, run poll loop</span>
+│   ├── <span class="highlight">config.ts</span>                 <span class="comment"># Zod-validated env config</span>
+│   │
+│   ├── <span class="dir">ingestion/</span>
+│   │   ├── <span class="file">trade-poller.ts</span>       <span class="comment"># Polls /trades on interval, deduplicates</span>
+│   │   └── <span class="file">types.ts</span>
+│   │
+│   ├── <span class="dir">analysis/</span>
+│   │   ├── <span class="file">wallet-analyzer.ts</span>    <span class="comment"># Wallet profile (age, positions, activity)</span>
+│   │   ├── <span class="file">market-enricher.ts</span>    <span class="comment"># Market context (category, liquidity, end date)</span>
+│   │   ├── <span class="highlight">scoring-engine.ts</span>     <span class="comment"># Pure fn: 7 sub-scores → composite score</span>
+│   │   └── <span class="file">types.ts</span>
+│   │
+│   ├── <span class="dir">alerts/</span>
+│   │   ├── <span class="file">discord.ts</span>            <span class="comment"># Rich embeds via webhook</span>
+│   │   └── <span class="file">embed-builder.ts</span>
+│   │
+│   ├── <span class="dir">db/</span>
+│   │   ├── <span class="highlight">schema.ts</span>             <span class="comment"># Drizzle table definitions (5 tables)</span>
+│   │   ├── <span class="file">client.ts</span>             <span class="comment"># DB connection</span>
+│   │   └── <span class="dir">migrations/</span>
+│   │
+│   ├── <span class="dir">api/</span>
+│   │   ├── <span class="file">polymarket-data.ts</span>    <span class="comment"># /trades, /positions, /activity</span>
+│   │   ├── <span class="file">polymarket-gamma.ts</span>   <span class="comment"># /markets, /events</span>
+│   │   ├── <span class="file">polymarket-clob.ts</span>    <span class="comment"># Order book, prices</span>
+│   │   └── <span class="file">polygonscan.ts</span>        <span class="comment"># Wallet age lookup</span>
+│   │
+│   └── <span class="dir">utils/</span>
+│       ├── <span class="file">rate-limiter.ts</span>       <span class="comment"># Token bucket per API</span>
+│       ├── <span class="file">logger.ts</span>             <span class="comment"># pino setup</span>
+│       ├── <span class="file">retry.ts</span>              <span class="comment"># Exponential backoff</span>
+│       └── <span class="file">cache.ts</span>              <span class="comment"># LRU cache for hot data</span>
+│
+├── <span class="file">drizzle.config.ts</span>
+├── <span class="file">package.json</span> / <span class="file">tsconfig.json</span>
+├── <span class="file">.env.example</span>
+└── <span class="file">README.md</span></div>
+    </div>
+
+    <!-- ═══════════════ DATA FLOW ═══════════════ -->
+    <div class="section">
+        <div class="section-label">005 &mdash; Pipeline Architecture</div>
+        <h2>Data Flow</h2>
+        <div class="flow-diagram">
+            <div class="flow-nodes">
+
+                <div class="flow-node source">
+                    <div class="node-title">Polymarket Data API</div>
+                    <div class="node-detail">GET /trades &mdash; polled every 5s &mdash; filtered &ge;$500 USDC</div>
+                </div>
+
+                <div class="flow-connector animated"></div>
+
+                <div class="flow-node process">
+                    <div class="node-title">Trade Poller</div>
+                    <div class="node-detail">Deduplicate by txHash &rarr; persist to trades table</div>
+                </div>
+
+                <div class="flow-connector"></div>
+                <div class="flow-merge-indicator">&darr; PARALLEL ENRICHMENT &darr;</div>
+
+                <div class="flow-parallel">
+                    <div class="flow-parallel-branch">
+                        <div class="flow-parallel-label">Branch A</div>
+                        <div class="flow-node process" style="min-width: 280px;">
+                            <div class="node-title">Wallet Analyzer</div>
+                            <div class="node-detail">PolygonScan age + /positions + /activity<br>Cached 1hr TTL</div>
+                        </div>
+                    </div>
+                    <div class="flow-parallel-branch">
+                        <div class="flow-parallel-label">Branch B</div>
+                        <div class="flow-node process" style="min-width: 280px;">
+                            <div class="node-title">Market Enricher</div>
+                            <div class="node-detail">Gamma metadata + CLOB order book<br>Cached 15min TTL</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-merge-indicator">&darr; MERGE &darr;</div>
+                <div class="flow-connector"></div>
+
+                <div class="flow-node score">
+                    <div class="node-title">Scoring Engine</div>
+                    <div class="node-detail">7 weighted sub-scores &rarr; composite insider score (0-100)</div>
+                </div>
+
+                <div class="flow-connector animated"></div>
+
+                <div class="flow-node persist">
+                    <div class="node-title">Persist Signal</div>
+                    <div class="node-detail">INSERT into signals table with all sub-scores</div>
+                </div>
+
+                <div class="flow-connector"></div>
+
+                <div class="flow-condition">IF score &ge; 60 AND confidence &ge; medium</div>
+
+                <div class="flow-connector animated"></div>
+
+                <div class="flow-node output">
+                    <div class="node-title">Discord Alert</div>
+                    <div class="node-detail">Rich embed with score breakdown + wallet + market links</div>
+                </div>
+            </div>
+
+            <div class="latency-note">
+                End-to-end latency: <strong>~1&ndash;10 seconds</strong> from trade occurrence to Discord alert (cache-dependent)
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ SCORING ALGORITHM ═══════════════ -->
+    <div class="section">
+        <div class="section-label">006 &mdash; Intelligence Engine</div>
+        <h2>Scoring Algorithm</h2>
+
+        <div class="formula-block">
+            insiderScore = &Sigma;(sub_score<sub>i</sub> &times; weight<sub>i</sub>) &mdash; each sub-score: 0&ndash;100 &mdash; composite: 0&ndash;100
+        </div>
+
+        <div class="score-bars-container" id="scoreBars">
+            <div class="score-bar-row">
+                <div class="score-bar-num">01</div>
+                <div class="score-bar-label">Wallet Age</div>
+                <div class="score-bar-track"><div class="score-bar-fill green" data-width="100%"></div></div>
+                <div class="score-bar-weight">0.25</div>
+                <div class="score-bar-source">PolygonScan</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">02</div>
+                <div class="score-bar-label">Size / Liquidity</div>
+                <div class="score-bar-track"><div class="score-bar-fill blue" data-width="80%"></div></div>
+                <div class="score-bar-weight">0.20</div>
+                <div class="score-bar-source">CLOB order book</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">03</div>
+                <div class="score-bar-label">Concentration</div>
+                <div class="score-bar-track"><div class="score-bar-fill amber" data-width="60%"></div></div>
+                <div class="score-bar-weight">0.15</div>
+                <div class="score-bar-source">Data /positions</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">04</div>
+                <div class="score-bar-label">Time to Resolution</div>
+                <div class="score-bar-track"><div class="score-bar-fill cyan" data-width="60%"></div></div>
+                <div class="score-bar-weight">0.15</div>
+                <div class="score-bar-source">Gamma end date</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">05</div>
+                <div class="score-bar-label">Win Rate</div>
+                <div class="score-bar-track"><div class="score-bar-fill green" data-width="40%"></div></div>
+                <div class="score-bar-weight">0.10</div>
+                <div class="score-bar-source">Data /positions</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">06</div>
+                <div class="score-bar-label">Price Impact</div>
+                <div class="score-bar-track"><div class="score-bar-fill red" data-width="40%"></div></div>
+                <div class="score-bar-weight">0.10</div>
+                <div class="score-bar-source">CLOB bid/ask</div>
+            </div>
+            <div class="score-bar-row">
+                <div class="score-bar-num">07</div>
+                <div class="score-bar-label">Contrarian</div>
+                <div class="score-bar-track"><div class="score-bar-fill purple" data-width="20%"></div></div>
+                <div class="score-bar-weight">0.05</div>
+                <div class="score-bar-source">Trade price</div>
+            </div>
+        </div>
+
+        <div class="table-wrap" style="margin-bottom: 20px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Signal</th>
+                        <th>Weight</th>
+                        <th>Scoring Logic</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: var(--text-dim)">01</td>
+                        <td style="color: var(--green-glow); font-weight: 500;">Wallet Age</td>
+                        <td><code>0.25</code></td>
+                        <td>&lt;1 day = 100, &lt;3 days = 90, &lt;1 week = 75, &lt;2 weeks = 55, &lt;1 month = 35, &lt;3 months = 15, older = 5</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">02</td>
+                        <td style="color: var(--blue-data); font-weight: 500;">Size vs Liquidity</td>
+                        <td><code>0.20</code></td>
+                        <td>Trade USDC / market liquidity ratio. &gt;30% = 100, &gt;10% = 75, &gt;5% = 55, &gt;1% = 20</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">03</td>
+                        <td style="color: var(--amber); font-weight: 500;">Bet Concentration</td>
+                        <td><code>0.15</code></td>
+                        <td>% of portfolio in single market + diversification penalty (fewer unique markets = higher score)</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">04</td>
+                        <td style="color: var(--cyan-info); font-weight: 500;">Time to Resolution</td>
+                        <td><code>0.15</code></td>
+                        <td>&lt;2 hrs = 100, &lt;6 hrs = 90, &lt;24 hrs = 75, &lt;3 days = 55, &lt;1 week = 35</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">05</td>
+                        <td style="color: var(--green-dim); font-weight: 500;">Win Rate</td>
+                        <td><code>0.10</code></td>
+                        <td>Historical accuracy across resolved bets. Requires &ge;5 resolved positions. &gt;85% = 100, neutral if insufficient data</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">06</td>
+                        <td style="color: var(--red-signal); font-weight: 500;">Price Impact</td>
+                        <td><code>0.10</code></td>
+                        <td>Trade price vs pre-trade midpoint. &gt;15&cent; movement = 100, &gt;5&cent; = 65, &gt;1&cent; = 25</td>
+                    </tr>
+                    <tr>
+                        <td style="color: var(--text-dim)">07</td>
+                        <td style="color: var(--purple-phase); font-weight: 500;">Contrarian</td>
+                        <td><code>0.05</code></td>
+                        <td>Buying low-probability outcome (&lt;25&cent;) = 90. Buying high conviction (&gt;85&cent;) = 60. Neutral = 20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert-tiers">
+            <div class="alert-tier critical">
+                <div class="tier-range">80&ndash;100</div>
+                <div class="tier-label">Critical Signal</div>
+                <div class="tier-desc">High confidence insider pattern. Red embed dispatched to primary Discord channel immediately.</div>
+            </div>
+            <div class="alert-tier warning">
+                <div class="tier-range">60&ndash;79</div>
+                <div class="tier-label">Moderate Signal</div>
+                <div class="tier-desc">Elevated insider indicators. Orange embed to primary channel. Requires medium+ confidence.</div>
+            </div>
+            <div class="alert-tier watch">
+                <div class="tier-range">40&ndash;59</div>
+                <div class="tier-label">Watchlist</div>
+                <div class="tier-desc">Marginal signal. Yellow embed to optional watchlist channel. Logged for backtesting.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ DATABASE SCHEMA ═══════════════ -->
+    <div class="section">
+        <div class="section-label">007 &mdash; Persistence Layer</div>
+        <h2>Database Schema</h2>
+
+        <div class="schema-grid">
+            <div class="schema-card">
+                <div class="schema-card-header">
+                    <div class="schema-card-title">wallets</div>
+                    <div class="schema-card-purpose">Cached wallet profiles</div>
+                </div>
+                <div class="schema-card-body">
+                    <div class="schema-field"><span class="field-key">PK</span> <span class="field-name">proxy_wallet</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">first_tx_timestamp</span> <span class="field-type">INTEGER</span></div>
+                    <div class="schema-field"><span class="field-name">wallet_age_days</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">total_markets_traded</span> <span class="field-type">INTEGER</span></div>
+                    <div class="schema-field"><span class="field-name">win_rate</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">total_volume_usdc</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">last_analyzed_at</span> <span class="field-type">INTEGER</span></div>
+                </div>
+            </div>
+
+            <div class="schema-card">
+                <div class="schema-card-header">
+                    <div class="schema-card-title">trades</div>
+                    <div class="schema-card-purpose">All ingested trades</div>
+                </div>
+                <div class="schema-card-body">
+                    <div class="schema-field"><span class="field-key">PK</span> <span class="field-name">id</span> <span class="field-type">INTEGER AUTO</span></div>
+                    <div class="schema-field"><span class="field-key">UQ</span> <span class="field-name">transaction_hash</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-key">IX</span> <span class="field-name">proxy_wallet</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-key">IX</span> <span class="field-name">condition_id</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">side</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">usdc_size</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">price / outcome</span> <span class="field-type">REAL / TEXT</span></div>
+                    <div class="schema-field"><span class="field-key">IX</span> <span class="field-name">timestamp</span> <span class="field-type">INTEGER</span></div>
+                </div>
+            </div>
+
+            <div class="schema-card">
+                <div class="schema-card-header">
+                    <div class="schema-card-title">signals</div>
+                    <div class="schema-card-purpose">Every scored trade</div>
+                </div>
+                <div class="schema-card-body">
+                    <div class="schema-field"><span class="field-key">PK</span> <span class="field-name">id</span> <span class="field-type">INTEGER AUTO</span></div>
+                    <div class="schema-field"><span class="field-key">FK</span> <span class="field-name">trade_id</span> <span class="field-type">INTEGER</span></div>
+                    <div class="schema-field"><span class="field-key">IX</span> <span class="field-name">insider_score</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">confidence</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">wallet_age_score</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">concentration_score</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">+ 5 more sub-scores</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">alert_sent</span> <span class="field-type">BOOLEAN</span></div>
+                </div>
+            </div>
+
+            <div class="schema-card">
+                <div class="schema-card-header">
+                    <div class="schema-card-title">market_cache</div>
+                    <div class="schema-card-purpose">Market metadata cache</div>
+                </div>
+                <div class="schema-card-body">
+                    <div class="schema-field"><span class="field-key">PK</span> <span class="field-name">condition_id</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">title / slug</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">category</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">end_date</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">liquidity / volume</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">best_bid / best_ask</span> <span class="field-type">REAL</span></div>
+                    <div class="schema-field"><span class="field-name">updated_at</span> <span class="field-type">INTEGER</span></div>
+                </div>
+            </div>
+
+            <div class="schema-card">
+                <div class="schema-card-header">
+                    <div class="schema-card-title">alert_log</div>
+                    <div class="schema-card-purpose">Sent Discord messages</div>
+                </div>
+                <div class="schema-card-body">
+                    <div class="schema-field"><span class="field-key">PK</span> <span class="field-name">id</span> <span class="field-type">INTEGER AUTO</span></div>
+                    <div class="schema-field"><span class="field-key">FK</span> <span class="field-name">signal_id</span> <span class="field-type">INTEGER</span></div>
+                    <div class="schema-field"><span class="field-name">discord_message_id</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">embed_json</span> <span class="field-type">TEXT</span></div>
+                    <div class="schema-field"><span class="field-name">success</span> <span class="field-type">BOOLEAN</span></div>
+                    <div class="schema-field"><span class="field-name">sent_at</span> <span class="field-type">INTEGER</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ RATE LIMITING ═══════════════ -->
+    <div class="section">
+        <div class="section-label">008 &mdash; Throttling</div>
+        <h2>Rate Limiting</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Limit</th>
+                        <th>Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-green">PolygonScan</span></td>
+                        <td>4 req/sec <span style="color: var(--text-dim);">(under 5/sec free tier)</span></td>
+                        <td>Queue wallet lookups sequentially. Cache permanently &mdash; wallet age never changes.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-blue">Data API</span></td>
+                        <td>2 req/sec <span style="color: var(--text-dim);">(conservative)</span></td>
+                        <td>1 poll per 5s cycle + queued /positions and /activity calls for enrichment.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-amber">Gamma / CLOB</span></td>
+                        <td>2 req/sec each</td>
+                        <td>Heavy caching (15min TTL). Market metadata rarely changes mid-session.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-red">Discord</span></td>
+                        <td>30 msg/min</td>
+                        <td>Queue alerts with 2s spacing. Insider signals are rare enough to stay well under limit.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="context-block" style="margin-top: 16px; border-left-color: var(--amber-dim);">
+            <strong>Retry policy:</strong> All API clients implement exponential backoff with jitter on 429/5xx responses. Formula: <code>min(base &times; 2^attempt + random(0, 1000ms), 60s)</code>. Max retries: 3 for enrichment calls, 5 for trade polling.
+        </div>
+    </div>
+
+    <!-- ═══════════════ CONFIGURATION ═══════════════ -->
+    <div class="section">
+        <div class="section-label">009 &mdash; Environment</div>
+        <h2>Configuration</h2>
+        <div class="config-block"><span class="config-comment"># ─── Required ───</span>
+<span class="config-key">POLYGONSCAN_API_KEY</span>=<span class="config-required">&lt;required&gt;</span>
+<span class="config-key">DISCORD_WEBHOOK_URL</span>=<span class="config-required">&lt;required&gt;</span>
+
+<span class="config-comment"># ─── Optional (with defaults) ───</span>
+<span class="config-key">DISCORD_WATCHLIST_WEBHOOK_URL</span>=<span class="config-value">&lt;optional second channel&gt;</span>
+<span class="config-key">POLL_INTERVAL_MS</span>=<span class="config-value">5000</span>
+<span class="config-key">MIN_TRADE_USDC</span>=<span class="config-value">500</span>
+<span class="config-key">ALERT_SCORE_THRESHOLD</span>=<span class="config-value">60</span>
+<span class="config-key">WATCHLIST_SCORE_THRESHOLD</span>=<span class="config-value">40</span>
+<span class="config-key">DATABASE_PATH</span>=<span class="config-value">./data/insider-monitor.db</span>
+<span class="config-key">LOG_LEVEL</span>=<span class="config-value">info</span>
+
+<span class="config-comment"># ─── Scoring weights (must sum to 1.0) ───</span>
+<span class="config-key">WEIGHT_WALLET_AGE</span>=<span class="config-value">0.25</span>
+<span class="config-key">WEIGHT_SIZE_LIQUIDITY</span>=<span class="config-value">0.20</span>
+<span class="config-key">WEIGHT_CONCENTRATION</span>=<span class="config-value">0.15</span>
+<span class="config-key">WEIGHT_TIMING</span>=<span class="config-value">0.15</span>
+<span class="config-key">WEIGHT_WIN_RATE</span>=<span class="config-value">0.10</span>
+<span class="config-key">WEIGHT_PRICE_IMPACT</span>=<span class="config-value">0.10</span>
+<span class="config-key">WEIGHT_CONTRARIAN</span>=<span class="config-value">0.05</span></div>
+    </div>
+
+    <!-- ═══════════════ ERROR HANDLING ═══════════════ -->
+    <div class="section">
+        <div class="section-label">010 &mdash; Resilience</div>
+        <h2>Error Handling</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Failure Mode</th>
+                        <th>Detection</th>
+                        <th>Recovery Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data API down</td>
+                        <td>HTTP 5xx or timeout</td>
+                        <td>Exponential backoff, skip cycle. Next poll catches up via watermark.</td>
+                    </tr>
+                    <tr>
+                        <td>PolygonScan down</td>
+                        <td>HTTP 5xx or timeout</td>
+                        <td>Skip wallet age lookup. Use neutral score (50) for that signal.</td>
+                    </tr>
+                    <tr>
+                        <td>Gamma/CLOB down</td>
+                        <td>HTTP 5xx or timeout</td>
+                        <td>Use stale cached values. Market metadata is tolerant of staleness.</td>
+                    </tr>
+                    <tr>
+                        <td>Discord webhook fails</td>
+                        <td>HTTP 4xx/5xx</td>
+                        <td>Queue alert, retry with backoff. Log to alert_log for manual review.</td>
+                    </tr>
+                    <tr>
+                        <td>Process crash</td>
+                        <td>SIGTERM / uncaught exception</td>
+                        <td>Graceful shutdown: stop poller, drain alert queue, close DB. Resume from last watermark on restart.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ═══════════════ IMPLEMENTATION ORDER ═══════════════ -->
+    <div class="section">
+        <div class="section-label">011 &mdash; Build Sequence</div>
+        <h2>Implementation Order</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-step">Step 01</div>
+                <div class="timeline-title">Project Scaffolding</div>
+                <div class="timeline-desc"><code>package.json</code>, <code>tsconfig.json</code>, <code>drizzle.config.ts</code>, <code>.env.example</code></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 02</div>
+                <div class="timeline-title">Config + Logger</div>
+                <div class="timeline-desc"><code>config.ts</code> with zod validation, <code>logger.ts</code> with pino setup</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 03</div>
+                <div class="timeline-title">Database Schema + Client</div>
+                <div class="timeline-desc"><code>schema.ts</code> (5 tables), <code>client.ts</code>, run initial migration</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 04</div>
+                <div class="timeline-title">API Clients</div>
+                <div class="timeline-desc"><code>polymarket-data.ts</code>, <code>polymarket-gamma.ts</code>, <code>polymarket-clob.ts</code>, <code>polygonscan.ts</code> &mdash; each with rate limiter</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 05</div>
+                <div class="timeline-title">Utilities</div>
+                <div class="timeline-desc"><code>rate-limiter.ts</code> (token bucket), <code>retry.ts</code> (backoff), <code>cache.ts</code> (LRU)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 06</div>
+                <div class="timeline-title">Trade Poller</div>
+                <div class="timeline-desc">Polling loop with deduplication (txHash set + DB check) and persistence</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 07</div>
+                <div class="timeline-title">Wallet Analyzer</div>
+                <div class="timeline-desc">PolygonScan age + /positions + /activity lookup with 1hr cache TTL</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 08</div>
+                <div class="timeline-title">Market Enricher</div>
+                <div class="timeline-desc">Gamma metadata + CLOB order book with 15min cache TTL</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 09</div>
+                <div class="timeline-title">Scoring Engine</div>
+                <div class="timeline-desc">7 sub-score functions + composite score + confidence level. Pure function, fully testable.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 10</div>
+                <div class="timeline-title">Discord Alerts</div>
+                <div class="timeline-desc">Embed builder with color-coded tiers + webhook dispatch with rate limiting</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 11</div>
+                <div class="timeline-title">Orchestrator</div>
+                <div class="timeline-desc">Wire everything in <code>index.ts</code>: init &rarr; poll loop &rarr; enrich &rarr; score &rarr; alert &rarr; graceful shutdown</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-step">Step 12</div>
+                <div class="timeline-title">Testing</div>
+                <div class="timeline-desc">Unit tests for scoring engine with synthetic profiles. Integration test for full pipeline.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ FUTURE PHASES ═══════════════ -->
+    <div class="section">
+        <div class="section-label">012 &mdash; Roadmap</div>
+        <h2>Future Phase Compatibility</h2>
+        <div class="phases-grid">
+            <div class="phase-card p2">
+                <div class="phase-number">Phase 2</div>
+                <div class="phase-title">Backtesting</div>
+                <div class="phase-desc">The signals table stores every sub-score for every scored trade. Add a <code>market_resolutions</code> table, query historical accuracy, and tune scoring weights based on precision/recall against real outcomes.</div>
+            </div>
+            <div class="phase-card p3">
+                <div class="phase-number">Phase 3</div>
+                <div class="phase-title">Dashboard</div>
+                <div class="phase-desc">Add a lightweight HTTP server (Hono or Fastify) reading from the same SQLite database. The schema already has all data needed for a signal review UI, wallet leaderboard, and accuracy tracking.</div>
+            </div>
+            <div class="phase-card p4">
+                <div class="phase-number">Phase 4</div>
+                <div class="phase-title">Auto-Trading</div>
+                <div class="phase-desc">New trade-executor service subscribing to high-score signals (&ge;80) via the <code>@polymarket/clob-client</code> SDK. Proportional position sizing based on confidence and budget. Modular &mdash; no changes to existing pipeline.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ VERIFICATION ═══════════════ -->
+    <div class="section">
+        <div class="section-label">013 &mdash; Acceptance Criteria</div>
+        <h2>Verification</h2>
+        <ul class="verify-list">
+            <li><div class="verify-check">&check;</div> Run <code>npm run dev</code> &mdash; poller starts, logs incoming trades to console</li>
+            <li><div class="verify-check">&check;</div> Find a recent whale trade via Data API &mdash; verify it gets detected, scored, and persisted</li>
+            <li><div class="verify-check">&check;</div> Inspect SQLite database &mdash; trades, wallets, and signals tables populated correctly</li>
+            <li><div class="verify-check">&check;</div> Discord embed arrives with correct score breakdown, wallet link, and market link</li>
+            <li><div class="verify-check">&check;</div> Unit test scoring engine with synthetic wallet/market profiles (edge cases included)</li>
+            <li><div class="verify-check">&check;</div> Rate limiting respected &mdash; no 429 errors under normal operation</li>
+            <li><div class="verify-check">&check;</div> Graceful shutdown works &mdash; pending alerts drain, DB closes cleanly</li>
+        </ul>
+    </div>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <div class="footer">
+        <span>POLYMARKET INSIDER MONITOR &mdash; ARCHITECTURE SPEC v1.0</span>
+        <span>PHASE 1: MONITOR + SCORE + ALERT</span>
+        <span>2026.03.01</span>
+    </div>
+
+</div>
+
+<script>
+    // Animate score bars on scroll into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                const fills = entry.target.querySelectorAll('.score-bar-fill');
+                fills.forEach((fill, i) => {
+                    setTimeout(() => {
+                        fill.style.width = fill.dataset.width;
+                    }, i * 120);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const scoreBars = document.getElementById('scoreBars');
+    if (scoreBars) observer.observe(scoreBars);
+
+    // Stagger section animations
+    document.querySelectorAll('.section').forEach((section, i) => {
+        section.style.animationDelay = `${i * 0.06}s`;
+    });
+</script>
+
+</body>
+</html>
