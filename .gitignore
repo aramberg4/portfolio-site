@@ -31,3 +31,14 @@ backend/src/__pycache__/
 *.pyd
 __pycache__/
 *.so
+# AI tooling
+.claude/
+.ai/
+CLAUDE.md
+
+# LDC AI backups
+.ldc-ai-backup-*/
+
+# Setup scripts
+install.sh
+setup
