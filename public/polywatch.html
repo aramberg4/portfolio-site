@@ -1154,8 +1154,9 @@
             const p = document.createElement('div');
             p.className = 'particle';
             p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = Math.random() * 8 + 's';
-            p.style.animationDuration = (6 + Math.random() * 6) + 's';
+            var dur = 6 + Math.random() * 6;
+            p.style.animationDuration = dur + 's';
+            p.style.animationDelay = '-' + (Math.random() * dur) + 's';
             p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
             particleContainer.appendChild(p);
         }
