@@ -269,7 +269,7 @@ const NFLTargetShare = () => {
 
           <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-8"></div>
           <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
-            Interactive visualization of wide receiver target distribution by team and week.
+            Interactive visualization of pass-catcher target distribution by team and week.
             Perfect for fantasy football analysis and NFL insights.
           </p>
         </div>
