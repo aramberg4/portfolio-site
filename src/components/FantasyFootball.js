@@ -142,8 +142,7 @@ function processData(raw) {
 
   const avgPFNorm = normalize(teamStats.map(t => t.avgPF));
   const highScorerNorm = normalize(teamStats.map(t => t.highestScorerSeasons));
-  const bestPFNorm = normalize(teamStats.map(t => t.bestSeasonPF));
-  const regSeasonNorm = normalizeInverse(teamStats.map(t => t.avgRegSeasonRank));
+const regSeasonNorm = normalizeInverse(teamStats.map(t => t.avgRegSeasonRank));
   const avgPANorm = normalize(teamStats.map(t => t.avgPA)); // higher PA = harder schedule
 
   teamStats.forEach((t, i) => {
