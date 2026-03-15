@@ -469,8 +469,8 @@ const FantasyFootball = () => {
                         { key: 'ownerName', label: 'Owner', align: 'left' },
                         { key: 'totalWins', label: 'Record', align: 'center' },
                         { key: 'winPct', label: 'Win%', align: 'center' },
-                        { key: 'avgPF', label: 'Avg PF', align: 'right' },
-                        { key: 'avgPA', label: 'Avg PA', align: 'right' },
+                        { key: 'avgPF', label: 'Avg PF', align: 'center' },
+                        { key: 'avgPA', label: 'Avg PA', align: 'center' },
                         { key: 'playoffAppearances', label: 'Playoffs', align: 'center' },
                         { key: 'championships', label: 'Titles', align: 'center' },
                         { key: 'highestScorerSeasons', label: 'Top Scorer', align: 'center' },
@@ -540,10 +540,10 @@ const FantasyFootball = () => {
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>
                               {team.winPct}%
                             </td>
-                            <td className="text-right px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPF, allAvgPF)) }}>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPF, allAvgPF)) }}>
                               {team.avgPF.toLocaleString()}
                             </td>
-                            <td className="text-right px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPA, allAvgPA, true)) }}>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPA, allAvgPA, true)) }}>
                               {team.avgPA.toLocaleString()}
                             </td>
                             <td className="text-center px-3 py-3 font-medium" style={{ color: heatColor(getColumnPct(team.playoffAppearances, allPlayoffs)) }}>
