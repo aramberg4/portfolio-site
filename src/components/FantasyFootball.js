@@ -155,9 +155,8 @@ function processData(raw) {
     );
 
     t.talentScore = Math.round(
-      avgPFNorm[i] * 0.40 +
+      avgPFNorm[i] * 0.50 +
       highScorerNorm[i] * 0.25 +
-      bestPFNorm[i] * 0.10 +
       regSeasonNorm[i] * 0.15 +
       avgPANorm[i] * 0.10
     );
@@ -721,9 +720,8 @@ const FantasyFootball = () => {
             teams={sortedByTalent}
             scoreKey="talentScore"
             metrics={[
-              { label: 'Avg PF', key: 'avgPF', weight: '40%', format: v => v.toLocaleString() },
+              { label: 'Avg PF', key: 'avgPF', weight: '50%', format: v => v.toLocaleString() },
               { label: 'Top Scorer', key: 'highestScorerSeasons', weight: '25%', format: v => `${v}x` },
-              { label: 'Best Season', key: 'bestSeasonPF', weight: '10%', format: v => v.toLocaleString() },
               { label: 'Avg Reg Rank', key: 'avgRegSeasonRank', weight: '15%', format: v => ordinal(Math.round(v)) },
               { label: 'Avg PA', key: 'avgPA', weight: '10%', format: v => v.toLocaleString() },
             ]}
