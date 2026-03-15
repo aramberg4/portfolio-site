@@ -4,6 +4,7 @@ import LandingPage from './sections/LandingPage';
 import AboutMe from './sections/AboutMe';
 import Projects from './sections/Projects';
 import NFLTargetShare from './NFLTargetShare';
+import FantasyFootball from './FantasyFootball';
 
 const Main = () => (
     <Switch>
@@ -11,6 +12,7 @@ const Main = () => (
         <Route exact path="/aboutme" component={AboutMe} />
         <Route exact path="/projects" component={Projects} />
         <Route exact path="/nfl-target-share" component={NFLTargetShare} />
+        <Route exact path="/fantasy-football" component={FantasyFootball} />
     </Switch>
 );
 

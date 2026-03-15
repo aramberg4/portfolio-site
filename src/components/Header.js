@@ -51,6 +51,14 @@ const Header = () => {
             }}>
               NFL Stats
             </Link>
+            <Link to="/fantasy-football" style={{
+              color: 'white',
+              textDecoration: 'none',
+              fontWeight: '500',
+              transition: 'color 0.2s'
+            }}>
+              Fantasy
+            </Link>
             <Link to="/aboutme" style={{
               color: 'white',
               textDecoration: 'none',
