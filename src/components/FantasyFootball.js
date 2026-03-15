@@ -378,7 +378,7 @@ const FantasyFootball = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div style={{ width: 48, height: 48, border: '3px solid #374151', borderTopColor: '#3b82f6', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
       </div>
     );
   }
@@ -386,14 +386,14 @@ const FantasyFootball = () => {
   if (error || !data) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-red-400 text-lg">Failed to load data: {error}</div>
+        <div style={{ color: '#f87171', fontSize: '1.125rem' }}>Failed to load data: {error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 py-16 pt-24">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
+    <div className="min-h-screen bg-gray-900" style={{ paddingTop: '6rem', paddingBottom: '4rem' }}>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(30,58,138,0.1) 0%, #111827 50%, rgba(20,83,45,0.1) 100%)' }}></div>
 
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
@@ -406,14 +406,14 @@ const FantasyFootball = () => {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto" style={{ maxWidth: 1400, paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+        <div className="text-center" style={{ marginBottom: '3rem' }}>
+          <h1 className="font-bold text-white" style={{ fontSize: '3rem', marginBottom: '1rem' }}>
             Exeter Day Studs
           </h1>
-          <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-4"></div>
-          <p className="text-gray-400 text-lg">
+          <div className="mx-auto" style={{ height: 4, width: '8rem', background: 'linear-gradient(90deg, #3b82f6, #4ade80)', marginBottom: '1rem' }}></div>
+          <p style={{ color: '#9ca3af', fontSize: '1.125rem' }}>
             {data.allSeasons[0]}–{data.allSeasons[data.allSeasons.length - 1]} &middot; {data.teamStats.length} Teams &middot; {data.allSeasons.length} Seasons
           </p>
         </div>
@@ -454,16 +454,16 @@ const FantasyFootball = () => {
 
         {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className="space-y-8">
+          <div>
             {/* Stats Table */}
-            <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-gray-700">
+            <div className="rounded-xl overflow-hidden" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+              <div className="p-6" style={{ borderBottom: '1px solid #374151' }}>
                 <h2 className="text-xl font-bold text-white">All-Time Standings</h2>
               </div>
-              <div className="overflow-x-auto">
+              <div style={{ overflowX: 'auto' }}>
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-750 border-b border-gray-700">
+                    <tr style={{ backgroundColor: '#1a2332', borderBottom: '1px solid #374151' }}>
                       {[
                         { key: 'ownerName', label: 'Owner', align: 'left' },
                         { key: 'totalWins', label: 'Record', align: 'center' },
@@ -479,13 +479,17 @@ const FantasyFootball = () => {
                       ].map((col, i) => (
                         <th
                           key={col.id || col.label}
-                          className={`text-${col.align} text-gray-400 font-medium px-3 py-3 cursor-pointer hover:text-white transition-colors select-none ${col.align === 'left' ? 'px-4' : ''}`}
                           onClick={() => handleSort(col.key)}
+                          style={{
+                            textAlign: col.align, color: '#9ca3af', fontWeight: 500,
+                            padding: '0.75rem', cursor: 'pointer', userSelect: 'none',
+                            paddingLeft: col.align === 'left' ? '1rem' : undefined,
+                          }}
                         >
-                          <span className="inline-flex items-center gap-1">
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                             {col.label}
                             {sortCol === col.key && (
-                              <span className="text-blue-400 text-xs">{sortDir === 'desc' ? '▼' : '▲'}</span>
+                              <span style={{ color: '#60a5fa', fontSize: '0.75rem' }}>{sortDir === 'desc' ? '▼' : '▲'}</span>
                             )}
                           </span>
                         </th>
@@ -519,17 +523,20 @@ const FantasyFootball = () => {
                         return (
                           <tr
                             key={team.teamId}
-                            className={`border-b border-gray-700/50 hover:bg-gray-700/50 transition-colors cursor-pointer ${
-                              selectedTeam === team.teamId ? 'bg-gray-700/70' : ''
-                            }`}
+                            style={{
+                              borderBottom: '1px solid rgba(55,65,81,0.5)', cursor: 'pointer', transition: 'background-color 0.15s',
+                              backgroundColor: selectedTeam === team.teamId ? 'rgba(55,65,81,0.7)' : undefined,
+                            }}
+                            onMouseEnter={e => { if (selectedTeam !== team.teamId) e.currentTarget.style.backgroundColor = 'rgba(55,65,81,0.5)'; }}
+                            onMouseLeave={e => { if (selectedTeam !== team.teamId) e.currentTarget.style.backgroundColor = ''; }}
                             onClick={() => { setSelectedTeam(team.teamId); setActiveTab('charts'); }}
                           >
-                            <td className="px-4 py-3">
-                              <div className="flex items-center gap-3">
-                                <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: color.bg }}></div>
+                            <td style={{ padding: '0.75rem 1rem' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: color.bg, flexShrink: 0 }}></div>
                                 <div>
                                   <div className="text-white font-medium">{team.ownerName}</div>
-                                  <div className="text-gray-500 text-xs truncate max-w-[180px]">{team.currentName}</div>
+                                  <div style={{ color: '#6b7280', fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180 }}>{team.currentName}</div>
                                 </div>
                               </div>
                             </td>
@@ -576,7 +583,7 @@ const FantasyFootball = () => {
 
         {/* Charts Tab */}
         {activeTab === 'charts' && (
-          <div className="space-y-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {/* Team Selector */}
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ position: 'relative', zIndex: 50, width: 320 }}>
@@ -631,11 +638,11 @@ const FantasyFootball = () => {
 
             {/* Chart */}
             {chartData && (
-              <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-2xl">
-                <h3 className="text-lg font-bold text-white mb-1 text-center">
+              <div className="rounded-xl" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', padding: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+                <h3 className="font-bold text-white text-center" style={{ fontSize: '1.125rem', marginBottom: '0.25rem' }}>
                   {selectedTeamData?.ownerName} — Season Performance
                 </h3>
-                <p className="text-gray-500 text-xs text-center mb-6">
+                <p className="text-center" style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem' }}>
                   Click a row in the Overview tab or use the dropdown to switch teams
                 </p>
                 <div style={{ height: 600 }}>
@@ -646,7 +653,7 @@ const FantasyFootball = () => {
 
             {/* Season Detail Cards */}
             {selectedTeamData && (
-              <div className="space-y-2">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {data.allSeasons.map(year => {
                   const s = selectedTeamData.seasons[year];
                   if (!s) return null;
@@ -724,8 +731,8 @@ const FantasyFootball = () => {
         )}
 
         {/* Footer */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500 text-sm">
+        <div className="text-center" style={{ marginTop: '3rem' }}>
+          <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>
             Data from ESPN Fantasy Football API &middot; Seasons {data.allSeasons[0]}-{data.allSeasons[data.allSeasons.length - 1]}
           </p>
         </div>
@@ -740,7 +747,7 @@ function RankedCards({ title, teams, scoreKey, metrics }) {
   const maxScore = Math.max(...teams.map(t => t[scoreKey]));
 
   return (
-    <div className="space-y-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {teams.map((team, idx) => {
         const color = TEAM_COLORS[team.teamId];
         const score = team[scoreKey];
@@ -749,7 +756,7 @@ function RankedCards({ title, teams, scoreKey, metrics }) {
         return (
           <div
             key={team.teamId}
-            className="rounded-xl overflow-hidden shadow-lg"
+            className="rounded-xl overflow-hidden"
             style={{
               backgroundColor: '#1f2937',
               border: isFirst ? `2px solid ${color.bg}` : '1px solid #374151',
