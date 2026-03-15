@@ -378,25 +378,37 @@ const FantasyFootball = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center mb-8 gap-2">
+        <div style={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: '0.75rem', marginBottom: '2rem', padding: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%' }}>
           {[
-            { key: 'overview', label: 'Overview' },
-            { key: 'charts', label: 'Team Charts' },
-            { key: 'success', label: 'Most Successful' },
-            { key: 'talent', label: 'Most Talented' },
-          ].map(tab => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
-                activeTab === tab.key
-                  ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white shadow-lg'
-                  : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 border border-gray-700'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+            { key: 'overview', label: 'Overview', dot: '#3b82f6', activeBg: 'rgba(59,130,246,0.15)', activeText: '#60a5fa', activeBorder: 'rgba(59,130,246,0.4)' },
+            { key: 'charts', label: 'Team Charts', dot: '#10b981', activeBg: 'rgba(16,185,129,0.15)', activeText: '#34d399', activeBorder: 'rgba(16,185,129,0.4)' },
+            { key: 'success', label: 'Most Successful', dot: '#f59e0b', activeBg: 'rgba(245,158,11,0.15)', activeText: '#fbbf24', activeBorder: 'rgba(245,158,11,0.4)' },
+            { key: 'talent', label: 'Most Talented', dot: '#8b5cf6', activeBg: 'rgba(139,92,246,0.15)', activeText: '#a78bfa', activeBorder: 'rgba(139,92,246,0.4)' },
+          ].map(tab => {
+            const isActive = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className="rounded-lg font-semibold text-base transition-all duration-200"
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.625rem',
+                  padding: '0.75rem 1.25rem',
+                  backgroundColor: isActive ? tab.activeBg : 'transparent',
+                  color: isActive ? tab.activeText : '#9ca3af',
+                  border: isActive ? `1px solid ${tab.activeBorder}` : '1px solid transparent',
+                  borderRadius: '0.5rem',
+                }}
+              >
+                <span className="rounded-full" style={{ width: 8, height: 8, backgroundColor: tab.dot }}></span>
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Overview Tab */}
