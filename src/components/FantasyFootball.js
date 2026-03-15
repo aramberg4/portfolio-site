@@ -352,7 +352,7 @@ const FantasyFootball = () => {
         type: 'linear',
         position: 'left',
         title: { display: true, text: 'Points For', color: '#9CA3AF' },
-        ticks: { color: '#9CA3AF' },
+        ticks: { color: '#9CA3AF', stepSize: 100 },
         grid: { color: '#374151' },
       },
       y1: {
@@ -621,7 +621,7 @@ const FantasyFootball = () => {
                 <p className="text-gray-500 text-xs text-center mb-6">
                   Click a row in the Overview tab or use the dropdown to switch teams
                 </p>
-                <div className="h-[400px]">
+                <div style={{ height: 600 }}>
                   <Bar data={chartData} options={chartOptions} />
                 </div>
               </div>
@@ -629,29 +629,40 @@ const FantasyFootball = () => {
 
             {/* Season Detail Cards */}
             {selectedTeamData && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+              <div className="space-y-2">
                 {data.allSeasons.map(year => {
                   const s = selectedTeamData.seasons[year];
                   if (!s) return null;
                   const color = TEAM_COLORS[selectedTeamData.teamId];
                   return (
-                    <div key={year} className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-                      <div className="text-gray-400 text-xs font-medium mb-2">{year}</div>
-                      <div className="text-white font-bold text-lg">{s.wins}-{s.losses}</div>
-                      <div className="text-gray-400 text-xs mt-1">{s.pointsFor.toLocaleString()} PF</div>
-                      <div className="flex gap-2 mt-2">
-                        <span className={`text-xs px-1.5 py-0.5 rounded ${s.madePlayoffs ? 'bg-green-900/50 text-green-400' : 'bg-gray-700 text-gray-500'}`}>
+                    <div key={year} className="rounded-lg" style={{
+                      backgroundColor: '#1f2937', border: '1px solid #374151',
+                      display: 'flex', alignItems: 'center', padding: '0.75rem 1.25rem', gap: '1.5rem',
+                    }}>
+                      <div style={{ color: '#9ca3af', fontSize: '0.875rem', fontWeight: 600, width: 40, flexShrink: 0 }}>{year}</div>
+                      <div className="font-bold text-white" style={{ fontSize: '1.125rem', width: 60, flexShrink: 0 }}>{s.wins}-{s.losses}</div>
+                      <div style={{ color: '#9ca3af', fontSize: '0.875rem', width: 80, flexShrink: 0 }}>{s.pointsFor.toLocaleString()} PF</div>
+                      <div style={{ width: 70, flexShrink: 0 }}>
+                        <span style={{
+                          fontSize: '0.75rem', padding: '2px 8px', borderRadius: 4,
+                          backgroundColor: s.madePlayoffs ? 'rgba(34,197,94,0.15)' : 'rgba(107,114,128,0.15)',
+                          color: s.madePlayoffs ? '#4ade80' : '#6b7280',
+                        }}>
                           {s.madePlayoffs ? 'Playoffs' : 'Missed'}
                         </span>
                       </div>
-                      <div className="mt-2 flex items-center gap-1">
-                        <span className="text-xs text-gray-500">Finish:</span>
-                        <span className={`text-xs font-bold ${s.finalStanding === 1 ? 'text-yellow-400' : s.finalStanding <= 3 ? 'text-green-400' : 'text-gray-400'}`}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, width: 80, flexShrink: 0 }}>
+                        <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>Finish:</span>
+                        <span className="font-bold" style={{
+                          fontSize: '0.875rem',
+                          color: s.finalStanding === 1 ? '#facc15' : s.finalStanding <= 3 ? '#4ade80' : '#9ca3af',
+                        }}>
                           {ordinal(s.finalStanding)}
                         </span>
                       </div>
-                      <div className="mt-1 h-1 rounded-full bg-gray-700">
-                        <div className="h-1 rounded-full" style={{
+                      <div style={{ flex: 1, height: 6, backgroundColor: '#374151', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%', borderRadius: 3,
                           width: `${((10 - s.finalStanding + 1) / 10) * 100}%`,
                           backgroundColor: color.bg,
                         }}></div>
