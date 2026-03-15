@@ -3,7 +3,9 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BarController,
   BarElement,
+  LineController,
   LineElement,
   PointElement,
   Tooltip,
@@ -15,7 +17,7 @@ import { Bar } from 'react-chartjs-2';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 ChartJS.register(
-  CategoryScale, LinearScale, BarElement, LineElement,
+  CategoryScale, LinearScale, BarController, BarElement, LineController, LineElement,
   PointElement, Tooltip, Legend, Title, Filler
 );
 
