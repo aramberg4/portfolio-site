@@ -389,9 +389,6 @@ const FantasyFootball = () => {
     );
   }
 
-  const mostSuccessful = sortedBySuccess[0];
-  const mostTalented = sortedByTalent[0];
-
   return (
     <div className="min-h-screen bg-gray-900 py-16 pt-24">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
