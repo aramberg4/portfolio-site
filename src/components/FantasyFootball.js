@@ -164,6 +164,37 @@ function processData(raw) {
   return { teamStats, allSeasons };
 }
 
+// Heatmap: green (best) → yellow → orange → red (worst)
+// pct = 0 (worst) to 1 (best)
+function heatColor(pct) {
+  const clamped = Math.max(0, Math.min(1, pct));
+  if (clamped >= 0.75) {
+    // green to yellow-green
+    const t = (clamped - 0.75) / 0.25;
+    return `rgb(${Math.round(74 + (163 - 74) * (1 - t))}, ${Math.round(222 - (222 - 230) * (1 - t))}, ${Math.round(128 + (74 - 128) * (1 - t))})`;
+  } else if (clamped >= 0.5) {
+    // yellow-green to yellow
+    const t = (clamped - 0.5) / 0.25;
+    return `rgb(${Math.round(234 + (163 - 234) * t)}, ${Math.round(179 + (230 - 179) * t)}, ${Math.round(8 + (74 - 8) * t)})`;
+  } else if (clamped >= 0.25) {
+    // orange to yellow
+    const t = (clamped - 0.25) / 0.25;
+    return `rgb(${Math.round(249 + (234 - 249) * t)}, ${Math.round(115 + (179 - 115) * t)}, ${Math.round(22 + (8 - 22) * t)})`;
+  } else {
+    // red to orange
+    const t = clamped / 0.25;
+    return `rgb(${Math.round(239 + (249 - 239) * t)}, ${Math.round(68 + (115 - 68) * t)}, ${Math.round(68 + (22 - 68) * t)})`;
+  }
+}
+
+function getColumnPct(value, allValues, invert = false) {
+  const min = Math.min(...allValues);
+  const max = Math.max(...allValues);
+  if (max === min) return 0.5;
+  const pct = (value - min) / (max - min);
+  return invert ? 1 - pct : pct;
+}
+
 const FantasyFootball = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -171,6 +202,17 @@ const FantasyFootball = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamDropdownOpen, setTeamDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [sortCol, setSortCol] = useState('successScore');
+  const [sortDir, setSortDir] = useState('desc'); // 'asc' or 'desc'
+
+  const handleSort = useCallback((col) => {
+    if (sortCol === col) {
+      setSortDir(d => d === 'desc' ? 'asc' : 'desc');
+    } else {
+      setSortCol(col);
+      setSortDir('desc');
+    }
+  }, [sortCol]);
 
   useEffect(() => {
     fetch('/fantasy-football-data.json')
@@ -423,72 +465,109 @@ const FantasyFootball = () => {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-gray-750 border-b border-gray-700">
-                      <th className="text-left text-gray-400 font-medium px-4 py-3">Owner</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Record</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Win%</th>
-                      <th className="text-right text-gray-400 font-medium px-3 py-3">Avg PF</th>
-                      <th className="text-right text-gray-400 font-medium px-3 py-3">Avg PA</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Playoffs</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Titles</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Top Scorer</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Avg Finish</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Success</th>
-                      <th className="text-center text-gray-400 font-medium px-3 py-3">Talent</th>
+                      {[
+                        { key: 'ownerName', label: 'Owner', align: 'left' },
+                        { key: 'totalWins', label: 'Record', align: 'center' },
+                        { key: 'winPct', label: 'Win%', align: 'center' },
+                        { key: 'avgPF', label: 'Avg PF', align: 'right' },
+                        { key: 'avgPA', label: 'Avg PA', align: 'right' },
+                        { key: 'playoffAppearances', label: 'Playoffs', align: 'center' },
+                        { key: 'championships', label: 'Titles', align: 'center' },
+                        { key: 'highestScorerSeasons', label: 'Top Scorer', align: 'center' },
+                        { key: 'avgFinalStanding', label: 'Avg Finish', align: 'center' },
+                        { key: 'successScore', label: 'Success', align: 'center' },
+                        { key: 'talentScore', label: 'Talent', align: 'center' },
+                      ].map((col, i) => (
+                        <th
+                          key={col.id || col.label}
+                          className={`text-${col.align} text-gray-400 font-medium px-3 py-3 cursor-pointer hover:text-white transition-colors select-none ${col.align === 'left' ? 'px-4' : ''}`}
+                          onClick={() => handleSort(col.key)}
+                        >
+                          <span className="inline-flex items-center gap-1">
+                            {col.label}
+                            {sortCol === col.key && (
+                              <span className="text-blue-400 text-xs">{sortDir === 'desc' ? '▼' : '▲'}</span>
+                            )}
+                          </span>
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {[...data.teamStats].sort((a, b) => b.successScore - a.successScore).map((team, idx) => {
-                      const color = TEAM_COLORS[team.teamId];
-                      return (
-                        <tr
-                          key={team.teamId}
-                          className={`border-b border-gray-700/50 hover:bg-gray-700/50 transition-colors cursor-pointer ${
-                            selectedTeam === team.teamId ? 'bg-gray-700/70' : ''
-                          }`}
-                          onClick={() => { setSelectedTeam(team.teamId); setActiveTab('charts'); }}
-                        >
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: color.bg }}></div>
-                              <div>
-                                <div className="text-white font-medium">{team.ownerName}</div>
-                                <div className="text-gray-500 text-xs truncate max-w-[180px]">{team.currentName}</div>
+                    {(() => {
+                      const sorted = [...data.teamStats].sort((a, b) => {
+                        let aVal = a[sortCol];
+                        let bVal = b[sortCol];
+                        if (typeof aVal === 'string') {
+                          aVal = aVal.toLowerCase();
+                          bVal = bVal.toLowerCase();
+                          return sortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                        }
+                        return sortDir === 'asc' ? aVal - bVal : bVal - aVal;
+                      });
+                      const allWinPct = sorted.map(t => t.winPct);
+                      const allAvgPF = sorted.map(t => t.avgPF);
+                      const allAvgPA = sorted.map(t => t.avgPA);
+                      const allPlayoffs = sorted.map(t => t.playoffAppearances);
+                      const allChamps = sorted.map(t => t.championships);
+                      const allTopScorer = sorted.map(t => t.highestScorerSeasons);
+                      const allAvgFinish = sorted.map(t => t.avgFinalStanding);
+                      const allSuccess = sorted.map(t => t.successScore);
+                      const allTalent = sorted.map(t => t.talentScore);
+
+                      return sorted.map((team, idx) => {
+                        const color = TEAM_COLORS[team.teamId];
+                        return (
+                          <tr
+                            key={team.teamId}
+                            className={`border-b border-gray-700/50 hover:bg-gray-700/50 transition-colors cursor-pointer ${
+                              selectedTeam === team.teamId ? 'bg-gray-700/70' : ''
+                            }`}
+                            onClick={() => { setSelectedTeam(team.teamId); setActiveTab('charts'); }}
+                          >
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-3">
+                                <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: color.bg }}></div>
+                                <div>
+                                  <div className="text-white font-medium">{team.ownerName}</div>
+                                  <div className="text-gray-500 text-xs truncate max-w-[180px]">{team.currentName}</div>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="text-center text-gray-300 px-3 py-3">{team.totalWins}-{team.totalLosses}</td>
-                          <td className="text-center text-gray-300 px-3 py-3">{team.winPct}%</td>
-                          <td className="text-right text-gray-300 px-3 py-3">{team.avgPF.toLocaleString()}</td>
-                          <td className="text-right text-gray-300 px-3 py-3">{team.avgPA.toLocaleString()}</td>
-                          <td className="text-center px-3 py-3">
-                            <span className={`font-medium ${team.playoffAppearances >= 3 ? 'text-green-400' : 'text-gray-400'}`}>
+                            </td>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>
+                              {team.totalWins}-{team.totalLosses}
+                            </td>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>
+                              {team.winPct}%
+                            </td>
+                            <td className="text-right px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPF, allAvgPF)) }}>
+                              {team.avgPF.toLocaleString()}
+                            </td>
+                            <td className="text-right px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPA, allAvgPA, true)) }}>
+                              {team.avgPA.toLocaleString()}
+                            </td>
+                            <td className="text-center px-3 py-3 font-medium" style={{ color: heatColor(getColumnPct(team.playoffAppearances, allPlayoffs)) }}>
                               {team.playoffAppearances}/{team.numSeasons}
-                            </span>
-                          </td>
-                          <td className="text-center px-3 py-3">
-                            {team.championships > 0 ? (
-                              <span className="text-yellow-400 font-bold">{team.championships}</span>
-                            ) : (
-                              <span className="text-gray-600">0</span>
-                            )}
-                          </td>
-                          <td className="text-center px-3 py-3">
-                            {team.highestScorerSeasons > 0 ? (
-                              <span className="text-blue-400 font-medium">{team.highestScorerSeasons}</span>
-                            ) : (
-                              <span className="text-gray-600">0</span>
-                            )}
-                          </td>
-                          <td className="text-center text-gray-300 px-3 py-3">{team.avgFinalStanding}</td>
-                          <td className="text-center px-3 py-3">
-                            <ScoreBadge score={team.successScore} />
-                          </td>
-                          <td className="text-center px-3 py-3">
-                            <ScoreBadge score={team.talentScore} variant="talent" />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                            </td>
+                            <td className="text-center px-3 py-3 font-bold" style={{ color: heatColor(getColumnPct(team.championships, allChamps)) }}>
+                              {team.championships}
+                            </td>
+                            <td className="text-center px-3 py-3 font-medium" style={{ color: heatColor(getColumnPct(team.highestScorerSeasons, allTopScorer)) }}>
+                              {team.highestScorerSeasons}
+                            </td>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgFinalStanding, allAvgFinish, true)) }}>
+                              {team.avgFinalStanding}
+                            </td>
+                            <td className="text-center px-3 py-3 font-bold" style={{ color: heatColor(getColumnPct(team.successScore, allSuccess)) }}>
+                              {team.successScore}
+                            </td>
+                            <td className="text-center px-3 py-3 font-bold" style={{ color: heatColor(getColumnPct(team.talentScore, allTalent)) }}>
+                              {team.talentScore}
+                            </td>
+                          </tr>
+                        );
+                      });
+                    })()}
                   </tbody>
                 </table>
               </div>
@@ -587,53 +666,33 @@ const FantasyFootball = () => {
 
         {/* Most Successful Tab */}
         {activeTab === 'success' && (
-          <div className="space-y-6">
-            <VerdictCard
-              title="Most Successful Team"
-              team={mostSuccessful}
-              score={mostSuccessful?.successScore}
-              color={TEAM_COLORS[mostSuccessful?.teamId]}
-              breakdown={[
-                { label: 'Championships', value: mostSuccessful?.championships, weight: '40%' },
-                { label: 'Playoff Appearances', value: `${mostSuccessful?.playoffAppearances}/${mostSuccessful?.numSeasons}`, weight: '25%' },
-                { label: 'Avg Final Standing', value: ordinal(Math.round(mostSuccessful?.avgFinalStanding)), weight: '20%' },
-                { label: 'Win %', value: `${mostSuccessful?.winPct}%`, weight: '15%' },
-              ]}
-            />
-
-            <RankingList
-              title="Success Rankings"
-              teams={sortedBySuccess}
-              scoreKey="successScore"
-              variant="success"
-            />
-          </div>
+          <RankedCards
+            title="Success Rankings"
+            teams={sortedBySuccess}
+            scoreKey="successScore"
+            metrics={[
+              { label: 'Championships', key: 'championships', weight: '40%' },
+              { label: 'Playoff Apps', key: 'playoffAppearances', weight: '25%', format: (v, t) => `${v}/${t.numSeasons}` },
+              { label: 'Avg Finish', key: 'avgFinalStanding', weight: '20%', format: v => ordinal(Math.round(v)) },
+              { label: 'Win %', key: 'winPct', weight: '15%', format: v => `${v}%` },
+            ]}
+          />
         )}
 
         {/* Most Talented Tab */}
         {activeTab === 'talent' && (
-          <div className="space-y-6">
-            <VerdictCard
-              title="Most Talented Team"
-              team={mostTalented}
-              score={mostTalented?.talentScore}
-              color={TEAM_COLORS[mostTalented?.teamId]}
-              breakdown={[
-                { label: 'Avg Points For', value: mostTalented?.avgPF.toLocaleString(), weight: '35%' },
-                { label: 'Highest Scorer Seasons', value: mostTalented?.highestScorerSeasons, weight: '25%' },
-                { label: 'Best Season PF', value: mostTalented?.bestSeasonPF.toLocaleString(), weight: '15%' },
-                { label: 'Avg Reg Season Rank', value: ordinal(Math.round(mostTalented?.avgRegSeasonRank)), weight: '15%' },
-                { label: 'Avg Points Against', value: mostTalented?.avgPA.toLocaleString(), weight: '10%' },
-              ]}
-            />
-
-            <RankingList
-              title="Talent Rankings"
-              teams={sortedByTalent}
-              scoreKey="talentScore"
-              variant="talent"
-            />
-          </div>
+          <RankedCards
+            title="Talent Rankings"
+            teams={sortedByTalent}
+            scoreKey="talentScore"
+            metrics={[
+              { label: 'Avg PF', key: 'avgPF', weight: '35%', format: v => v.toLocaleString() },
+              { label: 'Top Scorer', key: 'highestScorerSeasons', weight: '25%', format: v => `${v}x` },
+              { label: 'Best Season', key: 'bestSeasonPF', weight: '15%', format: v => v.toLocaleString() },
+              { label: 'Avg Reg Rank', key: 'avgRegSeasonRank', weight: '15%', format: v => ordinal(Math.round(v)) },
+              { label: 'Avg PA', key: 'avgPA', weight: '10%', format: v => v.toLocaleString() },
+            ]}
+          />
         )}
 
         {/* Footer */}
@@ -649,93 +708,89 @@ const FantasyFootball = () => {
 
 // --- Sub-components ---
 
-function ScoreBadge({ score, variant = 'success' }) {
-  let colorClass = 'bg-gray-700 text-gray-400';
-  if (score >= 75) colorClass = variant === 'success' ? 'bg-yellow-900/50 text-yellow-400' : 'bg-blue-900/50 text-blue-400';
-  else if (score >= 50) colorClass = variant === 'success' ? 'bg-green-900/50 text-green-400' : 'bg-cyan-900/50 text-cyan-400';
-  else if (score >= 25) colorClass = 'bg-gray-700 text-gray-300';
+function RankedCards({ title, teams, scoreKey, metrics }) {
+  const maxScore = Math.max(...teams.map(t => t[scoreKey]));
 
   return (
-    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${colorClass}`}>
-      {score}
-    </span>
-  );
-}
+    <div className="space-y-4">
+      {teams.map((team, idx) => {
+        const color = TEAM_COLORS[team.teamId];
+        const score = team[scoreKey];
+        const isFirst = idx === 0;
 
-function VerdictCard({ title, team, score, color, breakdown }) {
-  if (!team) return null;
-  return (
-    <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 shadow-2xl">
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-        {/* Trophy / Score */}
-        <div className="flex-shrink-0 text-center">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold border-4"
-            style={{ borderColor: color?.bg, color: color?.bg, backgroundColor: color?.bg + '15' }}>
-            {score}
-          </div>
-          <div className="text-gray-500 text-xs mt-2">Composite Score</div>
-        </div>
-
-        {/* Details */}
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-2xl font-bold text-white mb-1">{title}</h2>
-          <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color?.bg }}></div>
-            <span className="text-xl text-white font-medium">{team.ownerName}</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {breakdown.map(item => (
-              <div key={item.label} className="bg-gray-700/50 rounded-lg p-3">
-                <div className="text-gray-500 text-xs">{item.label} ({item.weight})</div>
-                <div className="text-white font-bold text-lg">{item.value}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function RankingList({ title, teams, scoreKey, variant }) {
-  return (
-    <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden shadow-2xl">
-      <div className="p-6 border-b border-gray-700">
-        <h2 className="text-xl font-bold text-white">{title}</h2>
-      </div>
-      <div className="divide-y divide-gray-700/50">
-        {teams.map((team, idx) => {
-          const color = TEAM_COLORS[team.teamId];
-          const score = team[scoreKey];
-          return (
-            <div key={team.teamId} className="flex items-center gap-4 px-6 py-4 hover:bg-gray-700/30 transition-colors">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                idx === 0 ? 'bg-yellow-500 text-gray-900' :
-                idx === 1 ? 'bg-gray-400 text-gray-900' :
-                idx === 2 ? 'bg-amber-700 text-white' :
-                'bg-gray-700 text-gray-400'
-              }`}>
+        return (
+          <div
+            key={team.teamId}
+            className="rounded-xl overflow-hidden shadow-lg"
+            style={{
+              backgroundColor: '#1f2937',
+              border: isFirst ? `2px solid ${color.bg}` : '1px solid #374151',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', padding: '1.25rem 1.5rem', gap: '1.5rem' }}>
+              {/* Rank */}
+              <div
+                className="rounded-full font-bold flex-shrink-0"
+                style={{
+                  width: 40, height: 40,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.875rem',
+                  backgroundColor: idx === 0 ? '#eab308' : idx === 1 ? '#9ca3af' : idx === 2 ? '#b45309' : '#374151',
+                  color: idx <= 1 ? '#111827' : idx === 2 ? '#fff' : '#9ca3af',
+                }}
+              >
                 {idx + 1}
               </div>
-              <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: color.bg }}></div>
-              <div className="flex-1">
-                <div className="text-white font-medium">{team.ownerName}</div>
-                <div className="text-gray-500 text-xs">{team.totalWins}-{team.totalLosses} &middot; {team.championships} title{team.championships !== 1 ? 's' : ''} &middot; {team.playoffAppearances} playoff{team.playoffAppearances !== 1 ? 's' : ''}</div>
+
+              {/* Color dot + Name */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', minWidth: 160, flexShrink: 0 }}>
+                <div className="rounded-full" style={{ width: 12, height: 12, backgroundColor: color.bg }}></div>
+                <div>
+                  <div className="text-white font-bold" style={{ fontSize: isFirst ? '1.125rem' : '1rem' }}>{team.ownerName}</div>
+                  <div style={{ color: '#6b7280', fontSize: '0.75rem' }}>{team.totalWins}-{team.totalLosses}</div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-24 h-2 rounded-full bg-gray-700">
-                  <div className="h-2 rounded-full transition-all" style={{
-                    width: `${score}%`,
+
+              {/* Metrics laid out horizontally */}
+              <div style={{ display: 'flex', flex: 1, gap: '0.5rem' }}>
+                {metrics.map(metric => {
+                  const val = team[metric.key];
+                  const formatted = metric.format ? metric.format(val, team) : val;
+                  return (
+                    <div
+                      key={metric.key}
+                      style={{
+                        flex: 1,
+                        textAlign: 'center',
+                        padding: '0.5rem 0.75rem',
+                        backgroundColor: isFirst ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
+                        borderRadius: '0.5rem',
+                      }}
+                    >
+                      <div style={{ color: '#6b7280', fontSize: '0.7rem', marginBottom: 2 }}>{metric.label} ({metric.weight})</div>
+                      <div className="font-bold" style={{ color: '#e5e7eb', fontSize: '1rem' }}>{formatted}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Score bar + number */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0, width: 140 }}>
+                <div style={{ flex: 1, height: 8, backgroundColor: '#374151', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%', borderRadius: 4,
+                    width: `${maxScore > 0 ? (score / maxScore) * 100 : 0}%`,
                     backgroundColor: color.bg,
                   }}></div>
                 </div>
-                <ScoreBadge score={score} variant={variant} />
+                <span className="font-bold" style={{ color: isFirst ? '#fff' : '#9ca3af', fontSize: '1.125rem', width: 32, textAlign: 'right' }}>
+                  {score}
+                </span>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
