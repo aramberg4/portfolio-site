@@ -578,32 +578,50 @@ const FantasyFootball = () => {
         {activeTab === 'charts' && (
           <div className="space-y-6">
             {/* Team Selector */}
-            <div className="flex justify-center">
-              <div className="relative" style={{ zIndex: 50 }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ position: 'relative', zIndex: 50, width: 320 }}>
                 <button
                   onClick={() => setTeamDropdownOpen(!teamDropdownOpen)}
-                  className="flex items-center gap-3 px-6 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 hover:border-blue-500 transition-all min-w-[280px] justify-between shadow-lg"
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    width: '100%', padding: '0.75rem 1.25rem', gap: '0.75rem',
+                    backgroundColor: '#1f2937', color: '#fff', borderRadius: '0.75rem',
+                    border: '1px solid #374151', cursor: 'pointer', fontSize: '1rem',
+                  }}
                 >
-                  <div className="flex items-center gap-3">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     {selectedTeamData && (
-                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: TEAM_COLORS[selectedTeamData.teamId]?.bg }}></div>
+                      <div style={{ width: 14, height: 14, borderRadius: '50%', backgroundColor: TEAM_COLORS[selectedTeamData.teamId]?.bg }}></div>
                     )}
-                    <span className="font-medium">{selectedTeamData?.ownerName || 'Select Team'}</span>
+                    <span style={{ fontWeight: 500 }}>{selectedTeamData?.ownerName || 'Select Team'}</span>
                   </div>
-                  <ChevronDownIcon className={`w-5 h-5 transition-transform ${teamDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDownIcon className={`w-5 h-5 transition-transform ${teamDropdownOpen ? 'rotate-180' : ''}`} style={{ color: '#9ca3af' }} />
                 </button>
 
                 {teamDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl max-h-64 overflow-y-auto z-50">
-                    {data.teamStats.map(team => (
+                  <div style={{
+                    position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 8,
+                    backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: '0.75rem',
+                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', maxHeight: 320, overflowY: 'auto', zIndex: 50,
+                  }}>
+                    {data.teamStats.map((team, i) => (
                       <button
                         key={team.teamId}
                         onClick={() => handleTeamSelect(team.teamId)}
-                        className="flex items-center gap-3 w-full px-5 py-3 text-left hover:bg-gray-700 text-gray-100 transition-colors first:rounded-t-xl last:rounded-b-xl"
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          width: '100%', padding: '0.75rem 1.25rem', textAlign: 'left',
+                          backgroundColor: 'transparent', color: '#e5e7eb', border: 'none',
+                          cursor: 'pointer', fontSize: '0.875rem',
+                          borderTop: i > 0 ? '1px solid #2d3748' : 'none',
+                          borderRadius: i === 0 ? '0.75rem 0.75rem 0 0' : i === data.teamStats.length - 1 ? '0 0 0.75rem 0.75rem' : 0,
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#374151'}
+                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: TEAM_COLORS[team.teamId]?.bg }}></div>
-                        <span className="font-medium">{team.ownerName}</span>
-                        <span className="text-gray-500 text-xs ml-auto">{team.totalWins}-{team.totalLosses}</span>
+                        <div style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: TEAM_COLORS[team.teamId]?.bg, flexShrink: 0 }}></div>
+                        <span style={{ fontWeight: 500, flex: 1 }}>{team.ownerName}</span>
+                        <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>{team.totalWins}-{team.totalLosses}</span>
                       </button>
                     ))}
                   </div>
