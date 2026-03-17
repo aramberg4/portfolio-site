@@ -161,7 +161,10 @@ const regSeasonNorm = normalizeInverse(teamStats.map(t => t.avgRegSeasonRank));
     );
   });
 
-  return { teamStats, allSeasons };
+  // Pass through signature players data
+  const signaturePlayers = raw.signaturePlayers || {};
+
+  return { teamStats, allSeasons, signaturePlayers };
 }
 
 // Heatmap: green (best) → yellow → orange → red (worst)
@@ -692,6 +695,123 @@ const FantasyFootball = () => {
                     </div>
                   );
                 })}
+              </div>
+            )}
+
+            {/* Signature Players */}
+            {selectedTeamData && data.signaturePlayers?.[selectedTeamData.teamId] && (
+              <div className="rounded-xl" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', padding: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+                <h3 className="font-bold text-white" style={{ fontSize: '1.125rem', marginBottom: '0.25rem' }}>
+                  Signature Players
+                </h3>
+                <p style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.25rem' }}>
+                  Top 4 career scorers while rostered by {selectedTeamData.ownerName} &middot; Player data available from 2018
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {data.signaturePlayers[selectedTeamData.teamId].map((player, idx) => {
+                    const color = TEAM_COLORS[selectedTeamData.teamId];
+                    const maxPts = data.signaturePlayers[selectedTeamData.teamId][0]?.totalPoints || 1;
+                    const posColors = {
+                      QB: '#ef4444', RB: '#3b82f6', WR: '#10b981', TE: '#f59e0b',
+                      LB: '#a855f7', DE: '#ec4899', DT: '#ec4899', CB: '#06b6d4',
+                      S: '#06b6d4', IDP: '#a855f7', K: '#6b7280', 'D/ST': '#6b7280',
+                    };
+                    return (
+                      <div key={player.playerId} style={{
+                        display: 'flex', alignItems: 'center', gap: '1rem',
+                        padding: '1rem 1.25rem', borderRadius: '0.75rem',
+                        backgroundColor: idx === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
+                        border: idx === 0 ? `1px solid ${color.bg}40` : '1px solid transparent',
+                      }}>
+                        {/* Rank + Headshot */}
+                        <div style={{ position: 'relative', width: 48, height: 48, flexShrink: 0 }}>
+                          <img
+                            src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${player.playerId}.png&w=96&h=70&cb=1`}
+                            alt={player.playerName}
+                            style={{
+                              width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', objectPosition: 'top',
+                              border: `2px solid ${idx === 0 ? '#eab308' : idx === 1 ? '#6b7280' : idx === 2 ? '#92400e' : '#374151'}`,
+                              backgroundColor: '#374151',
+                            }}
+                            onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
+                          />
+                          <div style={{
+                            width: 48, height: 48, borderRadius: '50%', display: 'none',
+                            alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700,
+                            backgroundColor: idx === 0 ? '#eab308' : idx === 1 ? '#6b7280' : idx === 2 ? '#92400e' : '#374151',
+                            color: idx <= 1 ? '#111827' : '#fff',
+                          }}>
+                            {idx + 1}
+                          </div>
+                          <div style={{
+                            position: 'absolute', bottom: -2, right: -2,
+                            width: 18, height: 18, borderRadius: '50%', fontSize: '0.6rem', fontWeight: 700,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backgroundColor: idx === 0 ? '#eab308' : idx === 1 ? '#6b7280' : idx === 2 ? '#92400e' : '#374151',
+                            color: idx <= 1 ? '#111827' : '#fff',
+                            border: '2px solid #1f2937',
+                          }}>
+                            {idx + 1}
+                          </div>
+                        </div>
+
+                        {/* Name + Position */}
+                        <div style={{ minWidth: 160, flexShrink: 0 }}>
+                          <div className="text-white font-bold" style={{ fontSize: idx === 0 ? '1.05rem' : '0.95rem' }}>
+                            {player.playerName}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                            <span style={{
+                              fontSize: '0.65rem', padding: '1px 6px', borderRadius: 3, fontWeight: 600,
+                              backgroundColor: (posColors[player.position] || '#6b7280') + '25',
+                              color: posColors[player.position] || '#6b7280',
+                            }}>
+                              {player.position}
+                            </span>
+                            <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>
+                              {player.seasonYears[0]}–{player.seasonYears[player.seasonYears.length - 1]}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Stats */}
+                        <div style={{ display: 'flex', flex: 1, gap: '0.5rem' }}>
+                          {[
+                            { label: 'Career Pts', value: player.totalPoints.toLocaleString() },
+                            { label: 'Seasons', value: player.seasonsPlayed },
+                            { label: 'Avg Pts/Szn', value: player.avgPointsPerSeason.toLocaleString() },
+                            { label: 'Playoff Apps', value: player.playoffAppearances },
+                            { label: 'Titles', value: player.championships },
+                          ].map(stat => (
+                            <div key={stat.label} style={{
+                              flex: 1, textAlign: 'center', padding: '0.375rem 0.5rem',
+                              backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '0.375rem',
+                            }}>
+                              <div style={{ color: '#6b7280', fontSize: '0.65rem', marginBottom: 1 }}>{stat.label}</div>
+                              <div className="font-bold" style={{
+                                color: stat.label === 'Titles' && stat.value > 0 ? '#facc15' : '#e5e7eb',
+                                fontSize: '0.9rem',
+                              }}>
+                                {stat.value}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Points bar */}
+                        <div style={{ width: 80, flexShrink: 0 }}>
+                          <div style={{ height: 6, backgroundColor: '#374151', borderRadius: 3, overflow: 'hidden' }}>
+                            <div style={{
+                              height: '100%', borderRadius: 3,
+                              width: `${(player.totalPoints / maxPts) * 100}%`,
+                              backgroundColor: color.bg,
+                            }}></div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
