@@ -60,7 +60,7 @@ export class NFLDataService {
       console.log(`Fetching NFL data for ${teamId} week ${week}...`);
 
       // In production, use static data file generated at build time
-      if (process.env.NODE_ENV === 'production' || !process.env.REACT_APP_NFL_API_URL) {
+      if (import.meta.env.PROD || !import.meta.env.VITE_NFL_API_URL) {
         const response = await fetch('/nfl-data.json');
 
         if (!response.ok) {
@@ -100,7 +100,7 @@ export class NFLDataService {
       }
 
       // Development mode - try API first
-      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
       const response = await fetch(`${apiUrl}/target-share/${teamId}/${week}`);
 
       if (!response.ok) {
@@ -144,7 +144,7 @@ export class NFLDataService {
     try {
       console.log(`Fetching all teams data for week ${week}...`);
 
-      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
       const response = await fetch(`${apiUrl}/target-share/all/${week}`);
 
       if (!response.ok) {
@@ -199,7 +199,7 @@ export class NFLDataService {
   // Helper method to get current NFL week
   static async getCurrentWeek() {
     try {
-      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
       const response = await fetch(`${apiUrl}/current-week`);
 
       if (!response.ok) {
@@ -230,7 +230,7 @@ export class NFLDataService {
   static async getAvailableWeeks() {
     try {
       // Get 2025 season data to see which weeks have real data
-      const apiUrl = process.env.REACT_APP_NFL_API_URL || 'http://localhost:5001/api';
+      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
       const response = await fetch(`${apiUrl}/current-week?season=2025`);
 
       if (!response.ok) {
