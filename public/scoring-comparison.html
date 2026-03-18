@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scoring Model Comparison — Polywatch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+  :root {
+    --bg-deep: #0a0b0f;
+    --bg-surface: #12131a;
+    --bg-elevated: #1a1b25;
+    --bg-hover: #22232f;
+    --border: #2a2b3a;
+    --border-accent: #3d3e52;
+    --text-primary: #e8e9f0;
+    --text-secondary: #8b8d9e;
+    --text-muted: #5c5e72;
+    --accent-cyan: #4ecdc4;
+    --accent-cyan-dim: #4ecdc433;
+    --accent-amber: #f0a500;
+    --accent-amber-dim: #f0a50033;
+    --accent-red: #e74c5e;
+    --accent-red-dim: #e74c5e22;
+    --accent-green: #7bc67e;
+    --accent-green-dim: #7bc67e22;
+    --accent-purple: #9b8ec4;
+    --accent-purple-dim: #9b8ec422;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Newsreader', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* Header */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 40px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 200px;
+    height: 1px;
+    background: var(--accent-cyan);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .header-meta {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .header-meta span { color: var(--accent-cyan); }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: 38px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  /* Sections */
+  .section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.08s; }
+  .section:nth-child(3) { animation-delay: 0.16s; }
+  .section:nth-child(4) { animation-delay: 0.24s; }
+  .section:nth-child(5) { animation-delay: 0.32s; }
+  .section:nth-child(6) { animation-delay: 0.40s; }
+  .section:nth-child(7) { animation-delay: 0.48s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+  }
+
+  /* Shared Signals — bar comparison */
+  .signal-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .signal-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .signal-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: right;
+    padding-right: 8px;
+    border-right: 2px solid var(--border-accent);
+  }
+
+  .signal-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .signal-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 26px;
+  }
+
+  .bar-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    width: 90px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 20px;
+    background: var(--bg-elevated);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 1px;
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+
+  .bar-fill.cyan { background: linear-gradient(90deg, var(--accent-cyan-dim), var(--accent-cyan)); }
+  .bar-fill.amber { background: linear-gradient(90deg, var(--accent-amber-dim), var(--accent-amber)); }
+
+  .bar-value {
+    font-size: 13px;
+    font-weight: 600;
+    width: 48px;
+    flex-shrink: 0;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bar-value.cyan { color: var(--accent-cyan); }
+  .bar-value.amber { color: var(--accent-amber); }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 32px;
+    padding: 14px 18px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: fit-content;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .legend-dot.cyan { background: var(--accent-cyan); }
+  .legend-dot.amber { background: var(--accent-amber); }
+
+  /* Architecture cards */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .arch-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .arch-card:hover { border-color: var(--border-accent); }
+
+  .arch-card.polywatch { border-top: 2px solid var(--accent-cyan); }
+  .arch-card.friend { border-top: 2px solid var(--accent-amber); }
+
+  .arch-card h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .arch-card.polywatch h3 { color: var(--accent-cyan); }
+  .arch-card.friend h3 { color: var(--accent-amber); }
+
+  .arch-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .arch-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .flow-num {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .arch-card.polywatch .flow-num {
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+  }
+
+  .arch-card.friend .flow-num {
+    background: var(--accent-amber-dim);
+    color: var(--accent-amber);
+    border: 1px solid var(--accent-amber);
+  }
+
+  .flow-arrow {
+    width: 22px;
+    display: flex;
+    justify-content: center;
+    padding: 2px 0;
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+
+  .flow-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .flow-text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .flow-text code {
+    font-size: 11px;
+    background: var(--bg-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+
+  .flow-formula {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  /* Unique signals */
+  .unique-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .unique-col h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .unique-col.polywatch h3 { color: var(--accent-cyan); }
+  .unique-col.friend h3 { color: var(--accent-amber); }
+
+  .unique-item {
+    padding: 12px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .unique-item:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-elevated);
+  }
+
+  .unique-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .unique-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .unique-item-weight {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .polywatch .unique-item-weight {
+    background: var(--accent-cyan-dim);
+    color: var(--accent-cyan);
+  }
+
+  .friend .unique-item-weight {
+    background: var(--accent-amber-dim);
+    color: var(--accent-amber);
+  }
+
+  .unique-item-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Threshold table */
+  .threshold-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .threshold-table th {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-accent);
+  }
+
+  .threshold-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  .threshold-table tr:hover td {
+    background: var(--bg-surface);
+  }
+
+  .threshold-table .range-cell {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+
+  .severity-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  .severity-dot.green { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green-dim); }
+  .severity-dot.amber { background: var(--accent-amber); box-shadow: 0 0 6px var(--accent-amber-dim); }
+  .severity-dot.red { background: var(--accent-red); box-shadow: 0 0 6px var(--accent-red-dim); }
+  .severity-dot.purple { background: var(--accent-purple); box-shadow: 0 0 6px var(--accent-purple-dim); }
+
+  /* Takeaways */
+  .takeaway-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .takeaway {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .takeaway:hover { border-color: var(--border-accent); }
+
+  .takeaway::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .takeaway.adopt::before { background: var(--accent-amber); }
+  .takeaway.strength::before { background: var(--accent-cyan); }
+
+  .takeaway-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .takeaway.adopt .takeaway-label { color: var(--accent-amber); }
+  .takeaway.strength .takeaway-label { color: var(--accent-cyan); }
+
+  .takeaway h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .takeaway p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 32px 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    h1 { font-size: 28px; }
+    .signal-row { grid-template-columns: 1fr; gap: 8px; }
+    .signal-name { text-align: left; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .arch-grid, .unique-grid, .takeaway-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-meta"><span>Polywatch</span> &mdash; Internal Research</div>
+      <h1>Scoring Model Comparison</h1>
+      <p class="header-sub">Side-by-side analysis of two independent insider trading detection architectures for Polymarket prediction markets.</p>
+    </div>
+  </header>
+
+  <!-- Section 1: Shared Signals -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">01 &mdash; Common Ground</div>
+      <h2>Shared Signals</h2>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot cyan"></div>Polywatch</div>
+        <div class="legend-item"><div class="legend-dot amber"></div>Claudio's Model</div>
+      </div>
+
+      <div class="signal-bars">
+        <div class="signal-row">
+          <div class="signal-name">Size vs Liquidity</div>
+          <div class="signal-bar-group">
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Polywatch</span>
+              <div class="bar-track"><div class="bar-fill cyan" data-width="40"></div></div>
+              <span class="bar-value cyan">0.20</span>
+            </div>
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Claudio</span>
+              <div class="bar-track"><div class="bar-fill amber" data-width="70"></div></div>
+              <span class="bar-value amber">0.35</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-row">
+          <div class="signal-name">Price Impact</div>
+          <div class="signal-bar-group">
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Polywatch</span>
+              <div class="bar-track"><div class="bar-fill cyan" data-width="20"></div></div>
+              <span class="bar-value cyan">0.10</span>
+            </div>
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Claudio</span>
+              <div class="bar-track"><div class="bar-fill amber" data-width="50"></div></div>
+              <span class="bar-value amber">0.25</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-row">
+          <div class="signal-name">Time to Resolution</div>
+          <div class="signal-bar-group">
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Polywatch</span>
+              <div class="bar-track"><div class="bar-fill cyan" data-width="30"></div></div>
+              <span class="bar-value cyan">0.15</span>
+            </div>
+            <div class="signal-bar-wrap">
+              <span class="bar-label">Claudio</span>
+              <div class="bar-track"><div class="bar-fill amber" data-width="40"></div></div>
+              <span class="bar-value amber">0.20</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Architecture -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">02 &mdash; Architecture</div>
+      <h2>Pipeline Design</h2>
+
+      <div class="arch-grid">
+        <div class="arch-card polywatch">
+          <h3>Polywatch</h3>
+          <span class="arch-tag">Single-pass &bull; 7 sub-scores</span>
+          <div class="arch-flow">
+            <div class="flow-step">
+              <div class="flow-num">1</div>
+              <div class="flow-text"><strong>Compute 7 sub-scores</strong><br>Wallet age, size/liquidity, bet concentration, time to resolution, win rate, price impact, contrarian</div>
+            </div>
+            <div class="flow-arrow">&darr;</div>
+            <div class="flow-step">
+              <div class="flow-num">2</div>
+              <div class="flow-text"><strong>Weighted average</strong> with null redistribution<br><span class="flow-formula">rawScore = &Sigma;(score &times; weight) / &Sigma;weight</span></div>
+            </div>
+            <div class="flow-arrow">&darr;</div>
+            <div class="flow-step">
+              <div class="flow-num">3</div>
+              <div class="flow-text"><strong>Category multiplier</strong><br>Sports, esports, crypto &rarr; <code>&times; 0.5</code></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-card friend">
+          <h3>Claudio's Model</h3>
+          <span class="arch-tag">Three-stage pipeline &bull; 4 sub-scores + suppressors</span>
+          <div class="arch-flow">
+            <div class="flow-step">
+              <div class="flow-num">1</div>
+              <div class="flow-text"><strong>Trade Anomaly Score</strong> (0&ndash;100)<br>Size <code>.35</code> &bull; Impact <code>.25</code> &bull; Timing <code>.20</code> &bull; Persistence <code>.20</code><br><span class="flow-formula">BaseScore &minus; 15 &times; SuppressorCount</span></div>
+            </div>
+            <div class="flow-arrow">&darr;</div>
+            <div class="flow-step">
+              <div class="flow-num">2</div>
+              <div class="flow-text"><strong>Public Info Score</strong> (0&ndash;1)<br>WebSignal <code>.50</code> &bull; RelevanceBurst <code>.25</code> &bull; Coverage <code>.15</code> &bull; OfficialSource <code>.10</code><br><span class="flow-formula">&times; (1 &minus; 0.35 &times; ContradictionPenalty)</span></div>
+            </div>
+            <div class="flow-arrow">&darr;</div>
+            <div class="flow-step">
+              <div class="flow-num">3</div>
+              <div class="flow-text"><strong>Risk Adjustment</strong><br><span class="flow-formula">AdjustedRisk = Anomaly &times; (1 &minus; PublicInfo)</span><br>+7% boost when PublicInfo &le; 0.1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Unique Signals -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">03 &mdash; Differentiation</div>
+      <h2>Unique Signals</h2>
+
+      <div class="unique-grid">
+        <div class="unique-col polywatch">
+          <h3>Polywatch Only</h3>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Wallet Age</span>
+              <span class="unique-item-weight">w: 0.25</span>
+            </div>
+            <div class="unique-item-desc">Heaviest signal. Fresh/burner wallets score near 100. Detects throwaway accounts created specifically for insider trades.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Bet Concentration</span>
+              <span class="unique-item-weight">w: 0.15</span>
+            </div>
+            <div class="unique-item-desc">Wallets active in only 1&ndash;3 markets score high. Single-purpose wallets are a strong insider indicator.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Win Rate</span>
+              <span class="unique-item-weight">w: 0.10</span>
+            </div>
+            <div class="unique-item-desc">Historical track record across &ge;5 resolved bets. Sustained high win rates are statistically improbable without edge.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Contrarian</span>
+              <span class="unique-item-weight">w: 0.05</span>
+            </div>
+            <div class="unique-item-desc">Buying outcomes priced below 10&ndash;15% implies confidence against market consensus. Potential insider knowledge.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Category Multiplier</span>
+              <span class="unique-item-weight">&times;0.5</span>
+            </div>
+            <div class="unique-item-desc">Sports, esports, and crypto price bets are deprioritized. Insider trading is structurally less likely in these categories.</div>
+          </div>
+        </div>
+
+        <div class="unique-col friend">
+          <h3>Claudio's Model Only</h3>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Persistence Abnormality</span>
+              <span class="unique-item-weight">w: 0.20</span>
+            </div>
+            <div class="unique-item-desc">Checks whether the post-trade price move sustained or reverted. A lasting move is stronger evidence of informed trading.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Suppressors</span>
+              <span class="unique-item-weight">hard / soft</span>
+            </div>
+            <div class="unique-item-desc">Explicit false-positive filters: wide spread illusion, near-resolution noise, duplicate events, public-data markets. Hard suppressors block alerting entirely.</div>
+          </div>
+          <div class="unique-item">
+            <div class="unique-item-header">
+              <span class="unique-item-name">Public Information Layer</span>
+              <span class="unique-item-weight">step 2</span>
+            </div>
+            <div class="unique-item-desc">Cross-references news articles and public sources. High public info score suppresses the anomaly &mdash; the trade was likely reacting to public events, not insider knowledge.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Thresholds -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">04 &mdash; Classification</div>
+      <h2>Labeling Thresholds</h2>
+
+      <table class="threshold-table">
+        <thead>
+          <tr>
+            <th>Score Range</th>
+            <th>Claudio's Label</th>
+            <th>Polywatch Behavior</th>
+            <th>Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="range-cell">0 &ndash; 39</td>
+            <td>Ignore</td>
+            <td>No alert triggered</td>
+            <td><span class="severity-dot green"></span>None</td>
+          </tr>
+          <tr>
+            <td class="range-cell">40 &ndash; 59</td>
+            <td>Watch</td>
+            <td>Watchlist threshold (configurable)</td>
+            <td><span class="severity-dot amber"></span>Low</td>
+          </tr>
+          <tr>
+            <td class="range-cell">60 &ndash; 79</td>
+            <td>Suspicious</td>
+            <td>Alert fires</td>
+            <td><span class="severity-dot red"></span>Medium</td>
+          </tr>
+          <tr>
+            <td class="range-cell">80 &ndash; 100</td>
+            <td>Highly Suspicious</td>
+            <td>Alert fires</td>
+            <td><span class="severity-dot purple"></span>High</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 5: Takeaways -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">05 &mdash; Conclusions</div>
+      <h2>Key Takeaways</h2>
+
+      <div class="takeaway-cards">
+        <div class="takeaway adopt">
+          <div class="takeaway-label">Consider Adopting</div>
+          <h3>Public Information Scoring</h3>
+          <p>Cross-referencing news and public sources to suppress trades that are simply reacting to public events. This is the biggest architectural difference and would significantly reduce false positives.</p>
+        </div>
+        <div class="takeaway adopt">
+          <div class="takeaway-label">Consider Adopting</div>
+          <h3>Persistence Check</h3>
+          <p>Verifying that the price move held after the trade adds a valuable "was this real?" validation layer. A quick blip that reverts is noise; a sustained move is signal.</p>
+        </div>
+        <div class="takeaway strength">
+          <div class="takeaway-label">Our Advantage</div>
+          <h3>Wallet-Level Signals</h3>
+          <p>Wallet age, bet concentration, and win rate catch burner-wallet patterns that a purely trade-centric model misses entirely. These are our strongest differentiators.</p>
+        </div>
+        <div class="takeaway strength">
+          <div class="takeaway-label">Our Advantage</div>
+          <h3>Broader Signal Coverage</h3>
+          <p>7 sub-scores vs 4 gives wider coverage. Combined with category multipliers, we cast a broader net while still filtering low-value market categories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">Polywatch Research &mdash; Scoring Model Analysis &mdash; March 2026</div>
+  </footer>
+
+</div>
+
+<script>
+  // Animate bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.signal-bars').forEach(el => {
+    el.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = '0%'; });
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
