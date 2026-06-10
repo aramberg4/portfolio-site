@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Front Nine — Austin's 30th</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Spline+Sans+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fairway:#1f5034;
+    --fairway-deep:#173d28;
+    --green-mid:#2d6a47;
+    --paper:#f6f3ea;
+    --paper-stripe:#efe9d8;
+    --ink:#1c2a1d;
+    --ink-soft:#54614f;
+    --flag:#c0392b;
+    --gold:#c8962a;
+    --line:#d9d2bf;
+    --card-max:760px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:
+      radial-gradient(circle at 20% 0%, #2a6342 0%, transparent 55%),
+      radial-gradient(circle at 100% 100%, #163a26 0%, transparent 50%),
+      var(--fairway);
+    color:var(--ink);
+    line-height:1.5;
+    padding:32px 16px 64px;
+    min-height:100vh;
+  }
+  .card{
+    max-width:var(--card-max);
+    margin:0 auto;
+    background:var(--paper);
+    border-radius:6px;
+    box-shadow:0 24px 60px rgba(0,0,0,.34);
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,.08);
+  }
+
+  /* ---------- header ---------- */
+  .head{
+    background:var(--fairway-deep);
+    color:var(--paper);
+    padding:34px 32px 30px;
+    position:relative;
+  }
+  .head::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:0;height:6px;
+    background:repeating-linear-gradient(90deg,var(--gold) 0 14px,transparent 14px 28px);
+    opacity:.9;
+  }
+  .eyebrow{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.34em;
+    font-size:.66rem;
+    font-weight:600;
+    color:var(--gold);
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow svg{flex:0 0 auto;}
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    font-size:clamp(2.1rem,7vw,3.4rem);
+    line-height:.96;
+    margin:12px 0 6px;
+  }
+  .subhead{
+    font-family:'Spline Sans Mono','SFMono-Regular',monospace;
+    font-size:.82rem;
+    letter-spacing:.04em;
+    color:rgba(246,243,234,.72);
+  }
+
+  /* ---------- intro ---------- */
+  .intro{
+    padding:24px 32px 8px;
+    border-bottom:1px solid var(--line);
+  }
+  .intro p{
+    font-size:.95rem;color:var(--ink-soft);max-width:62ch;
+  }
+  .legend{
+    display:flex;flex-wrap:wrap;gap:8px 18px;
+    margin-top:16px;padding-bottom:6px;
+    font-size:.78rem;color:var(--ink-soft);
+  }
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  /* ---------- tier section ---------- */
+  .tier{border-bottom:1px solid var(--line);}
+  .tier:last-child{border-bottom:none;}
+  .tier-head{
+    display:flex;align-items:center;gap:14px;
+    background:var(--green-mid);
+    color:var(--paper);
+    padding:13px 32px;
+  }
+  .tier-no{
+    font-family:'Spline Sans Mono',monospace;
+    font-weight:600;font-size:.78rem;
+    border:1px solid rgba(246,243,234,.45);
+    border-radius:3px;
+    padding:2px 7px;
+    color:rgba(246,243,234,.9);
+  }
+  .tier-name{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:600;
+    font-size:1.02rem;
+    flex:1;
+  }
+  .tier-price{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:.74rem;
+    letter-spacing:.02em;
+    text-align:right;
+    color:rgba(246,243,234,.85);
+    white-space:nowrap;
+  }
+  .tier-note{
+    padding:10px 32px 2px;
+    font-size:.83rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  ul{list-style:none;padding:6px 0 14px;}
+  li a{
+    display:flex;align-items:baseline;gap:14px;
+    padding:11px 32px;
+    text-decoration:none;color:var(--ink);
+    transition:background .15s ease,padding-left .15s ease;
+  }
+  li:nth-child(even) a{background:var(--paper-stripe);}
+  li a:hover,li a:focus-visible{
+    background:#e7e0cd;
+    padding-left:38px;
+    outline:none;
+  }
+  .item-name{
+    flex:1;font-weight:500;font-size:.97rem;
+    position:relative;
+  }
+  li a:hover .item-name,li a:focus-visible .item-name{
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .item-name .tag{
+    display:block;font-size:.76rem;font-weight:400;color:var(--ink-soft);
+    margin-top:1px;
+  }
+  .price{
+    font-family:'Spline Sans Mono',monospace;
+    font-weight:500;font-size:.82rem;
+    color:var(--fairway);
+    background:#e4ecdf;
+    border:1px solid #cfdcc6;
+    border-radius:4px;
+    padding:3px 9px;
+    white-space:nowrap;flex:0 0 auto;
+  }
+
+  /* ---------- footer ---------- */
+  .foot{
+    background:var(--fairway-deep);
+    color:rgba(246,243,234,.7);
+    padding:20px 32px 22px;
+    font-size:.78rem;
+    line-height:1.55;
+  }
+  .foot strong{color:var(--gold);font-weight:600;}
+
+  @media (max-width:520px){
+    .head,.intro,.tier-head,.tier-note,li a,.foot{padding-left:20px;padding-right:20px;}
+    .tier-price{font-size:.68rem;}
+    li a:hover,li a:focus-visible{padding-left:24px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+  }
+
+  /* gentle load-in */
+  .card{animation:rise .5s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+  <main class="card">
+    <header class="head">
+      <div class="eyebrow">
+        <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="1" y="0" width="1.6" height="16" fill="#c8962a"/>
+          <path d="M2.6 1 L13 3.6 L2.6 6.2 Z" fill="#c0392b"/>
+        </svg>
+        Gift Scorecard
+      </div>
+      <h1>The Big 3-0</h1>
+      <p class="subhead">Austin · September 2026 · Seacoast, NH</p>
+    </header>
+
+    <section class="intro">
+      <p>No pressure and nothing required — these are just ideas, sorted by how they're easiest to pull off. Tap any item for the link. Prices are ballpark.</p>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--green-mid)"></span>Pick a tier that fits</span>
+        <span><span class="dot" style="background:var(--gold)"></span>Coordinate with each other if you want</span>
+        <span><span class="dot" style="background:var(--flag)"></span>Or surprise me — totally fine</span>
+      </div>
+    </section>
+
+    <!-- TIER 1 -->
+    <section class="tier">
+      <div class="tier-head">
+        <span class="tier-no">01</span>
+        <span class="tier-name">Go In Together</span>
+        <span class="tier-price">group gift · ~$280–550</span>
+      </div>
+      <p class="tier-note">Big swings — a few people chipping in together makes these easy.</p>
+      <ul>
+        <li><a href="https://www.dickssportinggoods.com/p/ping-g430-max-10k-driver-23pngmpng24drvklxdrv/23pngmpng24drvklxdrv" target="_blank" rel="noopener"><span class="item-name">PING G430 MAX 10K Driver<span class="tag">Golf</span></span><span class="price">~$450–550</span></a></li>
+        <li><a href="https://www.lecreuset.com/signature-round-deep-oven-chambray-6-5-qt/21195026434051.html" target="_blank" rel="noopener"><span class="item-name">Le Creuset Dutch Oven · 6.5 qt<span class="tag">Kitchen</span></span><span class="price">~$400–450</span></a></li>
+        <li><a href="https://www.dickssportinggoods.com/p/taylormade-2024-spider-tour-3-putter-24tymmspdrtr24rd3ptr/24tymmspdrtr24rd3ptr" target="_blank" rel="noopener"><span class="item-name">TaylorMade Spider Tour Putter<span class="tag">Golf</span></span><span class="price">~$280–330</span></a></li>
+        <li><a href="https://www.walmart.com/ip/Magic-The-Gathering-Secrets-of-Strixhaven-Collector-Booster-Box-12-Packs/19605969832" target="_blank" rel="noopener"><span class="item-name">Secrets of Strixhaven Collector Box<span class="tag">Magic: The Gathering</span></span><span class="price">~$320–450</span></a></li>
+      </ul>
+    </section>
+
+    <!-- TIER 2 -->
+    <section class="tier">
+      <div class="tier-head">
+        <span class="tier-no">02</span>
+        <span class="tier-name">Tag Team It</span>
+        <span class="tier-price">split between two · ~$130–140</span>
+      </div>
+      <p class="tier-note">Easy to halve with a friend — or grab solo if you're feeling generous.</p>
+      <ul>
+        <li><a href="https://www.nflshop.com/new-england-patriots/mens-new-england-patriots-drake-maye-nike-navy-player-game-jersey/t-92607074+p-7966231445327+z-7-478603087" target="_blank" rel="noopener"><span class="item-name">Drake Maye Patriots Jersey<span class="tag">Nike · Game</span></span><span class="price">~$130</span></a></li>
+        <li><a href="https://www.patagonia.com/product/mens-better-sweater-fleece-jacket/25528.html?dwvar_25528_color=NAUT" target="_blank" rel="noopener"><span class="item-name">Patagonia Better Sweater Fleece<span class="tag">Apparel · Navy</span></span><span class="price">~$139</span></a></li>
+      </ul>
+    </section>
+
+    <!-- TIER 3 -->
+    <section class="tier">
+      <div class="tier-head">
+        <span class="tier-no">03</span>
+        <span class="tier-name">Single Gift</span>
+        <span class="tier-price">one person · ~$30–60</span>
+      </div>
+      <p class="tier-note">A complete gift on its own.</p>
+      <ul>
+        <li><a href="https://www.amazon.com/Philips-Sonicare-Toothbrush-Rechargeable-HX3681/dp/B09LD7WRVS/" target="_blank" rel="noopener"><span class="item-name">Philips Sonicare Electric Toothbrush<span class="tag">Home</span></span><span class="price">~$40–50</span></a></li>
+        <li><a href="https://www.gymshark.com/products/gymshark-shadow-seamless-t-shirt-black-aw24" target="_blank" rel="noopener"><span class="item-name">Gymshark Shadow Seamless Tee<span class="tag">Apparel · Black</span></span><span class="price">~$40</span></a></li>
+        <li><a href="https://www.amazon.com/YEABRICKS-Light-Lego-10316-Lord-Rings/dp/B0BXX8XCGF/" target="_blank" rel="noopener"><span class="item-name">Rivendell LEGO Light Kit<span class="tag">For LOTR Rivendell set (10316)</span></span><span class="price">~$30–50</span></a></li>
+        <li><a href="https://www.etsy.com/listing/1549037190/embroidered-topographic-vegan-leather" target="_blank" rel="noopener"><span class="item-name">Custom Leather Club Head Covers<span class="tag">Golf</span></span><span class="price">~$30–50</span></a></li>
+        <li><a href="https://www.amazon.com/Paddleboard-Professional-Compressor-Deflation-Inflatables/dp/B0CS6HXQPH/" target="_blank" rel="noopener"><span class="item-name">Electric Paddle Board Pump<span class="tag">Outdoor · top of range</span></span><span class="price">~$60–100</span></a></li>
+        <li><a href="https://ripitgrips.com/collections/square-putter/products/stay-weird-putter-grip-sq-face" target="_blank" rel="noopener"><span class="item-name">Square Putter Grip<span class="tag">Golf</span></span><span class="price">~$25–35</span></a></li>
+      </ul>
+    </section>
+
+    <!-- TIER 4 -->
+    <section class="tier">
+      <div class="tier-head">
+        <span class="tier-no">04</span>
+        <span class="tier-name">Bundle Together</span>
+        <span class="tier-price">grab a few · ~$10–25 each</span>
+      </div>
+      <p class="tier-note">Small stuff — pick three or four and call it one gift.</p>
+      <ul>
+        <li><a href="https://getpkup.com/products/pkup-card-lifting-tool" target="_blank" rel="noopener"><span class="item-name">P'KUP Card Lifting Tool<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a></li>
+        <li><a href="https://www.amazon.com/dp/B0C41V3QJJ" target="_blank" rel="noopener"><span class="item-name">Golf Divot Tool<span class="tag">Golf</span></span><span class="price">~$10–20</span></a></li>
+        <li><a href="https://www.amazon.com/UAONO-Storage-Trading-Commander-Magnetic/dp/B0C6XML4MV/" target="_blank" rel="noopener"><span class="item-name">Card Storage Organizer<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a></li>
+        <li><a href="https://www.amazon.com/Vault-Binder-Trading-Loading-Pokemon/dp/B071V91LGC/" target="_blank" rel="noopener"><span class="item-name">MTG Card Binder<span class="tag">Trading cards</span></span><span class="price">~$25–30</span></a></li>
+        <li><a href="https://www.amazon.com/2021-TaylorMade-Distance-Golf-Balls/dp/B08QSL9XQW/" target="_blank" rel="noopener"><span class="item-name">Golf Balls · TaylorMade Distance<span class="tag">Golf</span></span><span class="price">~$20</span></a></li>
+        <li><a href="https://www.amazon.com/QUBI-Reusable-Self-Inking-Identify-Accessories/dp/B0DZF9TVK4/" target="_blank" rel="noopener"><span class="item-name">Golf Ball Stamp<span class="tag">Golf</span></span><span class="price">~$15–20</span></a></li>
+        <li><a href="https://www.lego.com/en-us/product/time-machine-from-back-to-the-future-77256" target="_blank" rel="noopener"><span class="item-name">LEGO DeLorean · Speed Champions<span class="tag">LEGO</span></span><span class="price">~$28</span></a></li>
+        <li><a href="https://www.amazon.com/NIKE-Unisex-Everyday-Cushion-White/dp/B00K5CN73A/" target="_blank" rel="noopener"><span class="item-name">Nike Everyday Socks<span class="tag">Apparel</span></span><span class="price">~$20–25</span></a></li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <strong>Thanks for celebrating.</strong> Prices drift, so treat the numbers as a guide rather than gospel. Mix and match across tiers however works for you.
+    </footer>
+  </main>
+</body>
+</html>
