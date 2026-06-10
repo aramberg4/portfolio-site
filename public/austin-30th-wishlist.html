@@ -139,25 +139,35 @@
     font-style:italic;
   }
 
+  /* ---------- item rows ---------- */
   ul{list-style:none;padding:6px 0 14px;}
-  li a{
-    display:flex;align-items:baseline;gap:14px;
-    padding:11px 32px;
-    text-decoration:none;color:var(--ink);
-    transition:background .15s ease,padding-left .15s ease;
+
+  .item-row{
+    display:flex;
+    align-items:center;
+    transition:background .15s ease;
   }
-  li:nth-child(even) a{background:var(--paper-stripe);}
-  li a:hover,li a:focus-visible{
-    background:#e7e0cd;
-    padding-left:38px;
-    outline:none;
+  li:nth-child(even) .item-row{background:var(--paper-stripe);}
+  .item-row:hover{background:#e7e0cd;}
+
+  .item-link{
+    flex:1;
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:11px 12px 11px 32px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:padding-left .15s ease;
+    min-width:0;
   }
+  .item-row:hover .item-link{padding-left:38px;}
+  .item-link:focus-visible{outline:2px solid var(--fairway);outline-offset:-2px;}
+  .item-row:hover .item-name{text-decoration:underline;text-underline-offset:3px;}
+
   .item-name{
     flex:1;font-weight:500;font-size:.97rem;
-    position:relative;
-  }
-  li a:hover .item-name,li a:focus-visible .item-name{
-    text-decoration:underline;text-underline-offset:3px;
+    min-width:0;
   }
   .item-name .tag{
     display:block;font-size:.76rem;font-weight:400;color:var(--ink-soft);
@@ -174,6 +184,45 @@
     white-space:nowrap;flex:0 0 auto;
   }
 
+  /* ---------- claim button ---------- */
+  .claim-btn{
+    flex:0 0 auto;
+    margin-right:32px;
+    font-family:'Spline Sans Mono',monospace;
+    font-size:.71rem;
+    letter-spacing:.02em;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:border-color .15s,color .15s,background .15s;
+    white-space:nowrap;
+    align-self:center;
+  }
+  .claim-btn:hover{
+    border-color:var(--fairway);
+    color:var(--fairway);
+    background:#e4ecdf;
+  }
+  .claim-btn .claimed-label{display:none;}
+
+  /* ---------- claimed state ---------- */
+  .item-row.claimed .item-link{
+    opacity:.4;
+    pointer-events:none;
+  }
+  .item-row.claimed .claim-btn{
+    border-color:transparent;
+    background:rgba(45,106,71,.14);
+    color:var(--green-mid);
+    cursor:default;
+    pointer-events:none;
+  }
+  .item-row.claimed .claim-btn .claim-label{display:none;}
+  .item-row.claimed .claim-btn .claimed-label{display:inline;}
+
   /* ---------- footer ---------- */
   .foot{
     background:var(--fairway-deep);
@@ -185,15 +234,16 @@
   .foot strong{color:var(--gold);font-weight:600;}
 
   @media (max-width:520px){
-    .head,.intro,.tier-head,.tier-note,li a,.foot{padding-left:20px;padding-right:20px;}
+    .head,.intro,.tier-head,.tier-note,.foot{padding-left:20px;padding-right:20px;}
     .tier-price{font-size:.68rem;}
-    li a:hover,li a:focus-visible{padding-left:24px;}
+    .item-link{padding-left:20px;padding-right:8px;}
+    .item-row:hover .item-link{padding-left:24px;}
+    .claim-btn{margin-right:20px;font-size:.65rem;padding:3px 8px;}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none!important;}
   }
 
-  /* gentle load-in */
   .card{animation:rise .5s ease both;}
   @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 </style>
@@ -230,14 +280,54 @@
       </div>
       <p class="tier-note">Small stuff — pick three or four and call it one gift.</p>
       <ul>
-        <li><a href="https://www.amazon.com/dp/B0C41V3QJJ" target="_blank" rel="noopener"><span class="item-name">Golf Divot Tool<span class="tag">Golf</span></span><span class="price">~$10–20</span></a></li>
-        <li><a href="https://www.amazon.com/QUBI-Reusable-Self-Inking-Identify-Accessories/dp/B0DZF9TVK4/" target="_blank" rel="noopener"><span class="item-name">Golf Ball Stamp<span class="tag">Golf</span></span><span class="price">~$15–20</span></a></li>
-        <li><a href="https://getpkup.com/products/pkup-card-lifting-tool" target="_blank" rel="noopener"><span class="item-name">P'KUP Card Lifting Tool<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a></li>
-        <li><a href="https://www.amazon.com/UAONO-Storage-Trading-Commander-Magnetic/dp/B0C6XML4MV/" target="_blank" rel="noopener"><span class="item-name">Card Storage Organizer<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a></li>
-        <li><a href="https://www.amazon.com/2021-TaylorMade-Distance-Golf-Balls/dp/B08QSL9XQW/" target="_blank" rel="noopener"><span class="item-name">Golf Balls · TaylorMade Distance<span class="tag">Golf</span></span><span class="price">~$20</span></a></li>
-        <li><a href="https://www.amazon.com/NIKE-Unisex-Everyday-Cushion-White/dp/B00K5CN73A/" target="_blank" rel="noopener"><span class="item-name">Nike Everyday Socks<span class="tag">Apparel</span></span><span class="price">~$20–25</span></a></li>
-        <li><a href="https://www.amazon.com/Vault-Binder-Trading-Loading-Pokemon/dp/B071V91LGC/" target="_blank" rel="noopener"><span class="item-name">MTG Card Binder<span class="tag">Trading cards</span></span><span class="price">~$25–30</span></a></li>
-        <li><a href="https://www.lego.com/en-us/product/time-machine-from-back-to-the-future-77256" target="_blank" rel="noopener"><span class="item-name">LEGO DeLorean · Speed Champions<span class="tag">LEGO</span></span><span class="price">~$28</span></a></li>
+        <li>
+          <div class="item-row" data-id="golf-divot-tool">
+            <a href="https://www.amazon.com/dp/B0C41V3QJJ" class="item-link" target="_blank" rel="noopener"><span class="item-name">Golf Divot Tool<span class="tag">Golf</span></span><span class="price">~$10–20</span></a>
+            <button class="claim-btn" aria-label="Claim Golf Divot Tool"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="golf-ball-stamp">
+            <a href="https://www.amazon.com/QUBI-Reusable-Self-Inking-Identify-Accessories/dp/B0DZF9TVK4/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Golf Ball Stamp<span class="tag">Golf</span></span><span class="price">~$15–20</span></a>
+            <button class="claim-btn" aria-label="Claim Golf Ball Stamp"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="pkup-card-lifting-tool">
+            <a href="https://getpkup.com/products/pkup-card-lifting-tool" class="item-link" target="_blank" rel="noopener"><span class="item-name">P'KUP Card Lifting Tool<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a>
+            <button class="claim-btn" aria-label="Claim P'KUP Card Lifting Tool"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="card-storage-organizer">
+            <a href="https://www.amazon.com/UAONO-Storage-Trading-Commander-Magnetic/dp/B0C6XML4MV/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Card Storage Organizer<span class="tag">Trading cards</span></span><span class="price">~$15–25</span></a>
+            <button class="claim-btn" aria-label="Claim Card Storage Organizer"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="golf-balls-taylormade">
+            <a href="https://www.amazon.com/2021-TaylorMade-Distance-Golf-Balls/dp/B08QSL9XQW/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Golf Balls · TaylorMade Distance<span class="tag">Golf</span></span><span class="price">~$20</span></a>
+            <button class="claim-btn" aria-label="Claim Golf Balls"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="nike-everyday-socks">
+            <a href="https://www.amazon.com/NIKE-Unisex-Everyday-Cushion-White/dp/B00K5CN73A/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Nike Everyday Socks<span class="tag">Apparel</span></span><span class="price">~$20–25</span></a>
+            <button class="claim-btn" aria-label="Claim Nike Everyday Socks"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="mtg-card-binder">
+            <a href="https://www.amazon.com/Vault-Binder-Trading-Loading-Pokemon/dp/B071V91LGC/" class="item-link" target="_blank" rel="noopener"><span class="item-name">MTG Card Binder<span class="tag">Trading cards</span></span><span class="price">~$25–30</span></a>
+            <button class="claim-btn" aria-label="Claim MTG Card Binder"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="lego-delorean">
+            <a href="https://www.lego.com/en-us/product/time-machine-from-back-to-the-future-77256" class="item-link" target="_blank" rel="noopener"><span class="item-name">LEGO DeLorean · Speed Champions<span class="tag">LEGO</span></span><span class="price">~$28</span></a>
+            <button class="claim-btn" aria-label="Claim LEGO DeLorean"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
       </ul>
     </section>
 
@@ -250,12 +340,42 @@
       </div>
       <p class="tier-note">A complete gift on its own.</p>
       <ul>
-        <li><a href="https://ripitgrips.com/collections/square-putter/products/stay-weird-putter-grip-sq-face" target="_blank" rel="noopener"><span class="item-name">Square Putter Grip<span class="tag">Golf</span></span><span class="price">~$25–35</span></a></li>
-        <li><a href="https://www.amazon.com/YEABRICKS-Light-Lego-10316-Lord-Rings/dp/B0BXX8XCGF/" target="_blank" rel="noopener"><span class="item-name">Rivendell LEGO Light Kit<span class="tag">For LOTR Rivendell set (10316)</span></span><span class="price">~$30–50</span></a></li>
-        <li><a href="https://www.etsy.com/listing/1549037190/embroidered-topographic-vegan-leather" target="_blank" rel="noopener"><span class="item-name">Custom Leather Club Head Covers<span class="tag">Golf</span></span><span class="price">~$30–50</span></a></li>
-        <li><a href="https://www.gymshark.com/products/gymshark-shadow-seamless-t-shirt-black-aw24" target="_blank" rel="noopener"><span class="item-name">Gymshark Shadow Seamless Tee<span class="tag">Apparel · Black</span></span><span class="price">~$40</span></a></li>
-        <li><a href="https://www.amazon.com/Philips-Sonicare-Toothbrush-Rechargeable-HX3681/dp/B09LD7WRVS/" target="_blank" rel="noopener"><span class="item-name">Philips Sonicare Electric Toothbrush<span class="tag">Home</span></span><span class="price">~$40–50</span></a></li>
-        <li><a href="https://www.amazon.com/Paddleboard-Professional-Compressor-Deflation-Inflatables/dp/B0CS6HXQPH/" target="_blank" rel="noopener"><span class="item-name">Electric Paddle Board Pump<span class="tag">Outdoor · top of range</span></span><span class="price">~$60–100</span></a></li>
+        <li>
+          <div class="item-row" data-id="square-putter-grip">
+            <a href="https://ripitgrips.com/collections/square-putter/products/stay-weird-putter-grip-sq-face" class="item-link" target="_blank" rel="noopener"><span class="item-name">Square Putter Grip<span class="tag">Golf</span></span><span class="price">~$25–35</span></a>
+            <button class="claim-btn" aria-label="Claim Square Putter Grip"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="rivendell-lego-light-kit">
+            <a href="https://www.amazon.com/YEABRICKS-Light-Lego-10316-Lord-Rings/dp/B0BXX8XCGF/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Rivendell LEGO Light Kit<span class="tag">For LOTR Rivendell set (10316)</span></span><span class="price">~$30–50</span></a>
+            <button class="claim-btn" aria-label="Claim Rivendell LEGO Light Kit"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="custom-club-head-covers">
+            <a href="https://www.etsy.com/listing/1549037190/embroidered-topographic-vegan-leather" class="item-link" target="_blank" rel="noopener"><span class="item-name">Custom Leather Club Head Covers<span class="tag">Golf</span></span><span class="price">~$30–50</span></a>
+            <button class="claim-btn" aria-label="Claim Custom Leather Club Head Covers"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="gymshark-tee">
+            <a href="https://www.gymshark.com/products/gymshark-shadow-seamless-t-shirt-black-aw24" class="item-link" target="_blank" rel="noopener"><span class="item-name">Gymshark Shadow Seamless Tee<span class="tag">Apparel · Black</span></span><span class="price">~$40</span></a>
+            <button class="claim-btn" aria-label="Claim Gymshark Tee"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="philips-sonicare">
+            <a href="https://www.amazon.com/Philips-Sonicare-Toothbrush-Rechargeable-HX3681/dp/B09LD7WRVS/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Philips Sonicare Electric Toothbrush<span class="tag">Home</span></span><span class="price">~$40–50</span></a>
+            <button class="claim-btn" aria-label="Claim Philips Sonicare Toothbrush"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="paddleboard-pump">
+            <a href="https://www.amazon.com/Paddleboard-Professional-Compressor-Deflation-Inflatables/dp/B0CS6HXQPH/" class="item-link" target="_blank" rel="noopener"><span class="item-name">Electric Paddle Board Pump<span class="tag">Outdoor · top of range</span></span><span class="price">~$60–100</span></a>
+            <button class="claim-btn" aria-label="Claim Electric Paddle Board Pump"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
       </ul>
     </section>
 
@@ -268,8 +388,18 @@
       </div>
       <p class="tier-note">Easy to halve with a friend — or grab solo if you're feeling generous.</p>
       <ul>
-        <li><a href="https://www.nflshop.com/new-england-patriots/mens-new-england-patriots-drake-maye-nike-navy-player-game-jersey/t-92607074+p-7966231445327+z-7-478603087" target="_blank" rel="noopener"><span class="item-name">Drake Maye Patriots Jersey<span class="tag">Nike · Game</span></span><span class="price">~$130</span></a></li>
-        <li><a href="https://www.patagonia.com/product/mens-better-sweater-fleece-jacket/25528.html?dwvar_25528_color=NAUT" target="_blank" rel="noopener"><span class="item-name">Patagonia Better Sweater Fleece<span class="tag">Apparel · Navy</span></span><span class="price">~$139</span></a></li>
+        <li>
+          <div class="item-row" data-id="drake-maye-jersey">
+            <a href="https://www.nflshop.com/new-england-patriots/mens-new-england-patriots-drake-maye-nike-navy-player-game-jersey/t-92607074+p-7966231445327+z-7-478603087" class="item-link" target="_blank" rel="noopener"><span class="item-name">Drake Maye Patriots Jersey<span class="tag">Nike · Game</span></span><span class="price">~$130</span></a>
+            <button class="claim-btn" aria-label="Claim Drake Maye Jersey"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="patagonia-fleece">
+            <a href="https://www.patagonia.com/product/mens-better-sweater-fleece-jacket/25528.html?dwvar_25528_color=NAUT" class="item-link" target="_blank" rel="noopener"><span class="item-name">Patagonia Better Sweater Fleece<span class="tag">Apparel · Navy</span></span><span class="price">~$139</span></a>
+            <button class="claim-btn" aria-label="Claim Patagonia Better Sweater Fleece"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
       </ul>
     </section>
 
@@ -282,10 +412,30 @@
       </div>
       <p class="tier-note">Big swings — a few people chipping in together makes these easy.</p>
       <ul>
-        <li><a href="https://www.dickssportinggoods.com/p/taylormade-2024-spider-tour-3-putter-24tymmspdrtr24rd3ptr/24tymmspdrtr24rd3ptr" target="_blank" rel="noopener"><span class="item-name">TaylorMade Spider Tour Putter<span class="tag">Golf</span></span><span class="price">~$280–330</span></a></li>
-        <li><a href="https://www.walmart.com/ip/Magic-The-Gathering-Secrets-of-Strixhaven-Collector-Booster-Box-12-Packs/19605969832" target="_blank" rel="noopener"><span class="item-name">Secrets of Strixhaven Collector Box<span class="tag">Magic: The Gathering</span></span><span class="price">~$320–450</span></a></li>
-        <li><a href="https://www.lecreuset.com/signature-round-deep-oven-chambray-6-5-qt/21195026434051.html" target="_blank" rel="noopener"><span class="item-name">Le Creuset Dutch Oven · 6.5 qt<span class="tag">Kitchen</span></span><span class="price">~$400–450</span></a></li>
-        <li><a href="https://www.dickssportinggoods.com/p/ping-g430-max-10k-driver-23pngmpng24drvklxdrv/23pngmpng24drvklxdrv" target="_blank" rel="noopener"><span class="item-name">PING G430 MAX 10K Driver<span class="tag">Golf</span></span><span class="price">~$450–550</span></a></li>
+        <li>
+          <div class="item-row" data-id="taylormade-putter">
+            <a href="https://www.dickssportinggoods.com/p/taylormade-2024-spider-tour-3-putter-24tymmspdrtr24rd3ptr/24tymmspdrtr24rd3ptr" class="item-link" target="_blank" rel="noopener"><span class="item-name">TaylorMade Spider Tour Putter<span class="tag">Golf</span></span><span class="price">~$280–330</span></a>
+            <button class="claim-btn" aria-label="Claim TaylorMade Spider Tour Putter"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="strixhaven-collector-box">
+            <a href="https://www.walmart.com/ip/Magic-The-Gathering-Secrets-of-Strixhaven-Collector-Booster-Box-12-Packs/19605969832" class="item-link" target="_blank" rel="noopener"><span class="item-name">Secrets of Strixhaven Collector Box<span class="tag">Magic: The Gathering</span></span><span class="price">~$320–450</span></a>
+            <button class="claim-btn" aria-label="Claim Strixhaven Collector Box"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="le-creuset-dutch-oven">
+            <a href="https://www.lecreuset.com/signature-round-deep-oven-chambray-6-5-qt/21195026434051.html" class="item-link" target="_blank" rel="noopener"><span class="item-name">Le Creuset Dutch Oven · 6.5 qt<span class="tag">Kitchen</span></span><span class="price">~$400–450</span></a>
+            <button class="claim-btn" aria-label="Claim Le Creuset Dutch Oven"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
+        <li>
+          <div class="item-row" data-id="ping-g430-driver">
+            <a href="https://www.dickssportinggoods.com/p/ping-g430-max-10k-driver-23pngmpng24drvklxdrv/23pngmpng24drvklxdrv" class="item-link" target="_blank" rel="noopener"><span class="item-name">PING G430 MAX 10K Driver<span class="tag">Golf</span></span><span class="price">~$450–550</span></a>
+            <button class="claim-btn" aria-label="Claim PING G430 MAX Driver"><span class="claim-label">I'm buying this</span><span class="claimed-label">✓ Claimed</span></button>
+          </div>
+        </li>
       </ul>
     </section>
 
@@ -293,5 +443,41 @@
       <strong>Thanks for celebrating.</strong> Prices drift, so treat the numbers as a guide rather than gospel. Mix and match across tiers however works for you.
     </footer>
   </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC90KOMJS_1SPZ_Wx-hOsTMFU7SCIuCz1s",
+      authDomain: "austin-wishlist.firebaseapp.com",
+      databaseURL: "https://austin-wishlist-default-rtdb.firebaseio.com",
+      projectId: "austin-wishlist",
+      storageBucket: "austin-wishlist.firebasestorage.app",
+      messagingSenderId: "762599309719",
+      appId: "1:762599309719:web:8bb59628f91376a06304d2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const claimedRef = db.ref('claimed');
+
+    // Real-time listener — applies claimed state to all viewers instantly
+    claimedRef.on('value', (snapshot) => {
+      const claimed = snapshot.val() || {};
+      document.querySelectorAll('.item-row[data-id]').forEach(row => {
+        row.classList.toggle('claimed', !!claimed[row.dataset.id]);
+      });
+    });
+
+    // Claim button clicks
+    document.querySelectorAll('.claim-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const row = btn.closest('.item-row');
+        if (row.classList.contains('claimed')) return;
+        claimedRef.child(row.dataset.id).set(true);
+      });
+    });
+  </script>
 </body>
 </html>
