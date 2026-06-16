@@ -51,57 +51,10 @@ export const getPlayerColor = (_position, index, teamId) => {
   return allColors[index] || '#6B7280'; // Default gray if index exceeds available colors
 };
 
-// Static data fetching from build-time generated files
-
-// Main data fetching service
 export class NFLDataService {
   static async getTargetShareData(teamId, week) {
     try {
-      console.log(`Fetching NFL data for ${teamId} week ${week}...`);
-
-      // In production, use static data file generated at build time
-      if (import.meta.env.PROD || !import.meta.env.VITE_NFL_API_URL) {
-        const response = await fetch('/nfl-data.json');
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-
-        if (!result.success) {
-          throw new Error(result.error || 'Static data indicates failure');
-        }
-
-        // Get team data from static file for specific week
-        const weekData = result.weeks[week];
-        if (!weekData) {
-          throw new Error(`No data available for week ${week}`);
-        }
-
-        const teamData = weekData[teamId.toUpperCase()];
-        if (!teamData) {
-          throw new Error(`No data available for team ${teamId} in week ${week}`);
-        }
-
-        return {
-          success: true,
-          data: teamData,
-          team: getTeamById(teamId),
-          week: week,
-          season: result.season,
-          lastUpdated: result.lastUpdated,
-          source: result.source || 'static',
-          notice: `${result.notice} - Week ${week} individual data`,
-          dataType: result.dataType,
-          weekRange: `Week ${week}`,
-          availableWeeks: result.availableWeeks || [1, 2, 3]
-        };
-      }
-
-      // Development mode - try API first
-      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
-      const response = await fetch(`${apiUrl}/target-share/${teamId}/${week}`);
+      const response = await fetch('/nfl-data.json');
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -110,27 +63,34 @@ export class NFLDataService {
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || 'Failed to fetch data');
+        throw new Error(result.error || 'Static data indicates failure');
+      }
+
+      const weekData = result.weeks[week];
+      if (!weekData) {
+        throw new Error(`No data available for week ${week}`);
+      }
+
+      const teamData = weekData[teamId.toUpperCase()];
+      if (!teamData) {
+        throw new Error(`No data available for team ${teamId} in week ${week}`);
       }
 
       return {
         success: true,
-        data: result.data,
+        data: teamData,
         team: getTeamById(teamId),
         week: week,
         season: result.season,
         lastUpdated: result.lastUpdated,
-        source: result.source || 'api',
+        source: result.source || 'static',
         notice: result.notice,
         dataType: result.dataType,
-        weekRange: result.weekRange,
-        availableWeeks: result.availableWeeks
+        weekRange: `Week ${week}`,
+        availableWeeks: result.availableWeeks || [1, 2, 3]
       };
     } catch (error) {
       console.error('Error fetching target share data:', error);
-
-      // No fallback - real data only
-
       return {
         success: false,
         error: error.message,
@@ -140,151 +100,28 @@ export class NFLDataService {
     }
   }
 
-  static async getAllTeamsTargetShare(week) {
-    try {
-      console.log(`Fetching all teams data for week ${week}...`);
-
-      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
-      const response = await fetch(`${apiUrl}/target-share/all/${week}`);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-
-      if (!result.success) {
-        throw new Error(result.error || 'Failed to fetch all teams data');
-      }
-
-      return {
-        success: true,
-        data: result.data,
-        week: week,
-        season: result.season,
-        lastUpdated: result.lastUpdated,
-        source: 'api'
-      };
-    } catch (error) {
-      console.error('Error fetching all teams data:', error);
-
-      // Fallback to individual team requests
-      console.log('Falling back to individual team requests...');
-      try {
-        const promises = nflTeams.map(team =>
-          this.getTargetShareData(team.id, week)
-        );
-
-        const results = await Promise.all(promises);
-
-        return {
-          success: true,
-          data: results.filter(result => result.success),
-          week: week,
-          lastUpdated: new Date().toISOString(),
-          source: 'fallback'
-        };
-      } catch (fallbackError) {
-        console.error('Fallback also failed:', fallbackError);
-        return {
-          success: false,
-          error: error.message,
-          data: [],
-          source: 'error'
-        };
-      }
-    }
-  }
-
-  // Helper method to get current NFL week
-  static async getCurrentWeek() {
-    try {
-      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
-      const response = await fetch(`${apiUrl}/current-week`);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success && result.week) {
-        return result.week;
-      } else {
-        throw new Error('Invalid API response for current week');
-      }
-    } catch (error) {
-      console.error('Error fetching current week from API:', error);
-
-      // Fallback to calculation
-      const now = new Date();
-      const seasonStart = new Date('2024-09-05'); // Approximate 2024 season start
-      const weeksSinceStart = Math.floor((now - seasonStart) / (7 * 24 * 60 * 60 * 1000));
-
-      // Clamp between 1 and 18
-      return Math.max(1, Math.min(18, weeksSinceStart + 1));
-    }
-  }
-
-  // Helper method to get available weeks with real data
+  // Available weeks come straight from the static data file.
   static async getAvailableWeeks() {
     try {
-      // In production (or when no API is configured), read available weeks
-      // straight from the static data file instead of hitting a dev-only API.
-      if (import.meta.env.PROD || !import.meta.env.VITE_NFL_API_URL) {
-        const response = await fetch('/nfl-data.json');
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-        const weeks = (result.availableWeeks && result.availableWeeks.length > 0)
-          ? result.availableWeeks
-          : [1, 2, 3];
-
-        return weeks.map(week => ({
-          value: week,
-          label: `Week ${week}`
-        }));
-      }
-
-      // Development mode - query the API for weeks with real data
-      const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
-      const response = await fetch(`${apiUrl}/current-week?season=2025`);
+      const response = await fetch('/nfl-data.json');
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
       const result = await response.json();
+      const weeks = (result.availableWeeks && result.availableWeeks.length > 0)
+        ? result.availableWeeks
+        : [1, 2, 3];
 
-      if (result.success && result.available_weeks) {
-        // Convert to dropdown format
-        return result.available_weeks.map(week => ({
-          value: week,
-          label: `Week ${week}`
-        }));
-      } else {
-        throw new Error('Invalid API response for available weeks');
-      }
-    } catch (error) {
-      console.error('Error fetching available weeks from API:', error);
-
-      // Fallback to individual weeks 1-3 for 2025 season
-      return [1, 2, 3].map(week => ({
+      return weeks.map(week => ({
         value: week,
         label: `Week ${week}`
       }));
+    } catch (error) {
+      console.error('Error fetching available weeks:', error);
+      return [1, 2, 3].map(week => ({ value: week, label: `Week ${week}` }));
     }
-  }
-
-  // Generate weeks array for dropdown
-  static getWeeksArray() {
-    return Array.from({ length: 18 }, (_, i) => ({
-      value: i + 1,
-      label: `Week ${i + 1}`
-    }));
   }
 
   // Format data for Chart.js pie chart
