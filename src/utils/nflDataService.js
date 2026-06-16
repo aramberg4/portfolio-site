@@ -229,7 +229,27 @@ export class NFLDataService {
   // Helper method to get available weeks with real data
   static async getAvailableWeeks() {
     try {
-      // Get 2025 season data to see which weeks have real data
+      // In production (or when no API is configured), read available weeks
+      // straight from the static data file instead of hitting a dev-only API.
+      if (import.meta.env.PROD || !import.meta.env.VITE_NFL_API_URL) {
+        const response = await fetch('/nfl-data.json');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        const weeks = (result.availableWeeks && result.availableWeeks.length > 0)
+          ? result.availableWeeks
+          : [1, 2, 3];
+
+        return weeks.map(week => ({
+          value: week,
+          label: `Week ${week}`
+        }));
+      }
+
+      // Development mode - query the API for weeks with real data
       const apiUrl = import.meta.env.VITE_NFL_API_URL || 'http://localhost:5001/api';
       const response = await fetch(`${apiUrl}/current-week?season=2025`);
 
@@ -274,8 +294,10 @@ export class NFLDataService {
     }
 
     const labels = targetShareData.map(player => {
-      const position = player.position === 'OTHER' ? '' : ` (${player.position})`;
-      return `${player.name}${position} - ${player.targets} targets`;
+      if (player.position === 'OTHER') {
+        return `Other players - ${player.targets} targets`;
+      }
+      return `${player.name} (${player.position}) - ${player.targets} targets`;
     });
 
     const data = targetShareData.map(player => parseFloat(player.targetShare));
