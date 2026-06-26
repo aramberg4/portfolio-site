@@ -253,7 +253,7 @@ const FantasyFootball = () => {
     if (!selectedTeamData || !data) return null;
 
     const seasons = data.allSeasons;
-    const pfData = seasons.map(y => selectedTeamData.seasons[y]?.pointsFor || 0);
+    const pfData = seasons.map(y => selectedTeamData.seasons[y]?.pointsFor ?? null);
     const finalRank = seasons.map(y => selectedTeamData.seasons[y]?.finalStanding || null);
     const regRank = seasons.map(y => selectedTeamData.seasons[y]?.regularSeasonRank || null);
     const color = TEAM_COLORS[selectedTeamData.teamId] || TEAM_COLORS[1];
@@ -467,8 +467,8 @@ const FantasyFootball = () => {
                     <tr style={{ backgroundColor: '#1a2332', borderBottom: '1px solid #374151' }}>
                       {[
                         { key: 'ownerName', label: 'Owner', align: 'left' },
-                        { key: 'totalWins', label: 'Record', align: 'center' },
                         { key: 'winPct', label: 'Win%', align: 'center' },
+                        { key: 'totalWins', label: 'Record', align: 'center' },
                         { key: 'avgPF', label: 'Avg PF', align: 'center' },
                         { key: 'avgPA', label: 'Avg PA', align: 'center' },
                         { key: 'playoffAppearances', label: 'Playoffs', align: 'center' },
@@ -542,10 +542,10 @@ const FantasyFootball = () => {
                               </div>
                             </td>
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>
-                              {team.totalWins}-{team.totalLosses}
+                              {team.winPct}%
                             </td>
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>
-                              {team.winPct}%
+                              {team.totalWins}-{team.totalLosses}
                             </td>
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPF, allAvgPF)) }}>
                               {team.avgPF.toLocaleString()}
