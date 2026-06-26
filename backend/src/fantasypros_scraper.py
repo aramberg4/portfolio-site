@@ -1,11 +1,10 @@
 """
-FantasyPros Scraper for Real 2025 NFL Target Share Data
-Scrapes actual target distribution data from FantasyPros for weeks 1-3 of 2025 season
+FantasyPros Scraper for Real NFL Target Share Data
+Scrapes actual target distribution data from FantasyPros for the configured NFL season
 """
 
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 import json
 from typing import Dict, List, Optional
 import time
@@ -16,7 +15,7 @@ except ImportError:
 
 
 class FantasyProsScraper:
-    """Scraper for real 2025 target share data from FantasyPros"""
+    """Scraper for real target share data from FantasyPros"""
 
     def __init__(self):
         self.base_url = "https://www.fantasypros.com"
@@ -222,7 +221,7 @@ class FantasyProsScraper:
             print(f"Error scraping FantasyPros: {e}")
             return []
 
-    def get_team_target_data_multi_position(self, team: str, week: int = None) -> List[Dict]:
+    def get_team_target_data_multi_position(self, team: str, week: int = None, year: int = 2025) -> List[Dict]:
         """
         Get target share data for a specific team from all positions (WR, RB, TE)
         Returns top 5 target leaders plus "Other" slice for remaining targets
@@ -239,9 +238,9 @@ class FantasyProsScraper:
                 print(f"Scraping FantasyPros data for weeks {start_week}-{end_week} (aggregated)")
 
             # Scrape data from all three position tables with specific week parameters
-            wr_players, wr_totals = self.scrape_position_targets('wr', start_week=start_week, end_week=end_week)
-            rb_players, rb_totals = self.scrape_position_targets('rb', start_week=start_week, end_week=end_week)
-            te_players, te_totals = self.scrape_position_targets('te', start_week=start_week, end_week=end_week)
+            wr_players, wr_totals = self.scrape_position_targets('wr', year=year, start_week=start_week, end_week=end_week)
+            rb_players, rb_totals = self.scrape_position_targets('rb', year=year, start_week=start_week, end_week=end_week)
+            te_players, te_totals = self.scrape_position_targets('te', year=year, start_week=start_week, end_week=end_week)
 
             # Combine all players for the specified team
             all_team_players = []

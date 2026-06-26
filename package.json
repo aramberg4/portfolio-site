@@ -12,7 +12,6 @@
   },
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/buildData.js",
     "build": "vite build",
     "build:local": "vite build",
     "build:without-data": "vite build",

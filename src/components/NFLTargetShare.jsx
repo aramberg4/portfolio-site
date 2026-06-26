@@ -95,7 +95,7 @@ const NFLTargetShare = () => {
           label: function(context) {
             const label = context.label || '';
             const value = context.parsed || 0;
-            return `${label}: ${value}%`;
+            return `${label}: ${value}% of team targets`;
           }
         }
       },
@@ -153,6 +153,7 @@ const NFLTargetShare = () => {
   const loadTargetShareData = async () => {
     setLoading(true);
     setError(null);
+    setDataNotice(null);
     // setDataSource('loading'); // unused
 
     try {
@@ -175,8 +176,10 @@ const NFLTargetShare = () => {
         }
 
 
-        // Show notice about data availability
-        if (result.notice) {
+        // Only surface a notice when the data isn't the real, current dataset
+        // (e.g. build-time generation failed and we're on cached/fallback data).
+        // Normal real data should not trigger the warning banner.
+        if (result.notice && result.dataType && result.dataType !== 'real') {
           console.warn('Data Notice:', result.notice);
           setDataNotice(result.notice);
         }
@@ -376,7 +379,10 @@ const NFLTargetShare = () => {
               {/* Chart */}
               <div className="lg:col-span-2">
                 <div className="bg-gray-700 rounded-xl p-6 border border-gray-600">
-                  <h3 className="text-xl font-bold text-white mb-6 text-center">Target Share Distribution</h3>
+                  <h3 className="text-xl font-bold text-white mb-1 text-center">Target Share Distribution</h3>
+                  <p className="text-gray-400 text-xs text-center mb-6 max-w-md mx-auto">
+                    Each slice is a pass-catcher&apos;s share of the team&apos;s total targets (WR / TE / RB). &ldquo;Other players&rdquo; groups everyone outside the top 5.
+                  </p>
                   <div className="h-96 relative">
                     <Pie data={chartData} options={chartOptions} />
                   </div>
@@ -396,7 +402,7 @@ const NFLTargetShare = () => {
                       <div className="flex items-center gap-4">
                         {/* Player Photo */}
                         <div className="relative">
-                          {player.photo && player.photo.includes('espncdn.com') ? (
+                          {player.photo && player.photo.includes('espncdn.com') && !player.photo.includes('default.png') ? (
                             <img
                               src={player.photo}
                               alt={player.name}
@@ -411,17 +417,19 @@ const NFLTargetShare = () => {
                           <div
                             className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold border border-gray-400"
                             style={{
-                              backgroundColor: getTeamColor(selectedTeam),
+                              backgroundColor: player.position === 'OTHER' ? '#4B5563' : getTeamColor(selectedTeam),
                               color: 'white',
-                              display: player.photo && player.photo.includes('espncdn.com') ? 'none' : 'flex'
+                              display: player.photo && player.photo.includes('espncdn.com') && !player.photo.includes('default.png') ? 'none' : 'flex'
                             }}
                           >
-                            {player.name.split(' ').map(n => n[0]).join('')}
+                            {player.position === 'OTHER' ? '∑' : player.name.split(' ').map(n => n[0]).join('')}
                           </div>
-                          {/* Position Badge */}
-                          <div className="absolute -bottom-0.5 -right-0.5 bg-blue-600 text-white text-xs px-1 py-0.5 rounded-full font-medium text-xs leading-none">
-                            {player.position}
-                          </div>
+                          {/* Position Badge (skip for the aggregate "Other" slice) */}
+                          {player.position !== 'OTHER' && (
+                            <div className="absolute -bottom-0.5 -right-0.5 bg-blue-600 text-white text-xs px-1 py-0.5 rounded-full font-medium text-xs leading-none">
+                              {player.position}
+                            </div>
+                          )}
                         </div>
 
                         {/* Color Indicator */}
@@ -434,10 +442,14 @@ const NFLTargetShare = () => {
 
                         {/* Player Info */}
                         <div>
-                          <div className="text-white font-medium text-sm">{player.name}</div>
-                          {player.number && (
+                          <div className="text-white font-medium text-sm">
+                            {player.position === 'OTHER' ? 'Other players' : player.name}
+                          </div>
+                          {player.position === 'OTHER' ? (
+                            <div className="text-gray-400 text-xs">Remaining team targets</div>
+                          ) : player.number ? (
                             <div className="text-gray-400 text-xs">#{player.number}</div>
-                          )}
+                          ) : null}
                         </div>
                       </div>
 
@@ -508,9 +520,9 @@ const NFLTargetShare = () => {
         <div className="mt-12 text-center">
           <div className="bg-gray-800 rounded-lg p-6 inline-block">
             <p className="text-gray-300 text-sm">
-              <span role="img" aria-label="refresh">🔄</span> Data updates every Tuesday morning during NFL season<br />
+              <span role="img" aria-label="calendar">🗓️</span> {season ? `${season} season` : 'Season'} target data{availableWeeks.length > 0 ? ` (weeks ${availableWeeks[0].value}–${availableWeeks[availableWeeks.length - 1].value})` : ''}<br />
               <span role="img" aria-label="chart">📊</span> Showing target share percentages for wide receivers, tight ends, and running backs<br />
-              <span role="img" aria-label="lightning">⚡</span> Built with React, Chart.js, and live NFL data
+              <span role="img" aria-label="lightning">⚡</span> Built with React, Chart.js, and FantasyPros data
             </p>
           </div>
         </div>

@@ -80,8 +80,9 @@ def setup_environment():
     print("\nNext steps:")
     print(f"1. Activate virtual environment: source {activate_script}")
     print("2. Test the scraper: python src/test_scraper.py")
-    print("3. Start the API server: python src/api_server.py")
-    print("4. Test API endpoints: curl http://localhost:5000/api/health")
+    print("3. Generate target-share data: python ../scripts/exportNFLData.py")
+    print("   (writes public/nfl-data.json; also runs weekly via the")
+    print("    'Refresh NFL target-share data' GitHub Action)")
 
     return True
 
