@@ -1,0 +1,57 @@
+name: Refresh NFL target-share data
+
+on:
+  schedule:
+    - cron: '0 14 * * 2'   # Tuesdays 14:00 UTC (~9-10am ET)
+  workflow_dispatch: {}     # allow manual runs
+
+permissions:
+  contents: write           # needed to commit the refreshed JSON
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip in deep offseason (Feb-Aug)
+        id: season
+        run: |
+          month=$((10#$(date -u +%m)))   # base-10 to avoid octal issues with 08/09
+          if [ "$month" -ge 2 ] && [ "$month" -le 8 ]; then
+            echo "Offseason (month $month) - skipping scrape."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.season.outputs.skip == 'false'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.season.outputs.skip == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install scraper dependencies
+        if: steps.season.outputs.skip == 'false'
+        run: pip install requests beautifulsoup4
+
+      - name: Scrape latest data
+        if: steps.season.outputs.skip == 'false'
+        run: python3 scripts/exportNFLData.py
+
+      - name: Validate and commit if changed
+        if: steps.season.outputs.skip == 'false'
+        run: |
+          python3 -c "import json,sys; d=json.load(open('public/nfl-data.json')); sys.exit(0 if d.get('success') and d.get('weeks') else 1)" \
+            || { echo 'Scrape produced invalid/empty data - not committing.'; exit 1; }
+          if git diff --quiet -- public/nfl-data.json; then
+            echo 'No data changes - nothing to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add public/nfl-data.json
+          git commit -m 'chore(data): refresh NFL target-share data'
+          git push
