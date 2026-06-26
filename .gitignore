@@ -42,3 +42,7 @@ CLAUDE.md
 # Setup scripts
 install.sh
 setup
+
+# Environment files (keep .env.example only)
+.env
+backend/.env
