@@ -186,7 +186,7 @@ def main():
                 existing = json.load(f)
             if data_signature(existing) == data_signature(output_data):
                 print("✅ No data change - leaving existing nfl-data.json untouched")
-                print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
+                print(f"🎯 Available teams: {', '.join(output_data['availableTeams'])}")
                 return
         except Exception:
             pass  # unreadable / old format - fall through and rewrite
@@ -196,7 +196,7 @@ def main():
             json.dump(output_data, f, indent=2)
 
         print(f"📁 Data exported to: {output_path}")
-        print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
+        print(f"🎯 Available teams: {', '.join(output_data['availableTeams'])}")
         print(f"📈 Success rate: {(successful_teams/len(NFL_TEAMS)*100):.1f}%")
 
     except Exception as e:
