@@ -47,6 +47,16 @@ def export_team_data_for_week(scraper, team, week, year):
         print(f"  ❌ {team} Week {week}: Error - {e}")
         return []
 
+def data_signature(d):
+    """Stable signature of the meaningful data fields, ignoring volatile
+    fields like lastUpdated. Round-trips through JSON so int dict keys (e.g.
+    week numbers) are stringified on both sides before comparison, matching
+    what the on-disk JSON stores."""
+    fields = ['weeks', 'totalPlayers', 'availableTeams', 'availableWeeks', 'season', 'success']
+    subset = {k: d.get(k) for k in fields}
+    return json.dumps(json.loads(json.dumps(subset)), sort_keys=True)
+
+
 def main():
     # NFL season year = year the season started (Jan belongs to prior season).
     # Overridable via SEASON env var (e.g. SEASON=2024).
@@ -156,15 +166,38 @@ def main():
     # Write data to public directory for static serving
     output_path = os.path.join(public_dir, 'nfl-data.json')
 
+    # On a total scrape failure, write the failure marker but exit non-zero so
+    # CI (and any other caller) treats the run as failed and never commits it.
+    if not output_data.get('success'):
+        try:
+            with open(output_path, 'w') as f:
+                json.dump(output_data, f, indent=2)
+        except Exception as e:
+            print(f"❌ Error writing output file: {e}")
+        print("❌ Scrape failed - wrote failure marker, exiting non-zero")
+        sys.exit(1)
+
+    # Skip rewriting when the meaningful data is unchanged. exportNFLData stamps
+    # lastUpdated on every run, so an unconditional write would churn the file's
+    # timestamp and defeat the CI commit guard (git diff would always be dirty).
+    if os.path.exists(output_path):
+        try:
+            with open(output_path) as f:
+                existing = json.load(f)
+            if data_signature(existing) == data_signature(output_data):
+                print("✅ No data change - leaving existing nfl-data.json untouched")
+                print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
+                return
+        except Exception:
+            pass  # unreadable / old format - fall through and rewrite
+
     try:
         with open(output_path, 'w') as f:
             json.dump(output_data, f, indent=2)
 
         print(f"📁 Data exported to: {output_path}")
-
-        if successful_teams > 0:
-            print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
-            print(f"📈 Success rate: {(successful_teams/len(NFL_TEAMS)*100):.1f}%")
+        print(f"🎯 Available teams: {', '.join(sorted(list(all_teams)))}")
+        print(f"📈 Success rate: {(successful_teams/len(NFL_TEAMS)*100):.1f}%")
 
     except Exception as e:
         print(f"❌ Error writing output file: {e}")
