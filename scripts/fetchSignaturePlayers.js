@@ -210,8 +210,9 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
   const eraFactor = buildEraFactor(existingData);
   const signaturePlayers = {};
   for (const [teamId, players] of Object.entries(byTeam)) {
-    // Filter out D/ST and K — focus on skill position players
-    const skillPlayers = players.filter(p => !['D/ST', 'K'].includes(p.position));
+    // Filter out D/ST and K, and require >=2 seasons with the team so "signature"
+    // implies staying power (no one-season rentals).
+    const skillPlayers = players.filter(p => !['D/ST', 'K'].includes(p.position) && p.seasons.length >= 2);
 
     skillPlayers.forEach(p => {
       // Era-adjusted career points (for display): rebase each season to the all-time baseline.
