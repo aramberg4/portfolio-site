@@ -216,9 +216,11 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
 
   // Pass 1: compute value-over-position, era-adjusted points, and tenure for every
   // eligible player-team stint, league-wide.
-  // Exclude non-individual roster entries: ESPN's "head coach" slot (e.g. "Chiefs Coach")
-  // and team defenses (D/ST). Kickers stay eligible (so a long-tenured kicker can qualify).
-  const isExcluded = (p) => /\bcoach\b/i.test(p.playerName) || p.position === 'D/ST';
+  // Exclude only team defenses (D/ST) — not an individual. Head-coach roster slots ARE
+  // allowed: a long tenure with one coach is real loyalty. ESPN buckets them under a junk
+  // position, so relabel to 'Coach' for display.
+  const isCoach = (p) => /\bcoach\b/i.test(p.playerName);
+  const isExcluded = (p) => p.position === 'D/ST';
   const eligible = [];
   for (const players of Object.values(byTeam)) {
     for (const p of players) {
@@ -256,7 +258,7 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
       return {
         playerId: p.playerId,
         playerName: p.playerName,
-        position: p.position,
+        position: isCoach(p) ? 'Coach' : p.position,
         seasonsPlayed: numSeasons,
         seasonYears: p.seasons.map(s => s.year).sort(),
         totalPoints: Math.round(p.totalPoints * 100) / 100,

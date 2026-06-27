@@ -778,7 +778,7 @@ const FantasyFootball = () => {
                     const posColors = {
                       QB: '#ef4444', RB: '#3b82f6', WR: '#10b981', TE: '#f59e0b',
                       LB: '#a855f7', DE: '#ec4899', DT: '#ec4899', CB: '#06b6d4',
-                      S: '#06b6d4', IDP: '#a855f7', K: '#6b7280', 'D/ST': '#6b7280',
+                      S: '#06b6d4', IDP: '#a855f7', K: '#6b7280', 'D/ST': '#6b7280', Coach: '#d97706',
                     };
                     return (
                       <div key={player.playerId} style={{
