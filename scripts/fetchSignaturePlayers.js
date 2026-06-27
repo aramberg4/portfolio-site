@@ -208,23 +208,47 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
   }
 
   const eraFactor = buildEraFactor(existingData);
+
+  // Eligibility: >=2 seasons with the team (staying power). ALL positions are eligible,
+  // including K and D/ST, so a long-tenured kicker/defense can earn a slot on tenure.
+  const W_VALUE = 0.6;   // weight on value-over-position (peak quality)
+  const W_TENURE = 0.4;  // weight on tenure (longevity / franchise loyalty)
+
+  // Pass 1: compute value-over-position, era-adjusted points, and tenure for every
+  // eligible player-team stint, league-wide.
+  // Exclude non-individual roster entries: ESPN's "head coach" slot (e.g. "Chiefs Coach")
+  // and team defenses (D/ST). Kickers stay eligible (so a long-tenured kicker can qualify).
+  const isExcluded = (p) => /\bcoach\b/i.test(p.playerName) || p.position === 'D/ST';
+  const eligible = [];
+  for (const players of Object.values(byTeam)) {
+    for (const p of players) {
+      if (p.seasons.length < 2 || isExcluded(p)) continue;
+      p.adjTotalPoints = p.seasons.reduce((s, x) => s + x.points * eraFactor(x.year), 0);
+      p.posValue = p.seasons.reduce((s, x) => s + (x.points - posBaseline(x.year, p.position)), 0);
+      p.tenure = p.seasons.length;
+      eligible.push(p);
+    }
+  }
+
+  // Standardize value and tenure league-wide so they combine on a comparable scale,
+  // then blend. A "signature" player has strong positional value AND/OR long tenure.
+  const zStats = (vals) => {
+    const mean = vals.reduce((s, v) => s + v, 0) / vals.length;
+    const sd = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length) || 1;
+    return { mean, sd };
+  };
+  const valZ = zStats(eligible.map(p => p.posValue));
+  const tenZ = zStats(eligible.map(p => p.tenure));
+  eligible.forEach(p => {
+    p.blendScore = W_VALUE * ((p.posValue - valZ.mean) / valZ.sd) + W_TENURE * ((p.tenure - tenZ.mean) / tenZ.sd);
+  });
+
   const signaturePlayers = {};
   for (const [teamId, players] of Object.entries(byTeam)) {
-    // Filter out D/ST and K, and require >=2 seasons with the team so "signature"
-    // implies staying power (no one-season rentals).
-    const skillPlayers = players.filter(p => !['D/ST', 'K'].includes(p.position) && p.seasons.length >= 2);
+    const teamEligible = players.filter(p => p.seasons.length >= 2 && !isExcluded(p));
+    teamEligible.sort((a, b) => b.blendScore - a.blendScore);
 
-    skillPlayers.forEach(p => {
-      // Era-adjusted career points (for display): rebase each season to the all-time baseline.
-      p.adjTotalPoints = p.seasons.reduce((s, x) => s + x.points * eraFactor(x.year), 0);
-      // Value over position (for ranking): career points above an average rostered player
-      // at the same position each season. De-weights QBs and is inherently era-relative.
-      p.posValue = p.seasons.reduce((s, x) => s + (x.points - posBaseline(x.year, p.position)), 0);
-    });
-    // Rank by positional value so the top 4 isn't crowded with high-scoring QBs.
-    skillPlayers.sort((a, b) => b.posValue - a.posValue);
-
-    signaturePlayers[teamId] = skillPlayers.slice(0, 4).map(p => {
+    signaturePlayers[teamId] = teamEligible.slice(0, 4).map(p => {
       const numSeasons = p.seasons.length;
       const seasonPoints = {};
       p.seasons.forEach(s => { seasonPoints[s.year] = s.points; });
@@ -241,6 +265,7 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
         adjAvgPointsPerSeason: Math.round((p.adjTotalPoints / numSeasons) * 100) / 100,
         posValue: Math.round(p.posValue * 100) / 100,
         avgPosValue: Math.round((p.posValue / numSeasons) * 100) / 100,
+        blendScore: Math.round(p.blendScore * 1000) / 1000,
         seasonPoints,
         playoffAppearances: p.playoffAppearances,
         championships: p.championships,
@@ -298,7 +323,7 @@ async function main() {
   for (const [teamId, players] of Object.entries(signaturePlayers)) {
     console.log(`\n  Team ${teamId}:`);
     players.forEach((p, i) => {
-      console.log(`    ${i + 1}. ${p.playerName} (${p.position}) — value ${p.posValue.toLocaleString()} | ${p.adjTotalPoints.toLocaleString()} adj pts over ${p.seasonsPlayed} seasons`);
+      console.log(`    ${i + 1}. ${p.playerName} (${p.position}) — blend ${p.blendScore} | value ${p.posValue.toLocaleString()} | ${p.seasonsPlayed} szn`);
     });
   }
 

@@ -1728,28 +1728,47 @@
   "signaturePlayers": {
     "1": [
       {
-        "playerId": 3054850,
-        "playerName": "Alvin Kamara",
-        "position": "RB",
-        "seasonsPlayed": 3,
+        "playerId": 15683,
+        "playerName": "Justin Tucker",
+        "position": "K",
+        "seasonsPlayed": 12,
         "seasonYears": [
+          2013,
+          2014,
+          2015,
+          2016,
           2017,
           2018,
-          2021
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
         ],
-        "totalPoints": 713.4,
-        "avgPointsPerSeason": 237.8,
-        "adjTotalPoints": 748.4,
-        "adjAvgPointsPerSeason": 249.47,
-        "posValue": 327.92,
-        "avgPosValue": 109.31,
+        "totalPoints": 1854.9,
+        "avgPointsPerSeason": 154.57,
+        "adjTotalPoints": 1983.34,
+        "adjAvgPointsPerSeason": 165.28,
+        "posValue": 139.78,
+        "avgPosValue": 11.65,
+        "blendScore": 6.144,
         "seasonPoints": {
-          "2017": 228,
-          "2018": 273.2,
-          "2021": 212.2
+          "2013": 159,
+          "2014": 136,
+          "2015": 140,
+          "2016": 174,
+          "2017": 162,
+          "2018": 156,
+          "2019": 152,
+          "2020": 143,
+          "2021": 161,
+          "2022": 164,
+          "2023": 162.1,
+          "2024": 145.8
         },
-        "playoffAppearances": 1,
-        "championships": 0
+        "playoffAppearances": 4,
+        "championships": 2
       },
       {
         "playerId": 8439,
@@ -1769,6 +1788,7 @@
         "adjAvgPointsPerSeason": 348.23,
         "posValue": 324.65,
         "avgPosValue": 64.93,
+        "blendScore": 3.44,
         "seasonPoints": {
           "2016": 367,
           "2018": 324.58,
@@ -1780,25 +1800,28 @@
         "championships": 1
       },
       {
-        "playerId": 4430737,
-        "playerName": "Kyren Williams",
+        "playerId": 3054850,
+        "playerName": "Alvin Kamara",
         "position": "RB",
-        "seasonsPlayed": 2,
+        "seasonsPlayed": 3,
         "seasonYears": [
-          2023,
-          2024
+          2017,
+          2018,
+          2021
         ],
-        "totalPoints": 496.6,
-        "avgPointsPerSeason": 248.3,
-        "adjTotalPoints": 417.11,
-        "adjAvgPointsPerSeason": 208.55,
-        "posValue": 184.83,
-        "avgPosValue": 92.41,
+        "totalPoints": 713.4,
+        "avgPointsPerSeason": 237.8,
+        "adjTotalPoints": 748.4,
+        "adjAvgPointsPerSeason": 249.47,
+        "posValue": 327.92,
+        "avgPosValue": 109.31,
+        "blendScore": 2.344,
         "seasonPoints": {
-          "2023": 240,
-          "2024": 256.6
+          "2017": 228,
+          "2018": 273.2,
+          "2021": 212.2
         },
-        "playoffAppearances": 0,
+        "playoffAppearances": 1,
         "championships": 0
       },
       {
@@ -1817,6 +1840,7 @@
         "adjAvgPointsPerSeason": 197.26,
         "posValue": 147.69,
         "avgPosValue": 49.23,
+        "blendScore": 1.165,
         "seasonPoints": {
           "2017": 214,
           "2020": 233.3,
@@ -1843,34 +1867,11 @@
         "adjAvgPointsPerSeason": 275.33,
         "posValue": 406.9,
         "avgPosValue": 135.63,
+        "blendScore": 2.86,
         "seasonPoints": {
           "2017": 137,
           "2018": 282.5,
           "2019": 363.2
-        },
-        "playoffAppearances": 2,
-        "championships": 2
-      },
-      {
-        "playerId": 15847,
-        "playerName": "Travis Kelce",
-        "position": "TE",
-        "seasonsPlayed": 3,
-        "seasonYears": [
-          2018,
-          2019,
-          2020
-        ],
-        "totalPoints": 612.16,
-        "avgPointsPerSeason": 204.05,
-        "adjTotalPoints": 618.66,
-        "adjAvgPointsPerSeason": 206.22,
-        "posValue": 294.77,
-        "avgPosValue": 98.26,
-        "seasonPoints": {
-          "2018": 193.6,
-          "2019": 158.3,
-          "2020": 260.26
         },
         "playoffAppearances": 2,
         "championships": 2
@@ -1892,6 +1893,7 @@
         "adjAvgPointsPerSeason": 199.66,
         "posValue": 218.84,
         "avgPosValue": 54.71,
+        "blendScore": 2.19,
         "seasonPoints": {
           "2015": 232,
           "2016": 218,
@@ -1902,25 +1904,57 @@
         "championships": 0
       },
       {
-        "playerId": 3059915,
-        "playerName": "Kareem Hunt",
-        "position": "RB",
-        "seasonsPlayed": 2,
+        "playerId": 15847,
+        "playerName": "Travis Kelce",
+        "position": "TE",
+        "seasonsPlayed": 3,
         "seasonYears": [
-          2017,
-          2018
+          2018,
+          2019,
+          2020
         ],
-        "totalPoints": 444.2,
-        "avgPointsPerSeason": 222.1,
-        "adjTotalPoints": 488.55,
-        "adjAvgPointsPerSeason": 244.27,
-        "posValue": 203.34,
-        "avgPosValue": 101.67,
+        "totalPoints": 612.16,
+        "avgPointsPerSeason": 204.05,
+        "adjTotalPoints": 618.66,
+        "adjAvgPointsPerSeason": 206.22,
+        "posValue": 294.77,
+        "avgPosValue": 98.26,
+        "blendScore": 2.127,
         "seasonPoints": {
-          "2017": 236,
-          "2018": 208.2
+          "2018": 193.6,
+          "2019": 158.3,
+          "2020": 260.26
         },
-        "playoffAppearances": 1,
+        "playoffAppearances": 2,
+        "championships": 2
+      },
+      {
+        "playerId": 11237,
+        "playerName": "Matt Ryan",
+        "position": "QB",
+        "seasonsPlayed": 5,
+        "seasonYears": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2020
+        ],
+        "totalPoints": 1364.44,
+        "avgPointsPerSeason": 272.89,
+        "adjTotalPoints": 1613.12,
+        "adjAvgPointsPerSeason": 322.62,
+        "posValue": -22.82,
+        "avgPosValue": -4.56,
+        "blendScore": 1.168,
+        "seasonPoints": {
+          "2013": 239,
+          "2014": 270,
+          "2015": 227,
+          "2016": 342,
+          "2020": 286.44
+        },
+        "playoffAppearances": 3,
         "championships": 1
       }
     ],
@@ -1941,6 +1975,7 @@
         "adjAvgPointsPerSeason": 230.97,
         "posValue": 267.16,
         "avgPosValue": 89.05,
+        "blendScore": 1.947,
         "seasonPoints": {
           "2016": 195,
           "2017": 208,
@@ -1965,6 +2000,7 @@
         "adjAvgPointsPerSeason": 209.15,
         "posValue": 254.22,
         "avgPosValue": 84.74,
+        "blendScore": 1.862,
         "seasonPoints": {
           "2023": 249,
           "2024": 170.1,
@@ -1989,6 +2025,7 @@
         "adjAvgPointsPerSeason": 208.86,
         "posValue": 230.97,
         "avgPosValue": 76.99,
+        "blendScore": 1.71,
         "seasonPoints": {
           "2016": 85,
           "2019": 287.6,
@@ -2013,6 +2050,7 @@
         "adjAvgPointsPerSeason": 182.36,
         "posValue": 198.89,
         "avgPosValue": 66.3,
+        "blendScore": 1.5,
         "seasonPoints": {
           "2022": 185,
           "2023": 191.5,
@@ -2039,56 +2077,11 @@
         "adjAvgPointsPerSeason": 263.36,
         "posValue": 350.76,
         "avgPosValue": 116.92,
+        "blendScore": 2.493,
         "seasonPoints": {
           "2020": 233.2,
           "2021": 278.4,
           "2022": 308.66
-        },
-        "playoffAppearances": 1,
-        "championships": 0
-      },
-      {
-        "playerId": 3068267,
-        "playerName": "Austin Ekeler",
-        "position": "RB",
-        "seasonsPlayed": 3,
-        "seasonYears": [
-          2020,
-          2021,
-          2023
-        ],
-        "totalPoints": 609,
-        "avgPointsPerSeason": 203,
-        "adjTotalPoints": 577.99,
-        "adjAvgPointsPerSeason": 192.66,
-        "posValue": 182.13,
-        "avgPosValue": 60.71,
-        "seasonPoints": {
-          "2020": 139.3,
-          "2021": 308.8,
-          "2023": 160.9
-        },
-        "playoffAppearances": 1,
-        "championships": 0
-      },
-      {
-        "playerId": 4038941,
-        "playerName": "Justin Herbert",
-        "position": "QB",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2020,
-          2021
-        ],
-        "totalPoints": 731.6,
-        "avgPointsPerSeason": 365.8,
-        "adjTotalPoints": 703.66,
-        "adjAvgPointsPerSeason": 351.83,
-        "posValue": 158.86,
-        "avgPosValue": 79.43,
-        "seasonPoints": {
-          "2020": 343.84,
-          "2021": 387.76
         },
         "playoffAppearances": 1,
         "championships": 0
@@ -2111,6 +2104,7 @@
         "adjAvgPointsPerSeason": 168.89,
         "posValue": 148.58,
         "avgPosValue": 29.72,
+        "blendScore": 2.289,
         "seasonPoints": {
           "2014": 176,
           "2015": 153,
@@ -2120,9 +2114,90 @@
         },
         "playoffAppearances": 4,
         "championships": 1
+      },
+      {
+        "playerId": 3068267,
+        "playerName": "Austin Ekeler",
+        "position": "RB",
+        "seasonsPlayed": 3,
+        "seasonYears": [
+          2020,
+          2021,
+          2023
+        ],
+        "totalPoints": 609,
+        "avgPointsPerSeason": 203,
+        "adjTotalPoints": 577.99,
+        "adjAvgPointsPerSeason": 192.66,
+        "posValue": 182.13,
+        "avgPosValue": 60.71,
+        "blendScore": 1.391,
+        "seasonPoints": {
+          "2020": 139.3,
+          "2021": 308.8,
+          "2023": 160.9
+        },
+        "playoffAppearances": 1,
+        "championships": 0
+      },
+      {
+        "playerId": 14924,
+        "playerName": "T.Y. Hilton",
+        "position": "WR",
+        "seasonsPlayed": 4,
+        "seasonYears": [
+          2013,
+          2014,
+          2016,
+          2017
+        ],
+        "totalPoints": 605,
+        "avgPointsPerSeason": 151.25,
+        "adjTotalPoints": 754.91,
+        "adjAvgPointsPerSeason": 188.73,
+        "posValue": 59.7,
+        "avgPosValue": 14.92,
+        "blendScore": 1.149,
+        "seasonPoints": {
+          "2013": 132,
+          "2014": 176,
+          "2016": 180,
+          "2017": 117
+        },
+        "playoffAppearances": 2,
+        "championships": 0
       }
     ],
     "5": [
+      {
+        "playerId": 15818,
+        "playerName": "Keenan Allen",
+        "position": "WR",
+        "seasonsPlayed": 5,
+        "seasonYears": [
+          2017,
+          2018,
+          2021,
+          2024,
+          2025
+        ],
+        "totalPoints": 847.5,
+        "avgPointsPerSeason": 169.5,
+        "adjTotalPoints": 814.4,
+        "adjAvgPointsPerSeason": 162.88,
+        "posValue": 148.82,
+        "avgPosValue": 29.76,
+        "blendScore": 2.291,
+        "seasonPoints": {
+          "2017": 180,
+          "2018": 166.1,
+          "2021": 206.8,
+          "2024": 149.4,
+          "2025": 145.2
+        },
+        "playoffAppearances": 4,
+        "championships": 1
+      },
       {
         "playerId": 3918298,
         "playerName": "Josh Allen",
@@ -2139,34 +2214,13 @@
         "adjAvgPointsPerSeason": 348.17,
         "posValue": 317.28,
         "avgPosValue": 105.76,
+        "blendScore": 2.274,
         "seasonPoints": {
           "2021": 406.58,
           "2024": 415.24,
           "2025": 400.52
         },
         "playoffAppearances": 2,
-        "championships": 1
-      },
-      {
-        "playerId": 2977187,
-        "playerName": "Cooper Kupp",
-        "position": "WR",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2021,
-          2022
-        ],
-        "totalPoints": 539.9,
-        "avgPointsPerSeason": 269.95,
-        "adjTotalPoints": 515.31,
-        "adjAvgPointsPerSeason": 257.65,
-        "posValue": 228.27,
-        "avgPosValue": 114.13,
-        "seasonPoints": {
-          "2021": 370,
-          "2022": 169.9
-        },
-        "playoffAppearances": 1,
         "championships": 1
       },
       {
@@ -2185,6 +2239,7 @@
         "adjAvgPointsPerSeason": 211.25,
         "posValue": 210.84,
         "avgPosValue": 70.28,
+        "blendScore": 1.578,
         "seasonPoints": {
           "2017": 171,
           "2018": 254.1,
@@ -2194,23 +2249,28 @@
         "championships": 0
       },
       {
-        "playerId": 3043078,
-        "playerName": "Derrick Henry",
-        "position": "RB",
-        "seasonsPlayed": 2,
+        "playerId": 2580,
+        "playerName": "Drew Brees",
+        "position": "QB",
+        "seasonsPlayed": 4,
         "seasonYears": [
+          2016,
           2017,
-          2024
+          2018,
+          2019
         ],
-        "totalPoints": 448.9,
-        "avgPointsPerSeason": 224.45,
-        "adjTotalPoints": 388.08,
-        "adjAvgPointsPerSeason": 194.04,
-        "posValue": 172.63,
-        "avgPosValue": 86.32,
+        "totalPoints": 1128.74,
+        "avgPointsPerSeason": 282.19,
+        "adjTotalPoints": 1225.57,
+        "adjAvgPointsPerSeason": 306.39,
+        "posValue": 99.69,
+        "avgPosValue": 24.92,
+        "blendScore": 1.41,
         "seasonPoints": {
-          "2017": 120,
-          "2024": 328.9
+          "2016": 337,
+          "2017": 255,
+          "2018": 309.98,
+          "2019": 226.76
         },
         "playoffAppearances": 2,
         "championships": 0
@@ -2233,6 +2293,7 @@
         "adjAvgPointsPerSeason": 282.72,
         "posValue": 348.39,
         "avgPosValue": 116.13,
+        "blendScore": 2.478,
         "seasonPoints": {
           "2014": 275,
           "2016": 234,
@@ -2257,6 +2318,7 @@
         "adjAvgPointsPerSeason": 247.43,
         "posValue": 300.2,
         "avgPosValue": 100.07,
+        "blendScore": 2.163,
         "seasonPoints": {
           "2020": 268.1,
           "2021": 237,
@@ -2281,6 +2343,7 @@
         "adjAvgPointsPerSeason": 222.57,
         "posValue": 271.48,
         "avgPosValue": 90.49,
+        "blendScore": 1.975,
         "seasonPoints": {
           "2022": 214.6,
           "2023": 278.4,
@@ -2290,51 +2353,32 @@
         "championships": 0
       },
       {
-        "playerId": 4047365,
-        "playerName": "Josh Jacobs",
-        "position": "RB",
-        "seasonsPlayed": 2,
+        "playerId": 16800,
+        "playerName": "Davante Adams",
+        "position": "WR",
+        "seasonsPlayed": 3,
         "seasonYears": [
-          2022,
-          2023
+          2017,
+          2018,
+          2019
         ],
-        "totalPoints": 475.4,
-        "avgPointsPerSeason": 237.7,
-        "adjTotalPoints": 452.56,
-        "adjAvgPointsPerSeason": 226.28,
-        "posValue": 167.53,
-        "avgPosValue": 83.76,
+        "totalPoints": 495.3,
+        "avgPointsPerSeason": 165.1,
+        "adjTotalPoints": 530.23,
+        "adjAvgPointsPerSeason": 176.74,
+        "posValue": 133.18,
+        "avgPosValue": 44.39,
+        "blendScore": 1.071,
         "seasonPoints": {
-          "2022": 308.8,
-          "2023": 166.6
+          "2017": 145,
+          "2018": 219.6,
+          "2019": 130.7
         },
-        "playoffAppearances": 1,
+        "playoffAppearances": 3,
         "championships": 0
       }
     ],
     "7": [
-      {
-        "playerId": 4429795,
-        "playerName": "Jahmyr Gibbs",
-        "position": "RB",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2023,
-          2025
-        ],
-        "totalPoints": 550.5,
-        "avgPointsPerSeason": 275.25,
-        "adjTotalPoints": 486.54,
-        "adjAvgPointsPerSeason": 243.27,
-        "posValue": 237.82,
-        "avgPosValue": 118.91,
-        "seasonPoints": {
-          "2023": 216.1,
-          "2025": 334.4
-        },
-        "playoffAppearances": 0,
-        "championships": 0
-      },
       {
         "playerId": 4362628,
         "playerName": "Ja'Marr Chase",
@@ -2351,10 +2395,59 @@
         "adjAvgPointsPerSeason": 223.05,
         "posValue": 219.97,
         "avgPosValue": 73.32,
+        "blendScore": 1.638,
         "seasonPoints": {
           "2021": 281.1,
           "2022": 204.9,
           "2023": 220.82
+        },
+        "playoffAppearances": 0,
+        "championships": 0
+      },
+      {
+        "playerId": 4429795,
+        "playerName": "Jahmyr Gibbs",
+        "position": "RB",
+        "seasonsPlayed": 2,
+        "seasonYears": [
+          2023,
+          2025
+        ],
+        "totalPoints": 550.5,
+        "avgPointsPerSeason": 275.25,
+        "adjTotalPoints": 486.54,
+        "adjAvgPointsPerSeason": 243.27,
+        "posValue": 237.82,
+        "avgPosValue": 118.91,
+        "blendScore": 1.196,
+        "seasonPoints": {
+          "2023": 216.1,
+          "2025": 334.4
+        },
+        "playoffAppearances": 0,
+        "championships": 0
+      },
+      {
+        "playerId": 3915416,
+        "playerName": "DJ Moore",
+        "position": "WR",
+        "seasonsPlayed": 3,
+        "seasonYears": [
+          2021,
+          2023,
+          2025
+        ],
+        "totalPoints": 589.78,
+        "avgPointsPerSeason": 196.59,
+        "adjTotalPoints": 540.47,
+        "adjAvgPointsPerSeason": 180.16,
+        "posValue": 113.85,
+        "avgPosValue": 37.95,
+        "blendScore": 0.944,
+        "seasonPoints": {
+          "2021": 197,
+          "2023": 246.5,
+          "2025": 146.28
         },
         "playoffAppearances": 0,
         "championships": 0
@@ -2374,85 +2467,16 @@
         "adjAvgPointsPerSeason": 378.41,
         "posValue": 191.99,
         "avgPosValue": 96,
+        "blendScore": 0.896,
         "seasonPoints": {
           "2018": 433.08,
           "2019": 297.04
         },
         "playoffAppearances": 0,
         "championships": 0
-      },
-      {
-        "playerId": 3042519,
-        "playerName": "Aaron Jones",
-        "position": "RB",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2020,
-          2022
-        ],
-        "totalPoints": 458.5,
-        "avgPointsPerSeason": 229.25,
-        "adjTotalPoints": 445.37,
-        "adjAvgPointsPerSeason": 222.69,
-        "posValue": 180.73,
-        "avgPosValue": 90.36,
-        "seasonPoints": {
-          "2020": 239.4,
-          "2022": 219.1
-        },
-        "playoffAppearances": 0,
-        "championships": 0
       }
     ],
     "8": [
-      {
-        "playerId": 3116406,
-        "playerName": "Tyreek Hill",
-        "position": "WR",
-        "seasonsPlayed": 3,
-        "seasonYears": [
-          2022,
-          2023,
-          2024
-        ],
-        "totalPoints": 810.3,
-        "avgPointsPerSeason": 270.1,
-        "adjTotalPoints": 731.72,
-        "adjAvgPointsPerSeason": 243.91,
-        "posValue": 322,
-        "avgPosValue": 107.33,
-        "seasonPoints": {
-          "2022": 295.7,
-          "2023": 331.9,
-          "2024": 182.7
-        },
-        "playoffAppearances": 2,
-        "championships": 1
-      },
-      {
-        "playerId": 3043078,
-        "playerName": "Derrick Henry",
-        "position": "RB",
-        "seasonsPlayed": 3,
-        "seasonYears": [
-          2018,
-          2022,
-          2023
-        ],
-        "totalPoints": 716.48,
-        "avgPointsPerSeason": 238.83,
-        "adjTotalPoints": 697.44,
-        "adjAvgPointsPerSeason": 232.48,
-        "posValue": 288.42,
-        "avgPosValue": 96.14,
-        "seasonPoints": {
-          "2018": 195.36,
-          "2022": 288.26,
-          "2023": 232.86
-        },
-        "playoffAppearances": 2,
-        "championships": 1
-      },
       {
         "playerId": 2330,
         "playerName": "Tom Brady",
@@ -2471,6 +2495,7 @@
         "adjAvgPointsPerSeason": 313.18,
         "posValue": 231.24,
         "avgPosValue": 46.25,
+        "blendScore": 2.83,
         "seasonPoints": {
           "2016": 265,
           "2017": 291,
@@ -2482,31 +2507,111 @@
         "championships": 1
       },
       {
-        "playerId": 4040715,
-        "playerName": "Jalen Hurts",
-        "position": "QB",
+        "playerId": 3116406,
+        "playerName": "Tyreek Hill",
+        "position": "WR",
         "seasonsPlayed": 3,
         "seasonYears": [
-          2021,
           2022,
-          2025
+          2023,
+          2024
         ],
-        "totalPoints": 1025.66,
-        "avgPointsPerSeason": 341.89,
-        "adjTotalPoints": 949.35,
-        "adjAvgPointsPerSeason": 316.45,
-        "posValue": 206.86,
-        "avgPosValue": 68.95,
+        "totalPoints": 810.3,
+        "avgPointsPerSeason": 270.1,
+        "adjTotalPoints": 731.72,
+        "adjAvgPointsPerSeason": 243.91,
+        "posValue": 322,
+        "avgPosValue": 107.33,
+        "blendScore": 2.305,
         "seasonPoints": {
-          "2021": 312.16,
-          "2022": 382.04,
-          "2025": 331.46
+          "2022": 295.7,
+          "2023": 331.9,
+          "2024": 182.7
+        },
+        "playoffAppearances": 2,
+        "championships": 1
+      },
+      {
+        "playerId": 15847,
+        "playerName": "Travis Kelce",
+        "position": "TE",
+        "seasonsPlayed": 4,
+        "seasonYears": [
+          2015,
+          2016,
+          2017,
+          2021
+        ],
+        "totalPoints": 605.8,
+        "avgPointsPerSeason": 151.45,
+        "adjTotalPoints": 641.97,
+        "adjAvgPointsPerSeason": 160.49,
+        "posValue": 203.69,
+        "avgPosValue": 50.92,
+        "blendScore": 2.091,
+        "seasonPoints": {
+          "2015": 109,
+          "2016": 135,
+          "2017": 144,
+          "2021": 217.8
+        },
+        "playoffAppearances": 2,
+        "championships": 0
+      },
+      {
+        "playerId": 3043078,
+        "playerName": "Derrick Henry",
+        "position": "RB",
+        "seasonsPlayed": 3,
+        "seasonYears": [
+          2018,
+          2022,
+          2023
+        ],
+        "totalPoints": 716.48,
+        "avgPointsPerSeason": 238.83,
+        "adjTotalPoints": 697.44,
+        "adjAvgPointsPerSeason": 232.48,
+        "posValue": 288.42,
+        "avgPosValue": 96.14,
+        "blendScore": 2.086,
+        "seasonPoints": {
+          "2018": 195.36,
+          "2022": 288.26,
+          "2023": 232.86
         },
         "playoffAppearances": 2,
         "championships": 1
       }
     ],
     "9": [
+      {
+        "playerId": 4043130,
+        "playerName": "Jordyn Brooks",
+        "position": "LB",
+        "seasonsPlayed": 4,
+        "seasonYears": [
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "totalPoints": 709.25,
+        "avgPointsPerSeason": 177.31,
+        "adjTotalPoints": 634.39,
+        "adjAvgPointsPerSeason": 158.6,
+        "posValue": 161.55,
+        "avgPosValue": 40.39,
+        "blendScore": 1.815,
+        "seasonPoints": {
+          "2021": 194,
+          "2022": 172,
+          "2023": 140.5,
+          "2024": 202.75
+        },
+        "playoffAppearances": 3,
+        "championships": 1
+      },
       {
         "playerId": 3116406,
         "playerName": "Tyreek Hill",
@@ -2523,12 +2628,38 @@
         "adjAvgPointsPerSeason": 200.56,
         "posValue": 199.18,
         "avgPosValue": 66.39,
+        "blendScore": 1.502,
         "seasonPoints": {
           "2017": 170,
           "2018": 258,
           "2019": 133.3
         },
         "playoffAppearances": 0,
+        "championships": 0
+      },
+      {
+        "playerId": 3051392,
+        "playerName": "Ezekiel Elliott",
+        "position": "RB",
+        "seasonsPlayed": 3,
+        "seasonYears": [
+          2020,
+          2021,
+          2023
+        ],
+        "totalPoints": 578.26,
+        "avgPointsPerSeason": 192.75,
+        "adjTotalPoints": 550.68,
+        "adjAvgPointsPerSeason": 183.56,
+        "posValue": 151.39,
+        "avgPosValue": 50.46,
+        "blendScore": 1.19,
+        "seasonPoints": {
+          "2020": 198.7,
+          "2021": 229.56,
+          "2023": 150
+        },
+        "playoffAppearances": 2,
         "championships": 0
       },
       {
@@ -2546,81 +2677,16 @@
         "adjAvgPointsPerSeason": 182.15,
         "posValue": 188.19,
         "avgPosValue": 94.09,
+        "blendScore": 0.871,
         "seasonPoints": {
           "2024": 194.3,
           "2025": 252.9
         },
         "playoffAppearances": 2,
         "championships": 1
-      },
-      {
-        "playerId": 15847,
-        "playerName": "Travis Kelce",
-        "position": "TE",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2022,
-          2023
-        ],
-        "totalPoints": 437.2,
-        "avgPointsPerSeason": 218.6,
-        "adjTotalPoints": 415.36,
-        "adjAvgPointsPerSeason": 207.68,
-        "posValue": 187.27,
-        "avgPosValue": 93.63,
-        "seasonPoints": {
-          "2022": 263.3,
-          "2023": 173.9
-        },
-        "playoffAppearances": 1,
-        "championships": 0
-      },
-      {
-        "playerId": 3116385,
-        "playerName": "Joe Mixon",
-        "position": "RB",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2021,
-          2022
-        ],
-        "totalPoints": 478.4,
-        "avgPointsPerSeason": 239.2,
-        "adjTotalPoints": 457.63,
-        "adjAvgPointsPerSeason": 228.82,
-        "posValue": 182.08,
-        "avgPosValue": 91.04,
-        "seasonPoints": {
-          "2021": 267.9,
-          "2022": 210.5
-        },
-        "playoffAppearances": 2,
-        "championships": 0
       }
     ],
     "10": [
-      {
-        "playerId": 2977644,
-        "playerName": "Todd Gurley II",
-        "position": "RB",
-        "seasonsPlayed": 2,
-        "seasonYears": [
-          2017,
-          2018
-        ],
-        "totalPoints": 624.1,
-        "avgPointsPerSeason": 312.05,
-        "adjTotalPoints": 683.8,
-        "adjAvgPointsPerSeason": 341.9,
-        "posValue": 383.24,
-        "avgPosValue": 191.62,
-        "seasonPoints": {
-          "2017": 308,
-          "2018": 316.1
-        },
-        "playoffAppearances": 2,
-        "championships": 1
-      },
       {
         "playerId": 4242335,
         "playerName": "Jonathan Taylor",
@@ -2637,6 +2703,7 @@
         "adjAvgPointsPerSeason": 234.92,
         "posValue": 310.91,
         "avgPosValue": 103.64,
+        "blendScore": 2.233,
         "seasonPoints": {
           "2020": 239.8,
           "2021": 359.1,
@@ -2646,48 +2713,81 @@
         "championships": 1
       },
       {
-        "playerId": 3929630,
-        "playerName": "Saquon Barkley",
+        "playerId": 2977644,
+        "playerName": "Todd Gurley II",
         "position": "RB",
         "seasonsPlayed": 2,
         "seasonYears": [
-          2018,
-          2019
+          2017,
+          2018
         ],
-        "totalPoints": 502.9,
-        "avgPointsPerSeason": 251.45,
-        "adjTotalPoints": 521.38,
-        "adjAvgPointsPerSeason": 260.69,
-        "posValue": 247.77,
-        "avgPosValue": 123.88,
+        "totalPoints": 624.1,
+        "avgPointsPerSeason": 312.05,
+        "adjTotalPoints": 683.8,
+        "adjAvgPointsPerSeason": 341.9,
+        "posValue": 383.24,
+        "avgPosValue": 191.62,
+        "blendScore": 2.147,
         "seasonPoints": {
-          "2018": 305.8,
-          "2019": 197.1
+          "2017": 308,
+          "2018": 316.1
         },
         "playoffAppearances": 2,
-        "championships": 0
+        "championships": 1
       },
       {
-        "playerId": 4429160,
-        "playerName": "De'Von Achane",
-        "position": "RB",
-        "seasonsPlayed": 2,
+        "playerId": 2971622,
+        "playerName": "Leonard Williams",
+        "position": "DE",
+        "seasonsPlayed": 5,
         "seasonYears": [
+          2016,
+          2020,
+          2021,
           2024,
           2025
         ],
-        "totalPoints": 558.7,
-        "avgPointsPerSeason": 279.35,
-        "adjTotalPoints": 453.02,
-        "adjAvgPointsPerSeason": 226.51,
-        "posValue": 246.6,
-        "avgPosValue": 123.3,
+        "totalPoints": 511.25,
+        "avgPointsPerSeason": 102.25,
+        "adjTotalPoints": 469.62,
+        "adjAvgPointsPerSeason": 93.92,
+        "posValue": 49.34,
+        "avgPosValue": 9.87,
+        "blendScore": 1.64,
         "seasonPoints": {
-          "2024": 264.4,
-          "2025": 294.3
+          "2016": 91,
+          "2020": 94.5,
+          "2021": 107.5,
+          "2024": 134.75,
+          "2025": 83.5
+        },
+        "playoffAppearances": 3,
+        "championships": 2
+      },
+      {
+        "playerId": 3050073,
+        "playerName": "Foyesade Oluokun",
+        "position": "LB",
+        "seasonsPlayed": 3,
+        "seasonYears": [
+          2021,
+          2022,
+          2023
+        ],
+        "totalPoints": 615.5,
+        "avgPointsPerSeason": 205.17,
+        "adjTotalPoints": 582.89,
+        "adjAvgPointsPerSeason": 194.3,
+        "posValue": 218.97,
+        "avgPosValue": 72.99,
+        "blendScore": 1.632,
+        "seasonPoints": {
+          "2021": 214,
+          "2022": 201,
+          "2023": 200.5
         },
         "playoffAppearances": 1,
-        "championships": 1
+        "championships": 0
       }
     ]
   }
