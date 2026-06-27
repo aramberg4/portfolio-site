@@ -67,7 +67,7 @@ function processData(raw) {
   // League scoring has inflated over the years (PPR changes, more starters), so raw
   // season points aren't comparable across eras. Rebase each season's scoring to a
   // common all-time per-game baseline. These adjusted figures feed the Talent score
-  // (Avg PF/PA) while the Overview table keeps the real, unadjusted numbers.
+  // and the Overview table's Adj PF/PA columns (which sit alongside the raw Avg PF/PA).
   const seasonLeaguePg = {};
   let leagueTotalPts = 0, leagueTotalGames = 0;
   allSeasons.forEach(year => {
@@ -91,8 +91,9 @@ function processData(raw) {
 
     const totalPF = seasonEntries.reduce((s, t) => s + t.pointsFor, 0);
     const totalPA = seasonEntries.reduce((s, t) => s + t.pointsAgainst, 0);
-    // Era-adjusted PF: rebase each season's points to the all-time per-game baseline.
+    // Era-adjusted PF/PA: rebase each season's points to the all-time per-game baseline.
     const adjTotalPF = Object.entries(th.seasons).reduce((s, [y, t]) => s + t.pointsFor * eraFactor(y), 0);
+    const adjTotalPA = Object.entries(th.seasons).reduce((s, [y, t]) => s + t.pointsAgainst * eraFactor(y), 0);
     const totalWins = seasonEntries.reduce((s, t) => s + t.wins, 0);
     const totalLosses = seasonEntries.reduce((s, t) => s + t.losses, 0);
     const playoffAppearances = seasonEntries.filter(t => t.madePlayoffs).length;
@@ -113,6 +114,7 @@ function processData(raw) {
       avgPF: Math.round((totalPF / numSeasons) * 100) / 100,
       avgPA: Math.round((totalPA / numSeasons) * 100) / 100,
       avgAdjPF: Math.round((adjTotalPF / numSeasons) * 100) / 100,
+      avgAdjPA: Math.round((adjTotalPA / numSeasons) * 100) / 100,
       totalWins,
       totalLosses,
       winPct: Math.round((totalWins / (totalWins + totalLosses)) * 1000) / 10,
@@ -522,7 +524,9 @@ const FantasyFootball = () => {
                         { key: 'winPct', label: 'Win%', align: 'center' },
                         { key: 'totalWins', label: 'Record', align: 'center' },
                         { key: 'avgPF', label: 'Avg PF', align: 'center' },
+                        { key: 'avgAdjPF', label: 'Adj PF', align: 'center' },
                         { key: 'avgPA', label: 'Avg PA', align: 'center' },
+                        { key: 'avgAdjPA', label: 'Adj PA', align: 'center' },
                         { key: 'playoffAppearances', label: 'Playoffs', align: 'center' },
                         { key: 'championships', label: 'Titles', align: 'center' },
                         { key: 'highestScorerSeasons', label: 'Top Scorer', align: 'center' },
@@ -563,7 +567,9 @@ const FantasyFootball = () => {
                       });
                       const allWinPct = sorted.map(t => t.winPct);
                       const allAvgPF = sorted.map(t => t.avgPF);
+                      const allAvgAdjPF = sorted.map(t => t.avgAdjPF);
                       const allAvgPA = sorted.map(t => t.avgPA);
+                      const allAvgAdjPA = sorted.map(t => t.avgAdjPA);
                       const allPlayoffs = sorted.map(t => t.playoffAppearances);
                       const allChamps = sorted.map(t => t.championships);
                       const allTopScorer = sorted.map(t => t.highestScorerSeasons);
@@ -602,8 +608,14 @@ const FantasyFootball = () => {
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPF, allAvgPF)) }}>
                               {team.avgPF.toLocaleString()}
                             </td>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgAdjPF, allAvgAdjPF)) }}>
+                              {team.avgAdjPF.toLocaleString()}
+                            </td>
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgPA, allAvgPA, true)) }}>
                               {team.avgPA.toLocaleString()}
+                            </td>
+                            <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.avgAdjPA, allAvgAdjPA, true)) }}>
+                              {team.avgAdjPA.toLocaleString()}
                             </td>
                             <td className="text-center px-3 py-3 font-medium" style={{ color: heatColor(getColumnPct(team.playoffAppearances, allPlayoffs)) }}>
                               {team.playoffAppearances}/{team.numSeasons}
@@ -887,19 +899,19 @@ const FantasyFootball = () => {
         {/* Most Talented Tab */}
         {activeTab === 'talent' && (
           <div>
+            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem', textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+              <strong style={{ color: '#9ca3af' }}>Adj PF</strong> is era-adjusted for scoring inflation (each season rebased to the league&apos;s all-time per-game average). <strong style={{ color: '#9ca3af' }}>Scoring Strength</strong> and <strong style={{ color: '#9ca3af' }}>Finish Strength</strong> are how you ranked within that year&apos;s field (% of the league you beat), so a 6-team year counts fairly against a 10-team year. Components are standardized (z-scored) and scaled to 50 = league-average team. The Overview tab lists both raw (Avg PF/PA) and adjusted (Adj PF/PA) points.
+            </p>
             <RankedCards
               title="Talent Rankings"
               teams={sortedByTalent}
               scoreKey="talentScore"
               metrics={[
                 { label: 'Adj PF', key: 'avgAdjPF', weight: '55%', format: v => v.toLocaleString() },
-                { label: 'Scoring %ile', key: 'scoringPct', weight: '30%', format: v => `${Math.round(v * 100)}%` },
-                { label: 'Reg %ile', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
+                { label: 'Scoring Strength', key: 'scoringPct', weight: '30%', format: v => `${Math.round(v * 100)}%` },
+                { label: 'Finish Strength', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
               ]}
             />
-            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '1rem', textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
-              <strong style={{ color: '#9ca3af' }}>Adj PF</strong> is era-adjusted for scoring inflation (each season rebased to the league&apos;s all-time per-game average). <strong style={{ color: '#9ca3af' }}>Scoring %ile</strong> and <strong style={{ color: '#9ca3af' }}>Reg %ile</strong> are each season&apos;s finish ranked within that year&apos;s field, so a 6-team year counts fairly against a 10-team year. Components are standardized (z-scored) and scaled to 50 = league-average team. The Overview tab shows raw, unadjusted points.
-            </p>
           </div>
         )}
 
