@@ -63,6 +63,27 @@ function processData(raw) {
     });
   });
 
+  // --- Era adjustment for point inflation ---
+  // League scoring has inflated over the years (PPR changes, more starters), so raw
+  // season points aren't comparable across eras. Rebase each season's scoring to a
+  // common all-time per-game baseline. These adjusted figures feed the Talent score
+  // (Avg PF/PA) while the Overview table keeps the real, unadjusted numbers.
+  const seasonLeaguePg = {};
+  let leagueTotalPts = 0, leagueTotalGames = 0;
+  allSeasons.forEach(year => {
+    const teams = raw.seasonData[year] || manualSeasons[year] || [];
+    let pts = 0, games = 0;
+    teams.forEach(t => {
+      const g = t.wins + t.losses;
+      if (g > 0) { pts += t.pointsFor; games += g; }
+    });
+    seasonLeaguePg[year] = games > 0 ? pts / games : null;
+    leagueTotalPts += pts;
+    leagueTotalGames += games;
+  });
+  const baselinePg = leagueTotalGames > 0 ? leagueTotalPts / leagueTotalGames : 1;
+  const eraFactor = (year) => (seasonLeaguePg[year] ? baselinePg / seasonLeaguePg[year] : 1);
+
   // Compute aggregate stats per team
   const teamStats = Object.values(teamHistories).map(th => {
     const seasonEntries = Object.values(th.seasons);
@@ -70,6 +91,8 @@ function processData(raw) {
 
     const totalPF = seasonEntries.reduce((s, t) => s + t.pointsFor, 0);
     const totalPA = seasonEntries.reduce((s, t) => s + t.pointsAgainst, 0);
+    // Era-adjusted PF: rebase each season's points to the all-time per-game baseline.
+    const adjTotalPF = Object.entries(th.seasons).reduce((s, [y, t]) => s + t.pointsFor * eraFactor(y), 0);
     const totalWins = seasonEntries.reduce((s, t) => s + t.wins, 0);
     const totalLosses = seasonEntries.reduce((s, t) => s + t.losses, 0);
     const playoffAppearances = seasonEntries.filter(t => t.madePlayoffs).length;
@@ -89,6 +112,7 @@ function processData(raw) {
       totalPA: Math.round(totalPA * 100) / 100,
       avgPF: Math.round((totalPF / numSeasons) * 100) / 100,
       avgPA: Math.round((totalPA / numSeasons) * 100) / 100,
+      avgAdjPF: Math.round((adjTotalPF / numSeasons) * 100) / 100,
       totalWins,
       totalLosses,
       winPct: Math.round((totalWins / (totalWins + totalLosses)) * 1000) / 10,
@@ -118,16 +142,37 @@ function processData(raw) {
     if (!s.highestScorerSeasons) s.highestScorerSeasons = 0;
   });
 
-  // Compute composite scores
-  // Normalize each metric to 0-100 scale
+  // Within-season percentiles (size-normalized, rate-based, margin-aware).
+  // For each season, rank teams by scoring and by regular-season finish, convert to a
+  // 0-1 percentile (1 = best), then average across the seasons a team played. This makes
+  // a "scoring title" in a 6-team year worth less than in a 10-team year, rewards
+  // consistency rather than a raw count, and is fair to teams with fewer seasons.
+  const pctAccum = {};
+  allSeasons.forEach(year => {
+    const teams = (raw.seasonData[year] || manualSeasons[year] || []).filter(t => (t.wins + t.losses) > 0);
+    const n = teams.length;
+    if (n < 2) return;
+    const byPF = [...teams].sort((a, b) => b.pointsFor - a.pointsFor);
+    byPF.forEach((t, idx) => {
+      const scorePct = (n - 1 - idx) / (n - 1);            // 1 = top scorer that season
+      const regPct = (n - t.regularSeasonRank) / (n - 1);  // 1 = best regular-season finish
+      const a = pctAccum[t.teamId] || (pctAccum[t.teamId] = { score: 0, reg: 0, n: 0 });
+      a.score += scorePct; a.reg += regPct; a.n += 1;
+    });
+  });
+  teamStats.forEach(s => {
+    const a = pctAccum[s.teamId] || { score: 0, reg: 0, n: 1 };
+    s.scoringPct = Math.round((a.score / a.n) * 1000) / 1000;
+    s.regPct = Math.round((a.reg / a.n) * 1000) / 1000;
+  });
+
+  // --- Success score: min-max normalized (unchanged) ---
   const normalize = (values) => {
     const min = Math.min(...values);
     const max = Math.max(...values);
     if (max === min) return values.map(() => 50);
     return values.map(v => ((v - min) / (max - min)) * 100);
   };
-
-  // For "lower is better" metrics (like avg standing)
   const normalizeInverse = (values) => {
     const min = Math.min(...values);
     const max = Math.max(...values);
@@ -140,11 +185,6 @@ function processData(raw) {
   const finalStandNorm = normalizeInverse(teamStats.map(t => t.avgFinalStanding));
   const winPctNorm = normalize(teamStats.map(t => t.winPct));
 
-  const avgPFNorm = normalize(teamStats.map(t => t.avgPF));
-  const highScorerNorm = normalize(teamStats.map(t => t.highestScorerSeasons));
-const regSeasonNorm = normalizeInverse(teamStats.map(t => t.avgRegSeasonRank));
-  const avgPANorm = normalize(teamStats.map(t => t.avgPA)); // higher PA = harder schedule
-
   teamStats.forEach((t, i) => {
     t.successScore = Math.round(
       champNorm[i] * 0.40 +
@@ -152,13 +192,25 @@ const regSeasonNorm = normalizeInverse(teamStats.map(t => t.avgRegSeasonRank));
       finalStandNorm[i] * 0.20 +
       winPctNorm[i] * 0.15
     );
+  });
 
-    t.talentScore = Math.round(
-      avgPFNorm[i] * 0.50 +
-      highScorerNorm[i] * 0.25 +
-      regSeasonNorm[i] * 0.15 +
-      avgPANorm[i] * 0.10
-    );
+  // --- Talent score: z-score normalized so outliers don't define the scale ---
+  // Components: era-adjusted Avg PF (55%), avg scoring percentile (30%), avg reg-season
+  // percentile (15%). Points Against was dropped — over many seasons it converges to the
+  // league average and is mostly schedule noise. Each component is standardized, combined,
+  // then mapped to a friendly 50 +/- 15 scale (50 = league-average team).
+  const zscore = (values) => {
+    const mean = values.reduce((s, v) => s + v, 0) / values.length;
+    const sd = Math.sqrt(values.reduce((s, v) => s + (v - mean) ** 2, 0) / values.length);
+    return sd === 0 ? values.map(() => 0) : values.map(v => (v - mean) / sd);
+  };
+  const zPF = zscore(teamStats.map(t => t.avgAdjPF));
+  const zScoring = zscore(teamStats.map(t => t.scoringPct));
+  const zReg = zscore(teamStats.map(t => t.regPct));
+  const talentComposite = teamStats.map((t, i) => zPF[i] * 0.55 + zScoring[i] * 0.30 + zReg[i] * 0.15);
+  const zTalent = zscore(talentComposite);
+  teamStats.forEach((t, i) => {
+    t.talentScore = Math.max(0, Math.min(100, Math.round(50 + 15 * zTalent[i])));
   });
 
   // Pass through signature players data
@@ -834,17 +886,21 @@ const FantasyFootball = () => {
 
         {/* Most Talented Tab */}
         {activeTab === 'talent' && (
-          <RankedCards
-            title="Talent Rankings"
-            teams={sortedByTalent}
-            scoreKey="talentScore"
-            metrics={[
-              { label: 'Avg PF', key: 'avgPF', weight: '50%', format: v => v.toLocaleString() },
-              { label: 'Top Scorer', key: 'highestScorerSeasons', weight: '25%', format: v => `${v}x` },
-              { label: 'Avg Reg Rank', key: 'avgRegSeasonRank', weight: '15%', format: v => ordinal(Math.round(v)) },
-              { label: 'Avg PA', key: 'avgPA', weight: '10%', format: v => v.toLocaleString() },
-            ]}
-          />
+          <div>
+            <RankedCards
+              title="Talent Rankings"
+              teams={sortedByTalent}
+              scoreKey="talentScore"
+              metrics={[
+                { label: 'Adj PF', key: 'avgAdjPF', weight: '55%', format: v => v.toLocaleString() },
+                { label: 'Scoring %ile', key: 'scoringPct', weight: '30%', format: v => `${Math.round(v * 100)}%` },
+                { label: 'Reg %ile', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
+              ]}
+            />
+            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '1rem', textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+              <strong style={{ color: '#9ca3af' }}>Adj PF</strong> is era-adjusted for scoring inflation (each season rebased to the league&apos;s all-time per-game average). <strong style={{ color: '#9ca3af' }}>Scoring %ile</strong> and <strong style={{ color: '#9ca3af' }}>Reg %ile</strong> are each season&apos;s finish ranked within that year&apos;s field, so a 6-team year counts fairly against a 10-team year. Components are standardized (z-scored) and scaled to 50 = league-average team. The Overview tab shows raw, unadjusted points.
+            </p>
+          </div>
         )}
 
         {/* Footer */}
