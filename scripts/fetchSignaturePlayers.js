@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LEAGUE_ID = 26867;
-const SEASONS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+const SEASONS = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 const BASE_URL = 'lm-api-reads.fantasy.espn.com';
 
 // Same auth cookies as fetchFantasyData.js
@@ -29,9 +29,15 @@ const POSITION_MAP = {
 
 function fetchSeasonRoster(year) {
   return new Promise((resolve, reject) => {
+    // Seasons before 2018 are only served via the leagueHistory endpoint
+    // (the per-season endpoint returns 404 for them).
+    const useHistory = year < 2018;
+    const reqPath = useHistory
+      ? `/apis/v3/games/ffl/leagueHistory/${LEAGUE_ID}?seasonId=${year}&view=mRoster&view=mTeam&view=mStandings`
+      : `/apis/v3/games/ffl/seasons/${year}/segments/0/leagues/${LEAGUE_ID}?view=mRoster&view=mTeam&view=mStandings`;
     const options = {
       hostname: BASE_URL,
-      path: `/apis/v3/games/ffl/seasons/${year}/segments/0/leagues/${LEAGUE_ID}?view=mRoster&view=mTeam&view=mStandings`,
+      path: reqPath,
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -44,7 +50,11 @@ function fetchSeasonRoster(year) {
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         if (res.statusCode === 200) {
-          try { resolve(JSON.parse(data)); }
+          try {
+            const parsed = JSON.parse(data);
+            // leagueHistory returns an array of season objects; unwrap to the first.
+            resolve(Array.isArray(parsed) ? parsed[0] : parsed);
+          }
           catch (e) { reject(new Error(`Failed to parse JSON for ${year}: ${e.message}`)); }
         } else {
           reject(new Error(`HTTP ${res.statusCode} for season ${year}`));
@@ -119,7 +129,52 @@ function extractPlayerData(raw, year) {
   return result;
 }
 
+// Build an era-adjustment factor from the existing team data: rebase each season's
+// scoring to the league's all-time per-game baseline (same baseline the UI uses for
+// team PF/PA), so player points from low-scoring early years compare fairly with the
+// modern high-scoring era.
+function buildEraFactor(data) {
+  const seasonData = data.seasonData || {};
+  const manualSeasons = data.manualSeasons || {};
+  const years = new Set([...Object.keys(seasonData), ...Object.keys(manualSeasons)]);
+  const seasonPg = {};
+  let totalPts = 0, totalGames = 0;
+  for (const y of years) {
+    const teams = seasonData[y] || manualSeasons[y] || [];
+    let pts = 0, games = 0;
+    for (const t of teams) {
+      const g = (t.wins || 0) + (t.losses || 0);
+      if (g > 0) { pts += t.pointsFor; games += g; }
+    }
+    seasonPg[y] = games > 0 ? pts / games : null;
+    totalPts += pts;
+    totalGames += games;
+  }
+  const baselinePg = totalGames > 0 ? totalPts / totalGames : 1;
+  return (year) => {
+    const pg = seasonPg[String(year)];
+    return pg ? baselinePg / pg : 1;
+  };
+}
+
 function computeSignaturePlayers(allPlayerSeasons, existingData) {
+  // Positional baseline: average points of rostered players who scored, per season &
+  // position. Used to value a player relative to their own position so QBs (who simply
+  // score more) don't crowd out elite RB/WR/TE. Inherently era-relative since the
+  // baseline rises with the scoring environment.
+  const posPool = {};
+  for (const e of allPlayerSeasons) {
+    if (!(e.seasonPoints > 0)) continue;
+    const key = `${e.year}_${e.position}`;
+    const a = posPool[key] || (posPool[key] = { sum: 0, n: 0 });
+    a.sum += e.seasonPoints;
+    a.n += 1;
+  }
+  const posBaseline = (year, position) => {
+    const a = posPool[`${year}_${position}`];
+    return a && a.n ? a.sum / a.n : 0;
+  };
+
   // Group by teamId → playerId
   const teamPlayers = {};
 
@@ -152,13 +207,21 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
     byTeam[p.teamId].push(p);
   }
 
+  const eraFactor = buildEraFactor(existingData);
   const signaturePlayers = {};
   for (const [teamId, players] of Object.entries(byTeam)) {
     // Filter out D/ST and K — focus on skill position players
     const skillPlayers = players.filter(p => !['D/ST', 'K'].includes(p.position));
 
-    // Sort by total points descending
-    skillPlayers.sort((a, b) => b.totalPoints - a.totalPoints);
+    skillPlayers.forEach(p => {
+      // Era-adjusted career points (for display): rebase each season to the all-time baseline.
+      p.adjTotalPoints = p.seasons.reduce((s, x) => s + x.points * eraFactor(x.year), 0);
+      // Value over position (for ranking): career points above an average rostered player
+      // at the same position each season. De-weights QBs and is inherently era-relative.
+      p.posValue = p.seasons.reduce((s, x) => s + (x.points - posBaseline(x.year, p.position)), 0);
+    });
+    // Rank by positional value so the top 4 isn't crowded with high-scoring QBs.
+    skillPlayers.sort((a, b) => b.posValue - a.posValue);
 
     signaturePlayers[teamId] = skillPlayers.slice(0, 4).map(p => {
       const numSeasons = p.seasons.length;
@@ -173,6 +236,10 @@ function computeSignaturePlayers(allPlayerSeasons, existingData) {
         seasonYears: p.seasons.map(s => s.year).sort(),
         totalPoints: Math.round(p.totalPoints * 100) / 100,
         avgPointsPerSeason: Math.round((p.totalPoints / numSeasons) * 100) / 100,
+        adjTotalPoints: Math.round(p.adjTotalPoints * 100) / 100,
+        adjAvgPointsPerSeason: Math.round((p.adjTotalPoints / numSeasons) * 100) / 100,
+        posValue: Math.round(p.posValue * 100) / 100,
+        avgPosValue: Math.round((p.posValue / numSeasons) * 100) / 100,
         seasonPoints,
         playoffAppearances: p.playoffAppearances,
         championships: p.championships,
@@ -206,6 +273,13 @@ async function main() {
 
   console.log(`\nTotal player-season entries: ${allPlayerSeasons.length}`);
 
+  // Safety guard: never write an empty result (e.g. expired cookies / all fetches failed),
+  // which would wipe the existing signaturePlayers from the data file.
+  if (allPlayerSeasons.length === 0) {
+    console.error('No player data fetched — aborting write to preserve existing signaturePlayers.');
+    process.exit(1);
+  }
+
   // Load existing data file
   const dataPath = path.join(__dirname, '..', 'public', 'fantasy-football-data.json');
   let existingData = {};
@@ -223,7 +297,7 @@ async function main() {
   for (const [teamId, players] of Object.entries(signaturePlayers)) {
     console.log(`\n  Team ${teamId}:`);
     players.forEach((p, i) => {
-      console.log(`    ${i + 1}. ${p.playerName} (${p.position}) — ${p.totalPoints.toLocaleString()} pts over ${p.seasonsPlayed} seasons (avg ${p.avgPointsPerSeason}/season)`);
+      console.log(`    ${i + 1}. ${p.playerName} (${p.position}) — value ${p.posValue.toLocaleString()} | ${p.adjTotalPoints.toLocaleString()} adj pts over ${p.seasonsPlayed} seasons`);
     });
   }
 

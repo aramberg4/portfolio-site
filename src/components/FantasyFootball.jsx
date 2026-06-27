@@ -769,12 +769,12 @@ const FantasyFootball = () => {
                   Signature Players
                 </h3>
                 <p style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.25rem' }}>
-                  Top 4 career scorers while rostered by {selectedTeamData.ownerName} &middot; Player data available from 2018
+                  Top 4 by value over position while rostered by {selectedTeamData.ownerName} &middot; Pos Value = career points above an average player at the same position each season (de-weights QBs) &middot; Data from 2013
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {data.signaturePlayers[selectedTeamData.teamId].map((player, idx) => {
                     const color = TEAM_COLORS[selectedTeamData.teamId];
-                    const maxPts = data.signaturePlayers[selectedTeamData.teamId][0]?.totalPoints || 1;
+                    const maxPts = data.signaturePlayers[selectedTeamData.teamId][0]?.posValue || 1;
                     const posColors = {
                       QB: '#ef4444', RB: '#3b82f6', WR: '#10b981', TE: '#f59e0b',
                       LB: '#a855f7', DE: '#ec4899', DT: '#ec4899', CB: '#06b6d4',
@@ -841,9 +841,9 @@ const FantasyFootball = () => {
                         {/* Stats */}
                         <div style={{ display: 'flex', flex: 1, gap: '0.5rem' }}>
                           {[
-                            { label: 'Career Pts', value: player.totalPoints.toLocaleString() },
+                            { label: 'Pos Value', value: player.posValue.toLocaleString() },
+                            { label: 'Career Pts', value: player.adjTotalPoints.toLocaleString() },
                             { label: 'Seasons', value: player.seasonsPlayed },
-                            { label: 'Avg Pts/Szn', value: player.avgPointsPerSeason.toLocaleString() },
                             { label: 'Playoff Apps', value: player.playoffAppearances },
                             { label: 'Titles', value: player.championships },
                           ].map(stat => (
@@ -867,7 +867,7 @@ const FantasyFootball = () => {
                           <div style={{ height: 6, backgroundColor: '#374151', borderRadius: 3, overflow: 'hidden' }}>
                             <div style={{
                               height: '100%', borderRadius: 3,
-                              width: `${(player.totalPoints / maxPts) * 100}%`,
+                              width: `${Math.max(0, (player.posValue / maxPts) * 100)}%`,
                               backgroundColor: color.bg,
                             }}></div>
                           </div>
