@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "claimed": {
+      ".read": true,
+      "$itemId": {
+        ".write": "newData.val() === true",
+        ".validate": "newData.isBoolean() && $itemId.length < 100"
+      }
+    }
+  }
+}
