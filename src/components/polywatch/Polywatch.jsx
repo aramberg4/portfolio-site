@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAlgos } from '../../hooks/usePolywatch';
 import { EXPERIMENT_START } from './format';
+import EquityChart from './EquityChart';
 
 const Polywatch = () => {
   const { algos, error, loading } = useAlgos();
@@ -35,8 +36,12 @@ const Polywatch = () => {
       )}
       {loading && <div className="text-gray-500">Loading…</div>}
 
-      {/* Replaced in Tasks 3–7 */}
-      <div data-todo="race-hero" />
+      {algos.length > 0 && (
+        <div className="grid lg:grid-cols-[1fr_300px] gap-4 mb-4">
+          <EquityChart algos={algos} />
+          <div data-todo="standings-tower" />
+        </div>
+      )}
       <div data-todo="fill-ticker" />
       <div data-todo="algo-detail" data-selected={selected?.id} />
       <div data-todo="delta-strip" />
