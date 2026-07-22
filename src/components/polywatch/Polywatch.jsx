@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAlgos } from '../../hooks/usePolywatch';
 import { EXPERIMENT_START } from './format';
 import EquityChart from './EquityChart';
+import StandingsTower from './StandingsTower';
 
 const Polywatch = () => {
   const { algos, error, loading } = useAlgos();
@@ -39,7 +40,7 @@ const Polywatch = () => {
       {algos.length > 0 && (
         <div className="grid lg:grid-cols-[1fr_300px] gap-4 mb-4">
           <EquityChart algos={algos} />
-          <div data-todo="standings-tower" />
+          <StandingsTower algos={algos} selectedId={selected?.id} onSelect={setSelectedId} />
         </div>
       )}
       <div data-todo="fill-ticker" />
