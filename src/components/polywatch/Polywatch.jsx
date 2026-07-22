@@ -6,6 +6,7 @@ import StandingsTower from './StandingsTower';
 import FillTicker from './FillTicker';
 import AlgoDetail from './AlgoDetail';
 import DeltaStrip from './DeltaStrip';
+import BacktestPanel from './BacktestPanel';
 
 const Polywatch = () => {
   const { algos, error, loading } = useAlgos();
@@ -52,6 +53,7 @@ const Polywatch = () => {
       <FillTicker algos={algos} />
       <AlgoDetail algo={selected} />
       {algos.length > 0 && <DeltaStrip algos={algos} />}
+      <BacktestPanel />
       </div>
     </div>
   );
