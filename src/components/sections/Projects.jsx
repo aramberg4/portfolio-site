@@ -4,6 +4,7 @@ import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/
 import pitch from '../../resources/pitch2.png';
 import mongodd from '../../resources/mongoD&D.png';
 import lamps from '../../resources/lamps.PNG';
+import polywatch from '../../resources/polywatch.png';
 
 const projects = [
   {
@@ -15,6 +16,18 @@ const projects = [
     liveUrl: '/nfl-target-share',
     githubUrl: 'https://github.com/aramberg4/portfolio-site',
     type: 'Data Visualization',
+    featured: true,
+    isInternal: true
+  },
+  {
+    id: 6,
+    title: 'Polywatch',
+    description: 'Seven algorithmic paper-trading bots race on Polymarket in real time, each testing a different theory about whose money to follow — whales, insiders, smart money, or the leaderboard elite. Live standings, equity curves, and a full trade log, benchmarked against a copy-everything control.',
+    image: polywatch,
+    technologies: ['React', 'Chart.js', 'Node.js', 'SQLite', 'Polymarket APIs'],
+    liveUrl: '/polywatch',
+    githubUrl: null,
+    type: 'Live Experiment',
     featured: true,
     isInternal: true
   },
