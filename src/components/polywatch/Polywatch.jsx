@@ -29,7 +29,10 @@ const Polywatch = () => {
           hypothesis about the whales, insiders, and smart money my monitor classifies —
           plus one that simply mirrors the all-time profit leaderboard's top 10. Same $10K
           bankroll — different convictions. Everyman copies everything and serves as the
-          benchmark.
+          benchmark.{' '}
+          <a href="/polywatch-monitor.html" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+            About the monitor behind the feed →
+          </a>
         </p>
       </div>
 
