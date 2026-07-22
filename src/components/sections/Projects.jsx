@@ -5,20 +5,9 @@ import pitch from '../../resources/pitch2.png';
 import mongodd from '../../resources/mongoD&D.png';
 import lamps from '../../resources/lamps.PNG';
 import polywatch from '../../resources/polywatch.png';
+import fantasyFootball from '../../resources/fantasyFootball.png';
 
 const projects = [
-  {
-    id: 1,
-    title: 'NFL Target Share Analyzer',
-    description: 'Interactive data visualization tool showing wide receiver target distribution by team and week. Perfect for fantasy football analysis with weekly data updates.',
-    image: 'https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png',
-    technologies: ['React', 'Chart.js', 'NFL Data APIs', 'Fantasy Football'],
-    liveUrl: '/nfl-target-share',
-    githubUrl: 'https://github.com/aramberg4/portfolio-site',
-    type: 'Data Visualization',
-    featured: true,
-    isInternal: true
-  },
   {
     id: 6,
     title: 'Polywatch',
@@ -41,6 +30,30 @@ const projects = [
     githubUrl: null,
     type: 'Professional',
     featured: true
+  },
+  {
+    id: 7,
+    title: 'Fantasy Football League History',
+    description: 'Thirteen seasons of my fantasy league in one dashboard — all-time standings, team charts, most-successful and most-talented rankings, with a heat-mapped stat table across ten franchises.',
+    image: fantasyFootball,
+    technologies: ['React', 'Chart.js', 'ESPN Fantasy API', 'Data Visualization'],
+    liveUrl: '/fantasy-football',
+    githubUrl: 'https://github.com/aramberg4/portfolio-site',
+    type: 'League Analytics',
+    featured: true,
+    isInternal: true
+  },
+  {
+    id: 1,
+    title: 'NFL Target Share Analyzer',
+    description: 'Interactive data visualization tool showing wide receiver target distribution by team and week. Perfect for fantasy football analysis with weekly data updates.',
+    image: 'https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png',
+    technologies: ['React', 'Chart.js', 'NFL Data APIs', 'Fantasy Football'],
+    liveUrl: '/nfl-target-share',
+    githubUrl: 'https://github.com/aramberg4/portfolio-site',
+    type: 'Data Visualization',
+    featured: true,
+    isInternal: true
   },
   {
     id: 3,
