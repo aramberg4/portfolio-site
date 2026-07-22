@@ -3,6 +3,9 @@ import { useAlgos } from '../../hooks/usePolywatch';
 import { EXPERIMENT_START } from './format';
 import EquityChart from './EquityChart';
 import StandingsTower from './StandingsTower';
+import FillTicker from './FillTicker';
+import AlgoDetail from './AlgoDetail';
+import DeltaStrip from './DeltaStrip';
 
 const Polywatch = () => {
   const { algos, error, loading } = useAlgos();
@@ -43,9 +46,9 @@ const Polywatch = () => {
           <StandingsTower algos={algos} selectedId={selected?.id} onSelect={setSelectedId} />
         </div>
       )}
-      <div data-todo="fill-ticker" />
-      <div data-todo="algo-detail" data-selected={selected?.id} />
-      <div data-todo="delta-strip" />
+      <FillTicker algos={algos} />
+      <AlgoDetail algo={selected} />
+      {algos.length > 0 && <DeltaStrip algos={algos} />}
       </div>
     </div>
   );
