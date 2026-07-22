@@ -1,34 +1,48 @@
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import replay from './backtest-replay.json';
+import whatif from './backtest-whatif.json';
 import { ALGO_COLORS, fmtUsd, fmtPct } from './format';
 
 const fmtDate = (ts) =>
   new Date(ts * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-// The replay marks open positions at cost basis (no historical price paths),
-// so only algos that actually traded have a meaningful curve.
-const traded = replay.algos.filter((a) => a.summary.entries > 0);
+// Both artifacts are generated from the same snapshot, so they share a window.
+const everyman = replay.algos.find((a) => a.algoId === 'everyman');
 const empty = replay.algos.filter((a) => a.summary.entries === 0);
+const WHATIF_COLOR = { 'whatif-insider': 'insider-echo', 'whatif-smart_money': 'sharp-follow' };
 
 const BacktestPanel = () => {
   const [showCaveats, setShowCaveats] = useState(false);
-  if (traded.length === 0) return null;
+  if (!everyman) return null;
 
-  const datasets = traded.map((a) => {
-    const color = ALGO_COLORS[a.algoId] || ALGO_COLORS.everyman;
-    return {
-      label: a.name,
-      data: a.equityCurve.map((p) => ({ x: p.ts, y: p.equity })),
-      borderColor: color.border,
-      backgroundColor: color.bg,
-      borderDash: [4, 4],
+  const datasets = [
+    {
+      label: 'Everyman (replay)',
+      data: everyman.equityCurve.map((p) => ({ x: p.ts, y: p.equity })),
+      borderColor: ALGO_COLORS.everyman.border,
+      backgroundColor: ALGO_COLORS.everyman.bg,
+      borderDash: [6, 4],
       borderWidth: 2,
       pointRadius: 0,
       pointHitRadius: 8,
       tension: 0.2,
-    };
-  });
+    },
+    ...whatif.algos.map((a) => {
+      const color = ALGO_COLORS[WHATIF_COLOR[a.algoId]] || ALGO_COLORS.everyman;
+      return {
+        label: a.name,
+        data: a.equityCurve.map((p) => ({ x: p.ts, y: p.equity })),
+        borderColor: color.border,
+        backgroundColor: color.bg,
+        borderDash: [2, 3],
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 8,
+        tension: 0.2,
+      };
+    }),
+  ];
 
   const options = {
     responsive: true,
@@ -36,7 +50,7 @@ const BacktestPanel = () => {
     interaction: { mode: 'index', intersect: false },
     parsing: false,
     plugins: {
-      legend: { display: false },
+      legend: { labels: { color: '#D1D5DB', boxWidth: 12 } },
       tooltip: {
         callbacks: {
           title: (items) => fmtDate(items[0].parsed.x),
@@ -59,11 +73,13 @@ const BacktestPanel = () => {
     },
   };
 
-  const everyman = traded.find((a) => a.algoId === 'everyman') || traded[0];
-  const { entries, wins, losses, finalEquity } = everyman.summary;
-  const returnPct = finalEquity / replay.params.startingCash - 1;
+  const ret = (a) => fmtPct(a.summary.finalEquity / replay.params.startingCash - 1);
+  const rec = (a) => `${a.summary.entries} entries, ${a.summary.wins}W–${a.summary.losses}L, ${ret(a)}`;
+  const wiInsider = whatif.algos.find((a) => a.algoId === 'whatif-insider');
+  const wiSmart = whatif.algos.find((a) => a.algoId === 'whatif-smart_money');
   const allCaveats = [
-    ...replay.caveats,
+    ...replay.caveats.map((c) => `Replay: ${c}`),
+    ...whatif.caveats.map((c) => `What-if: ${c}`),
     ...replay.algos.flatMap((a) => a.caveats.map((c) => `${a.name}: ${c}`)),
   ];
 
@@ -76,28 +92,28 @@ const BacktestPanel = () => {
         </span>
       </div>
       <p className="mt-1 mb-4 text-xs text-gray-500 max-w-3xl">
-        Before the live race began, the engine replayed the prior 60 days of recorded
-        whale trades. {everyman.name} — the copy-everything control — entered {entries} positions
-        and went {wins}W–{losses}L, finishing at {fmtUsd(finalEquity)} ({fmtPct(returnPct)}).
-        The dashed line marks reconstructed data: open positions ride at cost basis, so the
-        curve moves only on fills and resolutions.
+        Before v2 of the live race, the engine replayed the prior 60 days of recorded trades.
+        The gray dashed line is the official control replay — {everyman.name} copying every
+        whale-tier signal ({rec(everyman)}, with {everyman.summary.openPositions} positions
+        still open at cost). The dotted lines are <span className="text-gray-300">what-ifs</span>:
+        strategies that copy every $500+ trade from wallets classified insider or smart money,
+        at the sizing rules v2 now runs live.
       </p>
 
       <div className="relative h-56 min-w-0">
         <Line data={{ datasets }} options={options} />
       </div>
 
-      {empty.length > 0 && (
-        <p className="mt-4 text-xs text-gray-400 max-w-3xl">
-          <span className="text-gray-300 font-semibold">
-            {empty.map((a) => a.name).join(' and ')} backtested to zero entries
-          </span>{' '}
-          — across sixty days, not one insider-labeled buy cleared the $10K live threshold.
-          Insiders trade small. That finding is why the experiment&apos;s v2 reset lowered the
-          classified-trade floor to $500, giving those two hypotheses a real chance in the
-          live race above.
-        </p>
-      )}
+      <p className="mt-4 text-xs text-gray-400 max-w-3xl">
+        <span className="text-gray-300 font-semibold">Why v2 exists:</span>{' '}
+        at the $10K whale threshold, {empty.map((a) => a.name).join(' and ')} backtested to
+        zero entries — across sixty days, not one insider-labeled buy was big enough to be
+        seen. Insiders trade small. Lower the floor to $500 and the picture flips:
+        insider-only would have done {wiInsider ? rec(wiInsider) : '—'}; smart-money-only{' '}
+        {wiSmart ? rec(wiSmart) : '—'}. Those what-ifs are hindsight-flattered — wallets are
+        classified partly <em>because</em> those trades won — which is exactly why v2 now
+        tests them honestly, live, in the race above.
+      </p>
 
       <button
         type="button"
