@@ -101,7 +101,7 @@ const EquityChart = ({ algos }) => {
   };
 
   return (
-    <div className="rounded-xl bg-gray-800 border border-gray-700 p-4">
+    <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 min-w-0">
       <div className="flex items-center justify-between mb-3">
         <h2 className="font-semibold text-white">Equity curves</h2>
         <div className="flex gap-1">
@@ -118,7 +118,7 @@ const EquityChart = ({ algos }) => {
           ))}
         </div>
       </div>
-      <div className="h-72 lg:h-[420px]">
+      <div className="relative h-72 lg:h-[420px]">
         {loading && allTs.length === 0
           ? <div className="h-full flex items-center justify-center text-gray-600">Loading…</div>
           : <Line data={{ labels, datasets }} options={options} plugins={[v2SeamPlugin]} />}

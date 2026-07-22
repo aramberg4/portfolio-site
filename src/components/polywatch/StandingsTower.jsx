@@ -4,7 +4,7 @@ import { fmtPct, pnlClass, ALGO_COLORS } from './format';
 const StandingsTower = ({ algos, selectedId, onSelect }) => {
   const leader = algos[0];
   return (
-    <div className="rounded-xl bg-gray-800 border border-gray-700 overflow-hidden self-start">
+    <div className="rounded-xl bg-gray-800 border border-gray-700 overflow-hidden self-start min-w-0">
       <div className="px-4 py-2.5 border-b border-gray-700 font-mono text-[10px] uppercase tracking-widest text-gray-500">
         Standings · gap to leader
       </div>
