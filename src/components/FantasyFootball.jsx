@@ -52,13 +52,10 @@ function processData(raw) {
         teamHistories[t.teamId] = {
           teamId: t.teamId,
           ownerName: t.ownerName,
-          currentName: t.teamName,
           seasons: {},
         };
       }
       teamHistories[t.teamId].seasons[year] = t;
-      // Update current name to latest
-      teamHistories[t.teamId].currentName = t.teamName;
       teamHistories[t.teamId].ownerName = t.ownerName;
     });
   });
@@ -394,7 +391,6 @@ const FantasyFootball = () => {
             lines.push(`Record: ${season.wins}-${season.losses}`);
             lines.push(`Points Against: ${season.pointsAgainst.toLocaleString()}`);
             lines.push(`Playoffs: ${season.madePlayoffs ? 'Yes' : 'No'}`);
-            lines.push(`Team: ${season.teamName}`);
             return lines;
           }
         }
@@ -593,10 +589,7 @@ const FantasyFootball = () => {
                             <td style={{ padding: '0.75rem 1rem' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                                 <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: color.bg, flexShrink: 0 }}></div>
-                                <div>
-                                  <div className="text-white font-medium">{team.ownerName}</div>
-                                  <div style={{ color: '#6b7280', fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180 }}>{team.currentName}</div>
-                                </div>
+                                <div className="text-white font-medium">{team.ownerName}</div>
                               </div>
                             </td>
                             <td className="text-center px-3 py-3" style={{ color: heatColor(getColumnPct(team.winPct, allWinPct)) }}>

@@ -117,8 +117,8 @@ function extractSeasonData(raw, year) {
 
     return {
       teamId: team.id,
-      teamName: team.name || (team.location + ' ' + team.nickname),
-      abbreviation: team.abbrev || '',
+      // teamName/abbreviation intentionally omitted — joke team names aren't
+      // appropriate for a portfolio page; the UI identifies teams by owner.
       ownerName: OWNER_NAMES[primaryOwnerId] || 'Unknown',
       wins: regularSeasonWins,
       losses: regularSeasonLosses,
