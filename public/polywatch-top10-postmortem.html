@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Copied Polymarket's Top 10 Traders. It Lost Money — Fast. | Polywatch Field Notes</title>
+<meta name="description" content="A post-mortem of Top 10 Mirror v2: why copying Polymarket's all-time leaderboard means copying arbitrage bots, the three structural failures that cost 9.1% in 11 days, and the v3 redesign.">
+<meta property="og:title" content="We copied Polymarket's ten most profitable traders. It lost money — fast.">
+<meta property="og:description" content="Two arb bots produced 100% of fills. Zero mirror exits ever. A post-mortem and redesign, with data.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/favicon.ico">
+<style>* { box-sizing: border-box; }</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #FAFAF8;
+    --ink: #1D2126;
+    --muted: #5C6B70;
+    --faint: #E3E7E5;
+    --accent: #0891B2;
+    --pos: #0891B2;
+    --neg: #C2453A;
+    --card: #F1F3F1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14181B;
+      --ink: #E7E9E4;
+      --muted: #93A1A6;
+      --faint: #2A3134;
+      --accent: #17A2BE;
+      --pos: #17A2BE;
+      --neg: #E06055;
+      --card: #1B2124;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14181B; --ink: #E7E9E4; --muted: #93A1A6; --faint: #2A3134;
+    --accent: #17A2BE; --pos: #17A2BE; --neg: #E06055; --card: #1B2124;
+  }
+  :root[data-theme="light"] {
+    --ground: #FAFAF8; --ink: #1D2126; --muted: #5C6B70; --faint: #E3E7E5;
+    --accent: #0891B2; --pos: #0891B2; --neg: #C2453A; --card: #F1F3F1;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.62;
+    font-size: 1.0625rem;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .mono, .stat, table, figcaption, .bar-label, .eyebrow, .rulecard h3 {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  article { max-width: 68ch; margin: 0 auto; padding: 3.5rem 0 5rem; }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.14; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .dek { font-size: 1.15rem; color: var(--muted); font-style: italic; margin: 0 0 2.4rem; text-wrap: balance; }
+  h2 {
+    font-size: 1.35rem; font-weight: 600; margin: 2.8rem 0 0.8rem;
+    letter-spacing: -0.005em; text-wrap: balance;
+  }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  .stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 2.5rem; }
+  .stat {
+    flex: 1 1 10rem; background: var(--card); border-radius: 6px;
+    padding: 0.9rem 1rem 0.8rem; border-top: 2px solid var(--accent);
+  }
+  .stat .n { font-size: 1.75rem; font-weight: 700; line-height: 1.1; display: block; }
+  .stat .n.neg { color: var(--neg); }
+  .stat .l { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+
+  figure { margin: 1.8rem 0 2rem; }
+  figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+  .barchart { display: flex; flex-direction: column; gap: 0.55rem; }
+  .barrow { display: grid; grid-template-columns: 11.5rem 1fr; gap: 0.7rem; align-items: center; }
+  .bar-label { font-size: 0.78rem; color: var(--ink); text-align: right; line-height: 1.3; }
+  .bar-track { position: relative; height: 22px; }
+  .bar-track::before {
+    content: ""; position: absolute; left: 44%; top: -4px; bottom: -4px;
+    width: 1px; background: var(--faint);
+  }
+  .bar { position: absolute; top: 2px; height: 18px; border-radius: 0 4px 4px 0; }
+  .bar.negative { border-radius: 4px 0 0 4px; }
+  .bar-val {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  @media (max-width: 540px) {
+    .barrow { grid-template-columns: 1fr; gap: 0.15rem; }
+    .bar-label { text-align: left; }
+  }
+
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-wrap .gridline { stroke: var(--faint); stroke-width: 1; }
+  .chart-wrap .axis-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; fill: var(--muted);
+  }
+  .legend { display: flex; gap: 1.2rem; margin: 0 0 0.5rem; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.75rem; color: var(--muted); }
+  .legend .chip { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 0.4rem; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--card); border: 1px solid var(--faint); border-radius: 5px;
+    padding: 0.4rem 0.6rem; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; line-height: 1.5; white-space: nowrap; z-index: 2;
+    font-variant-numeric: tabular-nums;
+  }
+  .explainer { background: var(--card); border-radius: 6px; padding: 1.1rem 1.25rem 0.9rem; margin: 1.6rem 0 1.8rem; }
+  .explainer h3 { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem; font-weight: 600; }
+  .explainer p { font-size: 0.97rem; margin: 0 0 0.8rem; }
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 1.8rem; }
+  table { border-collapse: collapse; font-size: 0.82rem; width: 100%; min-width: 34rem; }
+  th { text-align: left; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--faint); }
+  td { padding: 0.42rem 0.9rem 0.42rem 0; border-bottom: 1px solid var(--faint); }
+  td.num, th.num { text-align: right; }
+  td .neg { color: var(--neg); font-weight: 600; }
+  td .pos { color: var(--pos); font-weight: 600; }
+
+  .rulecards { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+  .rulecard { background: var(--card); border-radius: 6px; padding: 0.95rem 1.1rem; }
+  .rulecard h3 { font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem; font-weight: 600; }
+  .rulecard p { font-size: 0.95rem; margin: 0; color: var(--ink); }
+
+  .foot { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--faint); font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<article>
+  <p class="eyebrow">Polywatch · Field Notes · 2026-07-28</p>
+  <h1>We copied Polymarket's ten most profitable traders. It lost money — fast.</h1>
+  <p class="dek">A post-mortem of Top&nbsp;10 Mirror v2, the three structural reasons the obvious idea fails, and what v3 does differently.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n neg">−9.1%</span><span class="l">v2 return, 11 days</span></div>
+    <div class="stat"><span class="n">0</span><span class="l">mirror exits, ever</span></div>
+    <div class="stat"><span class="n">2 / 10</span><span class="l">wallets produced 100% of fills</span></div>
+  </div>
+
+  <p>Polywatch runs seven paper-trading algorithms against live Polymarket data, each seeded with $10,000, to test which whale-copying strategies actually work. Top&nbsp;10 Mirror had the most intuitive thesis of the lot: <em>copy every trade made by the ten most profitable wallets on the all-time leaderboard, and exit when they exit.</em> If anyone on Polymarket knows something, surely it's the people who've won the most money.</p>
+  <p>Eleven days after launch it had turned $10,000 into $9,086 across 1,169 resolved positions. That's not unlucky — that's a machine doing exactly what it was told, where what it was told turns out to be structurally broken. We audited the whole thing. Here's what we found.</p>
+
+  <figure>
+    <div class="legend">
+      <span><span class="chip" style="background:var(--accent)"></span>Top 10 Mirror</span>
+      <span><span class="chip" style="background:var(--muted)"></span>Everyman (copy-everything benchmark)</span>
+    </div>
+    <div class="chart-wrap" id="eqchart">
+      <svg viewBox="0 0 660 260" role="img" aria-label="Equity curves: Top 10 Mirror versus the Everyman benchmark, July 16 to 28. Top 10 Mirror rises to $10,579 by July 21 then collapses to a low of $8,899 on July 27, ending at $9,239. Everyman drifts gently from $10,000 down to $9,777.">
+        <line class="gridline" x1="46" x2="616" y1="214.2" y2="214.2"></line>
+        <line class="gridline" x1="46" x2="616" y1="154.7" y2="154.7"></line>
+        <line class="gridline" x1="46" x2="616" y1="95.3" y2="95.3" stroke-dasharray="none"></line>
+        <line class="gridline" x1="46" x2="616" y1="35.8" y2="35.8"></line>
+        <text class="axis-label" x="42" y="217.7" text-anchor="end">$9.0K</text>
+        <text class="axis-label" x="42" y="158.2" text-anchor="end">$9.5K</text>
+        <text class="axis-label" x="42" y="98.8" text-anchor="end">$10K</text>
+        <text class="axis-label" x="42" y="39.3" text-anchor="end">$10.5K</text>
+        <text class="axis-label" x="46" y="252">Jul 16</text>
+        <text class="axis-label" x="163" y="252" text-anchor="middle">Jul 19</text>
+        <text class="axis-label" x="317" y="252" text-anchor="middle">Jul 22</text>
+        <text class="axis-label" x="471" y="252" text-anchor="middle">Jul 25</text>
+        <text class="axis-label" x="616" y="252" text-anchor="end">Jul 28</text>
+        <polyline fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round" points="46.0,95.3 52.4,95.3 58.8,95.1 65.2,95.1 71.6,95.0 78.0,95.1 84.4,95.0 90.8,96.0 97.2,96.3 103.6,95.7 110.0,96.4 116.4,96.1 122.9,96.7 129.3,97.0 135.7,96.8 142.1,99.3 148.5,99.3 154.9,98.0 161.3,99.6 167.7,98.9 174.1,98.9 180.5,99.0 186.9,98.6 193.3,98.6 199.7,99.0 206.1,98.5 212.5,97.2 218.9,97.2 225.3,98.9 231.7,98.1 238.1,98.1 244.5,99.1 250.9,98.7 257.3,97.7 263.8,97.2 270.2,96.9 276.6,97.8 283.0,99.9 289.4,102.3 295.8,106.9 302.2,106.5 308.6,105.4 315.0,105.2 321.4,107.2 327.8,102.4 334.2,105.4 340.6,113.0 347.0,112.1 353.4,112.2 359.8,112.3 366.2,111.0 372.6,110.6 379.0,109.4 385.4,116.9 391.8,115.3 398.2,114.4 404.7,113.7 411.1,113.6 417.5,113.4 423.9,113.0 430.3,108.2 436.7,111.1 443.1,110.7 449.5,110.7 455.9,112.8 462.3,112.1 468.7,114.9 475.1,114.3 481.5,112.9 487.9,115.4 494.3,113.9 500.7,113.1 507.1,110.8 513.5,108.6 519.9,107.6 526.3,106.5 532.7,105.2 539.1,102.5 545.6,102.0 552.0,104.5 558.4,110.6 564.8,108.2 571.2,106.2 577.6,105.7 584.0,104.7 590.4,108.5 596.8,119.3 603.2,118.7 609.6,118.9 616.0,121.8"></polyline>
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2.25" stroke-linejoin="round" points="46.0,94.2 52.4,91.2 58.8,89.4 65.2,94.1 71.6,93.4 78.0,81.8 84.4,52.6 90.8,59.8 97.2,56.8 103.6,66.4 110.0,70.0 116.4,72.4 122.9,74.0 129.3,81.7 135.7,92.6 142.1,90.3 148.5,174.7 154.9,188.0 161.3,195.4 167.7,203.1 174.1,203.5 180.5,201.4 186.9,199.6 193.3,190.1 199.7,76.3 206.1,62.0 212.5,62.3 218.9,61.3 225.3,48.3 231.7,26.4 238.1,34.5 244.5,41.7 250.9,45.6 257.3,49.1 263.8,46.6 270.2,47.3 276.6,46.3 283.0,62.8 289.4,70.1 295.8,56.5 302.2,86.3 308.6,104.8 315.0,96.1 321.4,93.1 327.8,86.0 334.2,89.2 340.6,82.4 347.0,80.1 353.4,58.3 359.8,59.0 366.2,67.0 372.6,65.2 379.0,73.7 385.4,92.5 391.8,86.5 398.2,105.6 404.7,90.9 411.1,137.0 417.5,145.1 423.9,156.2 430.3,148.9 436.7,137.0 443.1,153.8 449.5,149.8 455.9,151.1 462.3,167.9 468.7,169.7 475.1,172.0 481.5,173.2 487.9,172.7 494.3,184.5 500.7,179.9 507.1,199.1 513.5,222.7 519.9,223.5 526.3,217.4 532.7,221.1 539.1,221.9 545.6,226.3 552.0,215.3 558.4,207.7 564.8,191.7 571.2,202.5 577.6,196.3 584.0,195.4 590.4,194.5 596.8,193.4 603.2,176.2 609.6,179.3 616.0,185.8"></polyline>
+        <circle cx="231.7" cy="26.4" r="3.5" fill="var(--accent)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="545.6" cy="226.3" r="3.5" fill="var(--neg)" stroke="var(--ground)" stroke-width="2"></circle>
+        <text class="axis-label" x="238" y="22">peak $10,579 · Jul 21</text>
+        <text class="axis-label" x="540" y="243" text-anchor="end">low $8,899 · Jul 27</text>
+        <line id="eq-cross" x1="0" x2="0" y1="12" y2="238" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3" visibility="hidden"></line>
+      </svg>
+      <div class="tooltip" id="eq-tip"></div>
+    </div>
+    <figcaption>Equity by 3-hour bucket, 2026-07-16 → 07-28, from the archived v2 database. Everyman copies every qualifying whale signal indiscriminately — the "no filter" control. Top 10 Mirror briefly looked brilliant, which is exactly what unhedged copies of hedged books do before the other legs resolve.</figcaption>
+  </figure>
+
+  <script>
+  (function () {
+    var D = [[1784235600,10008.76,10000.0],[1784246400,10034.4,10000.0],[1784257200,10049.14,10001.01],[1784268000,10009.36,10001.35],[1784278800,10015.44,10002.02],[1784289600,10113.48,10001.68],[1784300400,10358.34,10002.02],[1784311200,10298.2,9994.18],[1784322000,10323.64,9991.6],[1784332800,10242.52,9996.06],[1784343600,10212.73,9990.52],[1784354400,10191.88,9993.17],[1784365200,10179.09,9987.7],[1784376000,10114.12,9985.72],[1784386800,10022.27,9987.01],[1784397600,10041.74,9966.39],[1784408400,9331.9,9966.05],[1784419200,9220.33,9976.89],[1784430000,9158.54,9963.34],[1784440800,9093.27,9969.5],[1784451600,9090.44,9969.15],[1784462400,9107.77,9968.56],[1784473200,9122.78,9971.83],[1784484000,9202.85,9971.74],[1784494800,10159.56,9968.42],[1784505600,10279.39,9972.73],[1784516400,10277.26,9983.87],[1784527200,10285.71,9983.5],[1784538000,10394.72,9969.3],[1784548800,10578.82,9976.24],[1784559600,10510.85,9976.3],[1784570400,10450.62,9968.16],[1784581200,10417.45,9970.76],[1784592000,10387.9,9979.43],[1784602800,10408.96,9984.11],[1784613600,10402.99,9986.09],[1784624400,10411.52,9978.72],[1784635200,10273.05,9961.4],[1784646000,10211.33,9940.6],[1784656800,10326.09,9902.52],[1784667600,10075.61,9905.68],[1784678400,9920.06,9914.41],[1784689200,9993.22,9916.38],[1784700000,10018.33,9899.97],[1784710800,10078.02,9940.18],[1784721600,10050.82,9914.84],[1784732400,10108.54,9850.86],[1784743200,10127.18,9858.23],[1784754000,10311.01,9857.75],[1784764800,10305.0,9856.96],[1784775600,10237.82,9867.85],[1784786400,10253.11,9871.31],[1784797200,10181.28,9881.39],[1784808000,10022.93,9818.14],[1784818800,10073.43,9831.53],[1784829600,9913.12,9838.85],[1784840400,10037.05,9845.0],[1784851200,9649.52,9845.55],[1784862000,9581.36,9847.9],[1784872800,9487.74,9851.03],[1784883600,9548.66,9891.65],[1784894400,9648.87,9867.07],[1784905200,9507.89,9870.51],[1784916000,9541.16,9869.82],[1784926800,9530.79,9852.27],[1784937600,9389.59,9858.31],[1784948400,9374.41,9834.79],[1784959200,9354.52,9839.68],[1784970000,9345.02,9851.96],[1784980800,9349.15,9830.65],[1784991600,9249.46,9843.47],[1785002400,9288.59,9849.88],[1785013200,9127.39,9869.44],[1785024000,8928.22,9888.17],[1785034800,8922.17,9896.4],[1785045600,8973.47,9905.58],[1785056400,8941.77,9916.18],[1785067200,8935.75,9938.78],[1785078000,8898.51,9943.06],[1785088800,8990.75,9922.27],[1785099600,9054.39,9870.89],[1785110400,9189.38,9891.21],[1785121200,9098.69,9907.85],[1785132000,9150.31,9912.43],[1785142800,9158.24,9920.39],[1785153600,9165.62,9888.45],[1785164400,9175.23,9798.27],[1785175200,9319.32,9802.73],[1785186000,9293.19,9801.32],[1785196800,9239.23,9776.62]];
+    var X0 = 46, X1 = 616, T0 = D[0][0], T1 = D[D.length - 1][0];
+    var wrap = document.getElementById('eqchart');
+    var svg = wrap.querySelector('svg');
+    var tip = document.getElementById('eq-tip');
+    var cross = document.getElementById('eq-cross');
+    var fmt = function (v) { return '$' + Math.round(v).toLocaleString(); };
+    function onMove(ev) {
+      var r = svg.getBoundingClientRect();
+      var vx = (ev.clientX - r.left) / r.width * 660;
+      if (vx < X0 - 6 || vx > X1 + 6) { onLeave(); return; }
+      var t = T0 + (Math.min(Math.max(vx, X0), X1) - X0) / (X1 - X0) * (T1 - T0);
+      var best = 0;
+      for (var i = 1; i < D.length; i++) {
+        if (Math.abs(D[i][0] - t) < Math.abs(D[best][0] - t)) best = i;
+      }
+      var row = D[best];
+      var x = X0 + (row[0] - T0) / (T1 - T0) * (X1 - X0);
+      cross.setAttribute('x1', x); cross.setAttribute('x2', x);
+      cross.setAttribute('visibility', 'visible');
+      var d = new Date(row[0] * 1000);
+      tip.innerHTML = (d.getUTCMonth() + 1) + '/' + d.getUTCDate() + ' ' +
+        String(d.getUTCHours()).padStart(2, '0') + ':00 UTC<br>' +
+        'Top 10 Mirror <strong>' + fmt(row[1]) + '</strong><br>' +
+        'Everyman ' + fmt(row[2]);
+      tip.style.display = 'block';
+      var px = x / 660 * r.width;
+      tip.style.left = Math.min(px + 12, r.width - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '18px';
+    }
+    function onLeave() { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); }
+    wrap.addEventListener('mousemove', onMove);
+    wrap.addEventListener('mouseleave', onLeave);
+  })();
+  </script>
+
+  <h2>The top of the leaderboard isn't who you think it is</h2>
+  <p>The all-time profit leaderboard selects for total dollars extracted, and the most effective way to extract dollars from a prediction market is not prescience — it's <strong>high-frequency arbitrage</strong>. Of our ten roster wallets, exactly two ever produced a fill, and both are algorithmic sports-arb operations. One of them executed <strong>500 trades in 12.7 minutes</strong> when we sampled it — roughly 40 trades per minute, nearly all of them buys, across tennis matches and MLB games. The other eight seats were mostly dormant legacy whales from the 2024 election cycle whose occasional trades were too small to copy.</p>
+  <p>So "mirror the ten best traders" was, in practice, "mirror two arbitrage bots." And an arb bot's profit comes from execution — maker fills, speed, and hedged books — which is precisely the part a copier cannot have.</p>
+
+  <div class="explainer">
+    <h3>60-second explainer — prediction-market arbitrage</h3>
+    <p>Every Polymarket market has YES shares and NO shares, and at resolution exactly one of them pays $1. That means owning <em>one YES and one NO</em> is worth exactly $1, guaranteed, no matter what happens in the world.</p>
+    <p>So whenever the two prices sum to less than a dollar, there's free money. If YES trades at 48¢ and NO at 49¢, buy both for 97¢ and you're holding a guaranteed dollar — a risk-free 3¢. No opinion about the match required. The bots at the top of the leaderboard scan thousands of markets for these gaps and take them within seconds, over and over, at size. Three cents doesn't sound like much until you do it forty times a minute during every tennis match on Earth.</p>
+    <p>Which is why copying them is hopeless: the profit isn't in <em>what</em> they buy, it's in the pair-price and the speed. Copy one leg without the other and you've made a naked bet the bot never made. Copy both legs a minute later at a cent worse per side, and the 97¢ pair costs you 99¢ — the entire margin just went to whoever sold it to you.</p>
+  </div>
+
+  <p>From there, three specific failures follow.</p>
+
+  <h2>Failure #1 — the exit half never ran. Not once.</h2>
+  <p>The algo's rule was "exit when they exit." Across 1,169 resolved positions, the number of mirror exits was <strong>zero</strong>. These wallets never sell: they buy YES, buy NO, and either merge the pair for a guaranteed dollar or hold to resolution and redeem. Our watcher only reacted to SELL trades — which never came. Half the strategy was structurally dead code, and every copied position rode to resolution whether the source wallet was still exposed or not.</p>
+
+  <h2>Failure #2 — slippage was bigger than the edge</h2>
+  <p>The paper engine charges a 1¢ slippage haircut on every entry, a deliberately conservative stand-in for crossing the spread. For copying a directional bettor whose edge is several cents of mispriced probability, that's a fair tax. For copying an arbitrageur whose entire edge is one or two cents of execution, it's fatal:</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">picks, before slippage</span>
+        <div class="bar-track"><div class="bar" style="left:44%; width:5%; background:var(--pos)"></div><span class="bar-val" style="left:50.5%">+$442</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">slippage haircut</span>
+        <div class="bar-track"><div class="bar negative" style="right:56%; width:11.2%; background:var(--neg)"></div><span class="bar-val" style="right:68.5%">−$997</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">net realized</span>
+        <div class="bar-track"><div class="bar negative" style="right:56%; width:6.2%; background:var(--neg)"></div><span class="bar-val" style="right:63.5%">−$555</span></div>
+      </div>
+    </div>
+    <figcaption>Realized PnL decomposition at audit time (1,151 resolved positions). The copied picks were actually slightly profitable gross — the 1¢-per-share entry haircut alone flipped the sign.</figcaption>
+  </figure>
+
+  <p>Read that again: the bots' picks, even sampled and delayed, were <em>gross profitable</em>. The mirror converted a thin winning strategy into a losing one purely by paying one cent more per share than the wallets it copied.</p>
+
+  <h2>Failure #3 — copying a hedge without the hedge</h2>
+  <p>This was the biggest dollar loser, and the subtlest. Arb bots buy <em>both</em> outcomes of the same market when the prices sum below $1. Copy both legs faithfully and you lock in a small guaranteed loss (you paid slippage twice on a pair that pays exactly $1). But it gets worse: our position sizing — dust floors, per-market exposure caps, and a 50-entry polling window — clipped or dropped legs <em>independently</em>. The mirror routinely ended up holding one unhedged side of somebody else's hedge, at a worse price.</p>
+  <p>In 214 markets the mirror held both outcomes copied from the same wallet. Those pairs lost <strong>$3,642</strong> — while everything else the algo did made <strong>+$3,088</strong>:</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">single-side positions</span>
+        <div class="bar-track"><div class="bar" style="left:44%; width:34.3%; background:var(--pos)"></div><span class="bar-val" style="left:79.5%">+$3,088</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">both-sides pairs (214 mkts)</span>
+        <div class="bar-track"><div class="bar negative" style="right:56%; width:40.5%; background:var(--neg)"></div><span class="bar-val" style="left:1%">−$3,642</span></div>
+      </div>
+    </div>
+    <figcaption>Resolved PnL split by whether the mirror held one or both outcomes of a market from the same source wallet. The unhedged hedge-leg copies were the single biggest loss driver.</figcaption>
+  </figure>
+
+  <h2>A warning about the data, for anyone who tries this</h2>
+  <p>Two API landmines we hit that anyone analyzing Polymarket wallets should know. First, the leaderboard API offers exactly four windows — 1d, 7d, 30d, all-time — and its board is hard-capped at 50 rows. There is no 12-month view. Second, you cannot reconstruct a wallet's PnL by summing its closed positions: <strong>positions held to worthless expiry never get a closed-position row</strong>. One roster wallet's closed positions summed to $11.7M of "profit" against an official lifetime figure of $4.3M — the missing $7.4M is losses that simply have no row. Any ranking built on that sum is a ranking of gross winners, i.e. of volume.</p>
+
+  <h2>What v3 does instead</h2>
+  <p>The machinery was fine; the roster was wrong. v3 keeps the mirror and rebuilds selection around one question — <em>is this a genuine bettor whose lifetime record proves an edge?</em> — with four rules:</p>
+
+  <div class="rulecards">
+    <div class="rulecard"><h3>Bot gate</h3><p>Reject wallets trading over 5 times per hour, or buying both sides of more than one market. In our data the two populations don't overlap: bots run 50–1,100 trades/hour, humans run 0.1–4. There's an empty order of magnitude between them.</p></div>
+    <div class="rulecard"><h3>Rank by lifetime PnL</h3><p>Official leaderboard numbers only, pooled from the all-time, 30-day, and 7-day boards. One hot month is not evidence of skill — the 30-day board's #9 turned out to be lifetime-negative.</p></div>
+    <div class="rulecard"><h3>Liveness floor</h3><p>At least 20 trades in the last 30 days. The all-time board is full of retired 2024-election whales who would fill exactly zero positions.</p></div>
+    <div class="rulecard"><h3>Scale-adjusted drawdown cap</h3><p>Eject a wallet only if one month erases more than 25% of its lifetime profit. A whale staking seven figures per market can lose $500K in a routine week — a fixed dollar cap would eject skill and keep tilt.</p></div>
+  </div>
+
+  <p>Here's the roster those rules seated at launch — finally, what the algo was always supposed to be copying:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Trader</th><th class="num">Lifetime PnL</th><th class="num">Last 30d</th><th>What they trade</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>BreakTheBank</td><td class="num">$6.75M</td><td class="num"><span class="pos">+$2.32M</span></td><td>World Cup &amp; MLB, six-figure clips</td></tr>
+        <tr><td>2</td><td>beachboy4</td><td class="num">$5.06M</td><td class="num"><span class="pos">+$388K</span></td><td>Slow, big-clip bettor (~$4.7K median trade)</td></tr>
+        <tr><td>3</td><td>0x006cc8…</td><td class="num">$4.72M</td><td class="num"><span class="pos">+$25K</span></td><td>Anonymous generalist, sells actively</td></tr>
+        <tr><td>4</td><td>GamblingIsAllYouNeed</td><td class="num">$4.50M</td><td class="num"><span class="pos">+$18K</span></td><td>Mixed sports</td></tr>
+        <tr><td>5</td><td>Allezpapa</td><td class="num">$4.28M</td><td class="num"><span class="pos">+$2.84M</span></td><td>World Cup whale — $2.7M staked on Spain alone</td></tr>
+        <tr><td>6</td><td>0x5966Db…</td><td class="num">$3.58M</td><td class="num"><span class="pos">+$538K</span></td><td>Anonymous, nearly all sports</td></tr>
+        <tr><td>7</td><td>S-Works</td><td class="num">$3.22M</td><td class="num"><span class="pos">+$439K</span></td><td>Non-sports directional</td></tr>
+        <tr><td>8</td><td>ImJustKen</td><td class="num">$3.17M</td><td class="num"><span class="neg">−$193K</span></td><td>Fed policy &amp; geopolitics — seated <em>despite</em> the losing month</td></tr>
+        <tr><td>9</td><td>ndb1</td><td class="num">$2.93M</td><td class="num"><span class="pos">+$2.05M</span></td><td>NFL season series &amp; Bitcoin markets</td></tr>
+        <tr><td>10</td><td>cnyek</td><td class="num">$2.15M</td><td class="num"><span class="pos">+$1.39M</span></td><td>The generalist — 67 markets over 62 days</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Seat #8 is the design working as intended: a $3.2M-lifetime macro trader having a bad month keeps his seat, because one drawdown month against a record like that is variance, not evidence. And four of the ten sell regularly, which means the "exit when they exit" rule will fire for the first time in the algo's life. The roster re-vets itself every six hours; names churn in and out as the leaderboard moves, but the rules don't.</p>
+
+  <h2>What the experiment now tests</h2>
+  <p>v3 relaunched today with a fresh $10,000 and a clean start. The honest framing: v2 never tested whether top traders are worth copying — it tested whether you can copy market makers, and the answer is obviously no. v3 finally asks the real question: <strong>does a proven directional bettor's edge survive a 1¢ copying tax?</strong> If their mispricing edge is real, it's several cents wide and should clear the haircut. If the mirror still bleeds, that's evidence the edge lives in timing and price we can't replicate — which would be a genuinely interesting negative result.</p>
+  <p>Either way, the leaderboard re-vets itself every six hours, every rule is a number in a config file, and the scoreboard is public. We'll report back.</p>
+
+  <div class="foot">
+    <p><strong>Methodology.</strong> All figures from the live paper-trading database: $10,000 starting bankroll, 5%-of-equity max position scaled by source trade size, 1¢ entry slippage, winners redeem at $1. v2 ran 2026-07-16 → 2026-07-28 (final equity $9,086.31, 1,169 resolved positions). Slippage and hedge-leg decompositions measured at the 2026-07-27 audit over 1,151 resolved positions. The full v2 history is archived and queryable. Wallet identities are public Polymarket leaderboard data.</p>
+  </div>
+</article>
+</body>
+</html>
