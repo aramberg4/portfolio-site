@@ -537,6 +537,9 @@ const ORUN_CSS = `
     .orun-mast{padding:30px 20px 26px;}
     .orun-apple{top:22px;right:18px;width:62px;height:59px;}
     .orun-apple-num{font-size:1.5rem;}
+    /* the apple is absolutely positioned — keep the header text clear of it */
+    .orun-eyebrow{padding-right:72px;}
+    .orun-title{padding-right:56px;}
     .orun-body{padding:24px 18px 4px;}
     .orun-when-card{padding:16px 14px 14px;}
     .orun-tier-head{flex-wrap:wrap;}
