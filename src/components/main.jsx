@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import LandingPage from './sections/LandingPage';
 import AboutMe from './sections/AboutMe';
 import Projects from './sections/Projects';
+import Blog from './sections/Blog';
 import NFLTargetShare from './NFLTargetShare';
 import FantasyFootball from './FantasyFootball';
 import Polywatch from './polywatch/Polywatch';
@@ -13,6 +14,7 @@ const Main = () => (
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/aboutme" component={AboutMe} />
         <Route exact path="/projects" component={Projects} />
+        <Route exact path="/blog" component={Blog} />
         <Route exact path="/nfl-target-share" component={NFLTargetShare} />
         <Route exact path="/fantasy-football" component={FantasyFootball} />
         <Route exact path="/polywatch" component={Polywatch} />

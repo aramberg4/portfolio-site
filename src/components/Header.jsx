@@ -48,21 +48,13 @@ const Header = () => {
             }}>
               Projects
             </Link>
-            <Link to="/nfl-target-share" style={{
+            <Link to="/blog" style={{
               color: 'white',
               textDecoration: 'none',
               fontWeight: '500',
               transition: 'color 0.2s'
             }}>
-              NFL Stats
-            </Link>
-            <Link to="/fantasy-football" style={{
-              color: 'white',
-              textDecoration: 'none',
-              fontWeight: '500',
-              transition: 'color 0.2s'
-            }}>
-              Fantasy
+              Blog
             </Link>
             <Link to="/aboutme" style={{
               color: 'white',
