@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Bet Against Polymarket's Biggest Losers. The Losers Were Right. | Polywatch Field Notes</title>
+<meta name="description" content="A post-mortem of Inverse Losers going first-to-worst in one Fed announcement: a six-day lead made of paper marks, an 86%-concentrated book, and why fading losers fails when losers bet the favorite.">
+<meta property="og:title" content="We bet against Polymarket's biggest losers. The losers were right.">
+<meta property="og:description" content="First place to last in one FOMC press release. The lead was unrealized marks on a single event — a post-mortem, with data.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/favicon.ico">
+<style>* { box-sizing: border-box; }</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #FAFAF8;
+    --ink: #1D2126;
+    --muted: #5C6B70;
+    --faint: #E3E7E5;
+    --accent: #059669;
+    --pos: #059669;
+    --neg: #C2453A;
+    --card: #F0F3F1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14181B;
+      --ink: #E7E9E4;
+      --muted: #93A1A6;
+      --faint: #2A3134;
+      --accent: #16A97C;
+      --pos: #16A97C;
+      --neg: #E06055;
+      --card: #1B2124;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14181B; --ink: #E7E9E4; --muted: #93A1A6; --faint: #2A3134;
+    --accent: #16A97C; --pos: #16A97C; --neg: #E06055; --card: #1B2124;
+  }
+  :root[data-theme="light"] {
+    --ground: #FAFAF8; --ink: #1D2126; --muted: #5C6B70; --faint: #E3E7E5;
+    --accent: #059669; --pos: #059669; --neg: #C2453A; --card: #F0F3F1;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.62;
+    font-size: 1.0625rem;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .mono, .stat, table, figcaption, .bar-label, .eyebrow, .rulecard h3 {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  article { max-width: 68ch; margin: 0 auto; padding: 3.5rem 0 5rem; }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.14; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .dek { font-size: 1.15rem; color: var(--muted); font-style: italic; margin: 0 0 2.4rem; text-wrap: balance; }
+  h2 {
+    font-size: 1.35rem; font-weight: 600; margin: 2.8rem 0 0.8rem;
+    letter-spacing: -0.005em; text-wrap: balance;
+  }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  .stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 2.5rem; }
+  .stat {
+    flex: 1 1 10rem; background: var(--card); border-radius: 6px;
+    padding: 0.9rem 1rem 0.8rem; border-top: 2px solid var(--accent);
+  }
+  .stat .n { font-size: 1.75rem; font-weight: 700; line-height: 1.1; display: block; }
+  .stat .n.neg { color: var(--neg); }
+  .stat .l { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+
+  figure { margin: 1.8rem 0 2rem; }
+  figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+  .barchart { display: flex; flex-direction: column; gap: 0.55rem; }
+  .barrow { display: grid; grid-template-columns: 12.5rem 1fr; gap: 0.7rem; align-items: center; }
+  .bar-label { font-size: 0.78rem; color: var(--ink); text-align: right; line-height: 1.3; }
+  .bar-track { position: relative; height: 22px; }
+  .bar-track::before {
+    content: ""; position: absolute; left: 46%; top: -4px; bottom: -4px;
+    width: 1px; background: var(--faint);
+  }
+  .bar { position: absolute; top: 2px; height: 18px; border-radius: 0 4px 4px 0; }
+  .bar.negative { border-radius: 4px 0 0 4px; }
+  .bar-val {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  @media (max-width: 540px) {
+    .barrow { grid-template-columns: 1fr; gap: 0.15rem; }
+    .bar-label { text-align: left; }
+  }
+
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-wrap .gridline { stroke: var(--faint); stroke-width: 1; }
+  .chart-wrap .axis-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; fill: var(--muted);
+  }
+  .legend { display: flex; gap: 1.2rem; margin: 0 0 0.5rem; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.75rem; color: var(--muted); flex-wrap: wrap; }
+  .legend .chip { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 0.4rem; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--card); border: 1px solid var(--faint); border-radius: 5px;
+    padding: 0.4rem 0.6rem; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem; line-height: 1.5; white-space: nowrap; z-index: 2;
+    font-variant-numeric: tabular-nums;
+  }
+  .explainer { background: var(--card); border-radius: 6px; padding: 1.1rem 1.25rem 0.9rem; margin: 1.6rem 0 1.8rem; }
+  .explainer h3 { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem; font-weight: 600; }
+  .explainer p { font-size: 0.97rem; margin: 0 0 0.8rem; }
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 1.8rem; }
+  table { border-collapse: collapse; font-size: 0.82rem; width: 100%; min-width: 34rem; }
+  th { text-align: left; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--faint); }
+  td { padding: 0.42rem 0.9rem 0.42rem 0; border-bottom: 1px solid var(--faint); }
+  td.num, th.num { text-align: right; }
+  td .neg { color: var(--neg); font-weight: 600; }
+  td .pos { color: var(--pos); font-weight: 600; }
+
+  .rulecards { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+  .rulecard { background: var(--card); border-radius: 6px; padding: 0.95rem 1.1rem; }
+  .rulecard h3 { font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem; font-weight: 600; }
+  .rulecard p { font-size: 0.95rem; margin: 0; color: var(--ink); }
+
+  .foot { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--faint); font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<article>
+  <p class="eyebrow">Polywatch · Field Notes · 2026-07-30</p>
+  <h1>We bet against Polymarket's biggest losers. The losers were right.</h1>
+  <p class="dek">How Inverse Losers went from first place to last in one Fed announcement — and why its six-day lead was never real to begin with.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n neg">−$2,173</span><span class="l">peak to trough, 43 hours</span></div>
+    <div class="stat"><span class="n">8 / 10</span><span class="l">lifetime positions on one Fed meeting</span></div>
+    <div class="stat"><span class="n">$200</span><span class="l">resolution payout on $2,368 of peak marks</span></div>
+  </div>
+
+  <p>Polywatch runs seven paper-trading algorithms against live Polymarket data, each seeded with $10,000. Inverse Losers is the contrarian of the group: it watches wallets that have lost at least $5,000 lifetime across ten or more resolved bets, and whenever one of them makes a big buy, it buys the opposite outcome. If someone has reliably torched money for years, surely the other side of their trade is a good place to stand.</p>
+  <p>For six days it was the best-performing algo on the board, peaking at <strong>$11,428</strong> on July 28. On the evening of July 29 the Federal Reserve announced its July decision, and by the next snapshot Inverse Losers was at <strong>$9,255</strong> — dead last. First to worst in one press release. Here's the autopsy.</p>
+
+  <figure>
+    <div class="legend">
+      <span><span class="chip" style="background:var(--accent)"></span>Inverse Losers</span>
+      <span><span class="chip" style="background:var(--muted)"></span>Everyman (copy-everything benchmark)</span>
+    </div>
+    <div class="chart-wrap" id="eqchart">
+      <svg viewBox="0 0 660 270" role="img" aria-label="Equity curves, July 23 to 30. Inverse Losers climbs from $10,000 to a peak of $11,428 on July 28, hovers above $11,000, then collapses vertically to $9,255 when the Fed decision resolves on July 29. Everyman drifts sideways between $9,780 and $10,050.">
+        <line class="gridline" x1="46" x2="616" y1="196" y2="196"></line>
+        <line class="gridline" x1="46" x2="616" y1="151" y2="151"></line>
+        <line class="gridline" x1="46" x2="616" y1="106" y2="106"></line>
+        <line class="gridline" x1="46" x2="616" y1="61" y2="61"></line>
+        <text class="axis-label" x="42" y="199.5" text-anchor="end">$9.5K</text>
+        <text class="axis-label" x="42" y="154.5" text-anchor="end">$10K</text>
+        <text class="axis-label" x="42" y="109.5" text-anchor="end">$10.5K</text>
+        <text class="axis-label" x="42" y="64.5" text-anchor="end">$11K</text>
+        <text class="axis-label" x="46" y="262">Jul 23</text>
+        <text class="axis-label" x="193" y="262" text-anchor="middle">Jul 25</text>
+        <text class="axis-label" x="340" y="262" text-anchor="middle">Jul 27</text>
+        <text class="axis-label" x="487" y="262" text-anchor="middle">Jul 29</text>
+        <text class="axis-label" x="616" y="262" text-anchor="end">Jul 30</text>
+        <line x1="550" x2="550" y1="14" y2="240" stroke="var(--neg)" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"></line>
+        <text class="axis-label" x="545" y="248" text-anchor="end" fill="var(--neg)">FOMC: rates held</text>
+        <polyline id="line-eve" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round" points=""></polyline>
+        <polyline id="line-fade" fill="none" stroke="var(--accent)" stroke-width="2.25" stroke-linejoin="round" points=""></polyline>
+        <circle cx="418" cy="22.5" r="3.5" fill="var(--accent)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="616" cy="218" r="3.5" fill="var(--neg)" stroke="var(--ground)" stroke-width="2"></circle>
+        <text class="axis-label" x="412" y="16" text-anchor="end">peak $11,428 · Jul 28</text>
+        <text class="axis-label" x="610" y="215" text-anchor="end">$9,255</text>
+        <line id="eq-cross" x1="0" x2="0" y1="12" y2="240" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3" visibility="hidden"></line>
+      </svg>
+      <div class="tooltip" id="eq-tip"></div>
+    </div>
+    <figcaption>Equity by 3-hour bucket, 2026-07-23 → 07-30, from the live paper-trading database. Inverse Losers relaunched with its PnL-based gate on July 23; the climb, the plateau, and the cliff are all the same handful of positions.</figcaption>
+  </figure>
+
+  <script>
+  (function () {
+    var FADE = [[1784764800,10000],[1784786400,10000],[1784797200,10205.59],[1784840400,11193.96],[1784851200,11223.4],[1784862000,11206.84],[1784872800,11185.18],[1784883600,11081.57],[1784894400,11178.04],[1784905200,11052.2],[1784916000,11205.49],[1784926800,11239.25],[1784937600,11231.53],[1784948400,11266.42],[1784959200,11227.71],[1784970000,11178.17],[1784980800,11154.32],[1784991600,11134.08],[1785002400,11004.5],[1785013200,10900.96],[1785024000,10863.18],[1785034800,10860.77],[1785045600,10828.36],[1785056400,10778.57],[1785067200,10612.89],[1785078000,10561.52],[1785088800,10619.61],[1785099600,10856.17],[1785110400,10781.47],[1785121200,10791.92],[1785132000,10771.91],[1785142800,10774.28],[1785153600,11021.29],[1785164400,11290.58],[1785175200,11274.08],[1785186000,11296.54],[1785196800,11424.32],[1785207600,11399.34],[1785218400,11362.44],[1785229200,11204.19],[1785240000,11086.06],[1785250800,10799.49],[1785261600,10957.5],[1785272400,11068.02],[1785283200,11134.35],[1785294000,11058.22],[1785304800,10864.73],[1785315600,10973.32],[1785326400,11120.96],[1785337200,11214.71],[1785348000,9845.23],[1785358800,9261.13],[1785369600,9261.13],[1785380400,9261.13],[1785391200,9260.84],[1785402000,9260.69],[1785412800,9257.49],[1785423600,9255.45],[1785434400,9255.45]];
+    var EVE = [[1784764800,9856.96],[1784775600,9867.85],[1784786400,9871.31],[1784797200,9881.39],[1784808000,9818.14],[1784818800,9831.53],[1784829600,9838.85],[1784840400,9845.0],[1784851200,9845.55],[1784862000,9847.9],[1784872800,9851.03],[1784883600,9891.65],[1784894400,9867.07],[1784905200,9870.51],[1784916000,9869.82],[1784926800,9852.27],[1784937600,9858.31],[1784948400,9834.79],[1784959200,9839.68],[1784970000,9851.96],[1784980800,9830.65],[1784991600,9843.47],[1785002400,9849.88],[1785013200,9869.44],[1785024000,9888.17],[1785034800,9896.4],[1785045600,9905.58],[1785056400,9916.18],[1785067200,9938.78],[1785078000,9943.06],[1785088800,9922.27],[1785099600,9870.89],[1785110400,9891.21],[1785121200,9907.85],[1785132000,9912.43],[1785142800,9920.39],[1785153600,9888.45],[1785164400,9798.27],[1785175200,9802.73],[1785186000,9801.32],[1785196800,9778.94],[1785207600,9789.03],[1785218400,9796.15],[1785229200,9812.87],[1785240000,9826.54],[1785250800,9835.32],[1785261600,9828.01],[1785272400,9850.88],[1785283200,9843.76],[1785294000,9842.61],[1785304800,9842.28],[1785315600,9850.46],[1785326400,9922.95],[1785337200,9906.37],[1785348000,10047.19],[1785358800,9938.31],[1785369600,9921.92],[1785380400,9923.21],[1785391200,9946.29],[1785402000,9926.69],[1785412800,9937.71],[1785423600,9951.86],[1785434400,9959.95]];
+    var X0 = 46, X1 = 616, T0 = 1784764800, T1 = 1785434400;
+    var Y0 = 9100, Y1 = 11500, TOP = 16, BOT = 232;
+    function px(t) { return X0 + (t - T0) / (T1 - T0) * (X1 - X0); }
+    function py(v) { return BOT - (v - Y0) / (Y1 - Y0) * (BOT - TOP); }
+    function pts(arr) {
+      var s = [];
+      for (var i = 0; i < arr.length; i++) s.push(px(arr[i][0]).toFixed(1) + ',' + py(arr[i][1]).toFixed(1));
+      return s.join(' ');
+    }
+    document.getElementById('line-fade').setAttribute('points', pts(FADE));
+    document.getElementById('line-eve').setAttribute('points', pts(EVE));
+
+    var wrap = document.getElementById('eqchart');
+    var svg = wrap.querySelector('svg');
+    var tip = document.getElementById('eq-tip');
+    var cross = document.getElementById('eq-cross');
+    var fmt = function (v) { return '$' + Math.round(v).toLocaleString(); };
+    function nearest(arr, t) {
+      var best = 0;
+      for (var i = 1; i < arr.length; i++) if (Math.abs(arr[i][0] - t) < Math.abs(arr[best][0] - t)) best = i;
+      return arr[best];
+    }
+    function onMove(ev) {
+      var r = svg.getBoundingClientRect();
+      var vx = (ev.clientX - r.left) / r.width * 660;
+      if (vx < X0 - 6 || vx > X1 + 6) { onLeave(); return; }
+      var t = T0 + (Math.min(Math.max(vx, X0), X1) - X0) / (X1 - X0) * (T1 - T0);
+      var f = nearest(FADE, t), e = nearest(EVE, t);
+      var x = px(f[0]);
+      cross.setAttribute('x1', x); cross.setAttribute('x2', x);
+      cross.setAttribute('visibility', 'visible');
+      var d = new Date(f[0] * 1000);
+      tip.innerHTML = (d.getUTCMonth() + 1) + '/' + d.getUTCDate() + ' ' +
+        String(d.getUTCHours()).padStart(2, '0') + ':00 UTC<br>' +
+        'Inverse Losers <strong>' + fmt(f[1]) + '</strong><br>' +
+        'Everyman ' + fmt(e[1]);
+      tip.style.display = 'block';
+      var pxx = x / 660 * r.width;
+      tip.style.left = Math.min(pxx + 12, r.width - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '18px';
+    }
+    function onLeave() { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); }
+    wrap.addEventListener('mousemove', onMove);
+    wrap.addEventListener('mouseleave', onLeave);
+  })();
+  </script>
+
+  <h2>The whole book was one bet</h2>
+  <p>Inverse Losers has made exactly ten entries in its life. Eight of them were the same trade: the July 2026 FOMC meeting. Its source wallets — nine losing wallets with lifetime PnL ranging from −$24K to −$7.2M, roughly <strong>$17 million of combined losses</strong> — kept buying "the Fed holds rates" at 72–93¢. So the algo did its job and bought the other side: "rates change" tokens at 7–28¢, seven separate times, plus one hedged leg. Of the $1,332 the algo has ever deployed, <strong>86% was riding on a single announcement</strong>.</p>
+  <p>That concentration wasn't a fluke; it was structural. Fish signals are rare — big buys from qualifying losers arrive at less than one per day — and the pipeline filters out sports markets, which is where losing bettors actually live. What leaks through the filter is macro. And in late July, the only macro market that mattered was the Fed. Six of the ten entries even arrived in a single batch, when the v3 relaunch backfilled the previous days of fish signals — a window in which the loudest fish trade was, of course, the FOMC.</p>
+
+  <h2>The lead was paper</h2>
+  <p>Watch the chart again. The climb to first place and the fall to last place are the <em>same positions</em>. Mid-week, markets started flirting with a rate cut, and the "rates change" tokens the algo had bought for an average of about 14¢ marked up past 30¢. At the July 28 peak, positions bought for $1,144 carried a mark-to-market value of <strong>$2,368</strong> — every dollar of the lead was unrealized gains on unresolved longshots. Then the Fed held. The change-side tokens went to zero, the one hedged leg paid $200, and the scoreboard position evaporated along with the marks.</p>
+
+  <div class="explainer">
+    <h3>60-second explainer — why a longshot book lies to the scoreboard</h3>
+    <p>A prediction-market token resolves to exactly $1 or exactly $0. Until then, its price is a probability, and mark-to-market equity is just that probability times your shares. A book full of 14¢ longshots can double on paper any time the market's mood shifts a few points — no trade has to go right, nothing has to resolve, the poll just moved.</p>
+    <p>That means an equity leaderboard over unresolved binary positions rewards <em>volatility exposure</em>, not skill, right up until resolution day. Inverse Losers "led" for six days because it held the twitchiest tokens on the board during a week of rate-cut speculation. The scoreboard was reporting a poll. Resolution reported the result: those $2,368 of marks were worth $200.</p>
+  </div>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">WTI crude $90 July (won)</span>
+        <div class="bar-track"><div class="bar" style="left:46%; width:8.2%; background:var(--pos)"></div><span class="bar-val" style="left:55.5%">+$206</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">Fed hedge leg (won)</span>
+        <div class="bar-track"><div class="bar" style="left:46%; width:2%; background:var(--pos)"></div><span class="bar-val" style="left:49.5%">+$51</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">Fed "rates change" legs ×7</span>
+        <div class="bar-track"><div class="bar negative" style="right:54%; width:39.8%; background:var(--neg)"></div><span class="bar-val" style="left:2%">−$995</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">net realized, lifetime</span>
+        <div class="bar-track"><div class="bar negative" style="right:54%; width:29.5%; background:var(--neg)"></div><span class="bar-val" style="right:84.5%">−$738</span></div>
+      </div>
+    </div>
+    <figcaption>Every realized position in Inverse Losers' v3 history. The −$2,173 peak-to-trough drop looks dramatic, but $1,435 of it was giving back paper gains that were never banked; actual money lost is −$738 on ~$1,300 deployed.</figcaption>
+  </figure>
+
+  <h2>The fish bought the favorite. That matters.</h2>
+  <p>Here's the part that stings beyond one bad Fed call. The premise of Inverse Losers is that habitual losers carry negative information — stand on the other side and their anti-edge becomes your edge. But that logic quietly assumes the loser is doing something <em>contrarian</em>. This week they weren't. The fish bought "Fed holds" at 72–93¢ — the consensus, the favorite, the thing that then happened.</p>
+  <p>When a loser bets the favorite, fading them forces you into the longshot, and prediction markets share a well-documented pathology with racetracks: <strong>favorite–longshot bias</strong>. Longshots are systematically overpriced, because someone is always willing to pay a little too much for a lottery ticket. So this particular shape of fade — buying 14¢ tokens because a bad bettor bought the 86¢ side — starts from behind <em>before</em> you even ask whether the fish knows anything. People who have lost $7 million on Polymarket mostly didn't lose it by betting favorites; they lost it on sizing, timing, and chasing. Their favorite bets can be perfectly fine, and this week, all of them were.</p>
+  <p>The gate selects for bad lifetime PnL. It does not select for being wrong <em>on this market</em>. Those are different things, and the difference just cost the algo its lead.</p>
+
+  <h2>Fed week grazed everyone else</h2>
+  <p>Inverse Losers was the extreme case, but it wasn't alone on the wrong side. Whale flow across nearly every classification was long rate-change longshots into the meeting, so most of the algos took a Fed hit — just as one position among many rather than as the entire book:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Algorithm</th><th class="num">Equity now</th><th class="num">Realized since Jul 27</th><th>Fed-week story</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Kitchen Sink</td><td class="num">$10,396</td><td class="num"><span class="neg">−$85</span></td><td>Hike bet −$339, offset by a "holds" leg that won</td></tr>
+        <tr><td>Crowd Surge</td><td class="num">$10,250</td><td class="num"><span class="neg">−$322</span></td><td>−$567 on a 25bps-hike bet</td></tr>
+        <tr><td>Sharp Follow</td><td class="num">$10,149</td><td class="num"><span class="neg">−$592</span></td><td>−$883 on Fed legs, plus a ceasefire miss</td></tr>
+        <tr><td>Everyman</td><td class="num">$9,960</td><td class="num"><span class="neg">−$90</span></td><td>Copied both sides of the crowd; roughly a wash</td></tr>
+        <tr><td>Top 10 Mirror</td><td class="num">$9,790</td><td class="num"><span class="neg">−$234</span></td><td>No Fed exposure — its sports-heavy roster dodged the event</td></tr>
+        <tr><td>Insider Echo</td><td class="num">$9,512</td><td class="num"><span class="pos">+$38</span></td><td>Lost $378 on the Fed, won it back on oil and geopolitics</td></tr>
+        <tr><td>Inverse Losers</td><td class="num">$9,255</td><td class="num"><span class="neg">−$944</span></td><td>The Fed <em>was</em> the book</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>One wry footnote: Top 10 Mirror — the algo we <a href="/polywatch-top10">tore down and rebuilt two days before this</a> — sailed through Fed week untouched, because its new roster of genuine bettors is mostly trading the World Cup. Sometimes the best macro call is not being invited.</p>
+
+  <h2>What changes</h2>
+  <p>The honest caveat first: ten positions is not a verdict on fading losers. One correlated event went against the book; that's variance. What the week <em>did</em> expose are three construction flaws that would hurt no matter how the Fed voted:</p>
+
+  <div class="rulecards">
+    <div class="rulecard"><h3>Concentration cap</h3><p>86% of lifetime deployment on one event means the algo's fate was a coin flip, not a strategy. A per-event exposure cap — the Fed's eight July markets were all one announcement — keeps a single macro date from becoming the whole book.</p></div>
+    <div class="rulecard"><h3>Don't auto-fade favorites</h3><p>Fading a fish who buys at 85¢ means buying a 15¢ longshot and eating favorite–longshot bias. The signal may only be worth acting on when the fish is off-consensus — a price condition on the fade, not just a PnL condition on the fish.</p></div>
+    <div class="rulecard"><h3>Feed the algo or shrink its claims</h3><p>Under one qualifying signal per day, every conclusion drowns in noise. The fish population lives in sports markets, which the pipeline currently filters out. Either let the fade see sports, or accept that this experiment needs months, not weeks.</p></div>
+  </div>
+
+  <p>And one lesson for us rather than the algo: we watched the scoreboard all week and told ourselves a story about our clever contrarian. The equity rank of a longshot book is a mood ring. Next time an algo "leads" on unrealized marks over unresolved binaries, the correct reaction is not pride — it's checking what single event is propping up the number.</p>
+
+  <div class="foot">
+    <p><strong>Methodology.</strong> All figures from the live paper-trading database: $10,000 starting bankroll per algo, 1¢ entry slippage, positions marked to last price, winners redeem at $1. Inverse Losers v3 (gate: source wallet lifetime PnL &lt; −$5,000 across ≥10 resolved bets) relaunched 2026-07-23; figures as of 2026-07-30 18:00 UTC. The July FOMC markets resolved 2026-07-29 20:28 UTC. "Realized since Jul 27" sums <code>realized_pnl</code> on positions closed on or after 2026-07-27. Source wallet identities are public Polymarket data.</p>
+  </div>
+</article>
+</body>
+</html>

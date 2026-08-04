@@ -16,6 +16,11 @@
   status = 200
 
 [[redirects]]
+  from = "/polywatch-inverse-losers"
+  to = "/polywatch-inverse-losers-postmortem.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
