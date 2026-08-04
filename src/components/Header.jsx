@@ -1,7 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+// Routes that stand alone (shared by direct link) and shouldn't carry the site nav
+const STANDALONE_ROUTES = ['/austins-30th'];
 
 const Header = () => {
+  const { pathname } = useLocation();
+  if (STANDALONE_ROUTES.includes(pathname)) return null;
   return (
     <header style={{
       position: 'fixed',

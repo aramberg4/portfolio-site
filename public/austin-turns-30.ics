@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Austin Ramberg//Austin Turns 30//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:orchard-run-20260919@austins-30th
+DTSTAMP:20260803T000000Z
+DTSTART:20260919T170000Z
+DTEND:20260919T220000Z
+SUMMARY:Austin Turns 30 — Apple Picking at Cider Hill Farm
+LOCATION:Cider Hill Farm\, 45 Fern Ave\, Amesbury\, MA 01913
+DESCRIPTION:Austin's 30th at Cider Hill Farm. Apple picking\, the PitchFork food truck\, cider donuts\, and the outdoor cider bar. Come and go any time between 1 PM and close. Bags and drinks are pay-your-own — wear comfy shoes.
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
