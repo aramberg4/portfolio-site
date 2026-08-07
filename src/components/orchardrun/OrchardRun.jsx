@@ -51,7 +51,9 @@ const useRaceClock = () => {
   };
 };
 
-const OrchardRun = () => {
+// showGifts=false is the casual-invite variant (/orchard-day): same party info,
+// no gift list and no tab bar, so those guests never see a registry.
+const OrchardRun = ({ showGifts = true }) => {
   const [tab, setTab] = useState('itinerary');
   const clock = useRaceClock();
 
@@ -100,6 +102,7 @@ const OrchardRun = () => {
         </header>
 
         {/* ---------- tabs ---------- */}
+        {showGifts && (
         <nav className="orun-tabs" role="tablist" aria-label="Page sections">
           <button
             type="button"
@@ -120,8 +123,9 @@ const OrchardRun = () => {
             Gift List
           </button>
         </nav>
+        )}
 
-        {tab === 'itinerary' ? (
+        {!showGifts || tab === 'itinerary' ? (
           <div className="orun-body">
             {/* ---------- what ---------- */}
             <section className="orun-section">

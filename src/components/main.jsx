@@ -20,6 +20,8 @@ const Main = () => (
         <Route exact path="/polywatch" component={Polywatch} />
         {/* Unlisted — shared by direct link only */}
         <Route exact path="/austins-30th" component={OrchardRun} />
+        {/* Same invite without the gift list, for guests who aren't expected to bring one */}
+        <Route exact path="/orchard-day" render={() => <OrchardRun showGifts={false} />} />
     </Switch>
 );
 
