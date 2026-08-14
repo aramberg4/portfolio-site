@@ -35,6 +35,15 @@ const TEAM_COLORS = {
   10: { bg: '#6366F1', border: '#4F46E5', label: 'indigo' },
 };
 
+// Champion draft slots from the league draft board sheet (canonical draft order;
+// ESPN pick numbers are unreliable for offline-entered years). 2013-2014 predate
+// the sheet, so those titles can't be slot-attributed.
+const CHAMPION_DRAFT_SLOTS = {
+  2013: null, 2014: null,
+  2015: 1, 2016: 1, 2017: 8, 2018: 3, 2019: 8, 2020: 6,
+  2021: 2, 2022: 3, 2023: 6, 2024: 6, 2025: 2,
+};
+
 function processData(raw) {
   if (!raw?.seasonData) return null;
 
@@ -212,10 +221,18 @@ function processData(raw) {
     t.talentScore = Math.max(0, Math.min(100, Math.round(50 + 15 * zTalent[i])));
   });
 
+  // Champions by year (for Analytics), with draft slot from the sheet mapping
+  const champions = allSeasons.map(year => {
+    const teams = raw.seasonData[year] || manualSeasons[year] || [];
+    const champ = teams.find(t => t.finalStanding === 1);
+    if (!champ) return null;
+    return { year: Number(year), ownerName: champ.ownerName, teamId: champ.teamId, slot: CHAMPION_DRAFT_SLOTS[year] ?? null };
+  }).filter(Boolean);
+
   // Pass through signature players data
   const signaturePlayers = raw.signaturePlayers || {};
 
-  return { teamStats, allSeasons, signaturePlayers };
+  return { teamStats, allSeasons, signaturePlayers, champions };
 }
 
 // Heatmap: green (best) → yellow → orange → red (worst)
@@ -294,6 +311,75 @@ const FantasyFootball = () => {
     if (!data) return [];
     return [...data.teamStats].sort((a, b) => b.talentScore - a.talentScore);
   }, [data]);
+
+  // Rings-by-slot data for the Analytics tab
+  const ringsBySlot = useMemo(() => {
+    if (!data?.champions) return null;
+    const slots = Array.from({ length: 10 }, (_, i) => i + 1);
+    const winners = {};
+    slots.forEach(s => { winners[s] = []; });
+    const unattributed = [];
+    data.champions.forEach(c => {
+      if (c.slot) winners[c.slot].push(c);
+      else unattributed.push(c);
+    });
+    return { slots, winners, counts: slots.map(s => winners[s].length), unattributed };
+  }, [data]);
+
+  const ringsChartData = useMemo(() => {
+    if (!ringsBySlot) return null;
+    return {
+      labels: ringsBySlot.slots.map(String),
+      datasets: [{
+        label: 'Championships',
+        data: ringsBySlot.counts,
+        backgroundColor: '#eab308CC',
+        borderColor: '#ca8a04',
+        borderWidth: 2,
+        borderRadius: 6,
+      }],
+    };
+  }, [ringsBySlot]);
+
+  const ringsChartOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+        titleColor: '#F9FAFB',
+        bodyColor: '#E5E7EB',
+        borderColor: '#4B5563',
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 12,
+        callbacks: {
+          title: (items) => `Draft slot ${items[0].label}`,
+          label: (item) => `${item.parsed.y} ring${item.parsed.y === 1 ? '' : 's'}`,
+          afterBody: (items) => {
+            if (!ringsBySlot) return '';
+            const slot = Number(items[0].label);
+            return ringsBySlot.winners[slot].map(c => `${c.year} — ${c.ownerName}`);
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Draft Slot', color: '#9CA3AF' },
+        ticks: { color: '#9CA3AF', font: { size: 13 } },
+        grid: { display: false },
+      },
+      y: {
+        beginAtZero: true,
+        max: 4,
+        title: { display: true, text: 'Championships', color: '#9CA3AF' },
+        ticks: { color: '#9CA3AF', stepSize: 1 },
+        grid: { color: '#374151' },
+      },
+    },
+  }), [ringsBySlot]);
 
   const selectedTeamData = useMemo(() => {
     if (!data || !selectedTeam) return null;
@@ -476,6 +562,7 @@ const FantasyFootball = () => {
             { key: 'charts', label: 'Team Charts', dot: '#10b981', activeBg: 'rgba(16,185,129,0.15)', activeText: '#34d399', activeBorder: 'rgba(16,185,129,0.4)' },
             { key: 'success', label: 'Most Successful', dot: '#f59e0b', activeBg: 'rgba(245,158,11,0.15)', activeText: '#fbbf24', activeBorder: 'rgba(245,158,11,0.4)' },
             { key: 'talent', label: 'Most Talented', dot: '#8b5cf6', activeBg: 'rgba(139,92,246,0.15)', activeText: '#a78bfa', activeBorder: 'rgba(139,92,246,0.4)' },
+            { key: 'analytics', label: 'Analytics', dot: '#06b6d4', activeBg: 'rgba(6,182,212,0.15)', activeText: '#22d3ee', activeBorder: 'rgba(6,182,212,0.4)' },
           ].map(tab => {
             const isActive = activeTab === tab.key;
             return (
@@ -905,6 +992,39 @@ const FantasyFootball = () => {
                 { label: 'Finish Strength', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
               ]}
             />
+          </div>
+        )}
+
+        {/* Analytics Tab */}
+        {activeTab === 'analytics' && ringsBySlot && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="rounded-xl" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', padding: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+              <h3 className="font-bold text-white text-center" style={{ fontSize: '1.125rem', marginBottom: '0.25rem' }}>
+                Rings by Draft Slot
+              </h3>
+              <p className="text-center" style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem' }}>
+                Every championship, mapped to where the winner drafted that year &middot; Hover a bar for the winners
+              </p>
+              <div style={{ height: 380 }}>
+                <Bar data={ringsChartData} options={ringsChartOptions} />
+              </div>
+            </div>
+
+            <div className="rounded-xl" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', padding: '1.25rem 1.5rem' }}>
+              <p style={{ color: '#9ca3af', fontSize: '0.8rem', lineHeight: 1.6, margin: 0 }}>
+                Slots are chosen, not assigned — owners pick their draft slot in order of the prior
+                year&apos;s finish, champion first. So this is partly a map of where good teams like to
+                sit: the front of the snake (1&ndash;3) and the middle (6) hold every attributed ring, while
+                slots 4, 5, 7, 9, and 10 have never won.
+              </p>
+              {ringsBySlot.unattributed.length > 0 && (
+                <p style={{ color: '#6b7280', fontSize: '0.75rem', lineHeight: 1.6, margin: '0.75rem 0 0' }}>
+                  Draft order comes from the league draft board sheet, which starts in 2015 — the{' '}
+                  {ringsBySlot.unattributed.map(c => `${c.year} (${c.ownerName})`).join(' and ')}{' '}
+                  title{ringsBySlot.unattributed.length === 1 ? '' : 's'} can&apos;t be slot-attributed.
+                </p>
+              )}
+            </div>
           </div>
         )}
 
