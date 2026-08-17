@@ -48,8 +48,13 @@ const EquityChart = ({ algos }) => {
   const algoIds = algos.map((a) => a.id);
   const { series, loading } = useEquitySeries(algoIds, days);
 
-  // Union of timestamps across algos, as labels
-  const allTs = [...new Set(Object.values(series).flat().map((s) => s.ts))].sort((a, b) => a - b);
+  // Union of timestamps across algos, as labels. Snapshots are only written
+  // hourly (plus on fills), so append a live "now" point from the 60s-polled
+  // algo summaries — otherwise the curve's right edge can lag live equity by
+  // up to an hour while the standings show the current number.
+  const snapTs = [...new Set(Object.values(series).flat().map((s) => s.ts))].sort((a, b) => a - b);
+  const nowTs = Math.floor(Date.now() / 1000);
+  const allTs = snapTs.length > 0 ? [...new Set([...snapTs, nowTs])].sort((a, b) => a - b) : snapTs;
   const labels = allTs.map((ts) =>
     new Date(ts * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
   );
@@ -57,6 +62,7 @@ const EquityChart = ({ algos }) => {
   const datasets = algos.map((algo) => {
     const color = ALGO_COLORS[algo.id] || ALGO_COLORS.everyman;
     const byTs = new Map((series[algo.id] || []).map((s) => [s.ts, s.equity]));
+    if (snapTs.length > 0 && typeof algo.equity === 'number') byTs.set(nowTs, algo.equity);
     // Carry the last known equity forward across gaps so lines stay continuous
     let last = null;
     const data = allTs.map((ts) => {

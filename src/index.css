@@ -67,4 +67,30 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+
+  /* Polywatch fill ticker marquee — track holds the list twice, so -50% lands
+     exactly on the start of the second copy for a seamless loop */
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .fill-ticker-track {
+    display: inline-block;
+    animation: tickerScroll linear infinite;
+    will-change: transform;
+  }
+
+  .fill-ticker:hover .fill-ticker-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fill-ticker {
+      overflow-x: auto;
+    }
+    .fill-ticker-track {
+      animation: none;
+    }
+  }
 }

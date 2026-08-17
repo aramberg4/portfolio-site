@@ -48,6 +48,11 @@ const AlgoDetail = ({ algo }) => {
   const best = settled.reduce((m, p) => (m == null || p.realizedPnl > m.realizedPnl ? p : m), null);
   const worst = settled.reduce((m, p) => (m == null || p.realizedPnl < m.realizedPnl ? p : m), null);
 
+  // Trader name for the Source column: enriched pseudonym from the API, else
+  // the mirror roster's leaderboard name, else the shortened wallet address.
+  const rosterName = new Map((algo.config?.roster ?? []).map((r) => [r.wallet, r.name]));
+  const sourceLabel = (p) => p.sourceName || rosterName.get(p.sourceWallet) || shortWallet(p.sourceWallet);
+
   return (
     <div className="rounded-xl bg-gray-800 border border-gray-700 p-5 mb-8">
       <h2 className="text-xl font-bold text-white">{algo.name}</h2>
@@ -104,7 +109,7 @@ const AlgoDetail = ({ algo }) => {
             <td className="py-2 pr-4">{fmtPrice(p.avgEntryPrice)} → {fmtPrice(p.exitPrice)}</td>
             <td className={`py-2 pr-4 ${pnlClass(p.realizedPnl)}`}>{fmtSignedUsd(p.realizedPnl)}</td>
             <td className="py-2 pr-4 text-gray-500">{EXIT_LABELS[p.exitReason] || p.exitReason}</td>
-            <td className="py-2 pr-4 text-gray-500 font-mono text-xs">{shortWallet(p.sourceWallet)}</td>
+            <td className="py-2 pr-4 text-gray-500 font-mono text-xs">{sourceLabel(p)}</td>
           </tr>
         ))}
       </Table>
