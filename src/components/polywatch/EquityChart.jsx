@@ -5,35 +5,37 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useEquitySeries } from '../../hooks/usePolywatch';
-import { ALGO_COLORS, EXPERIMENT_V2, fmtUsd } from './format';
+import { ALGO_COLORS, EXPERIMENT_V2, EXPERIMENT_V3, fmtUsd } from './format';
 
 ChartJS.register(LinearScale, CategoryScale, LineController, LineElement, PointElement, Tooltip, Legend);
 
-// Dashed amber seam at the v2 reset — new T0 for Insider Echo / Sharp Follow,
-// regime seam for everyone else. Index arrives via options.plugins.v2Seam.
-const v2SeamPlugin = {
-  id: 'v2Seam',
+// Dashed amber seams at experiment regime changes — v2 (new T0 for Insider
+// Echo / Sharp Follow), v3 (day-33 risk overhaul: event caps, exit stacks,
+// favorite-fade guard). Marks arrive via options.plugins.seams.marks.
+const seamsPlugin = {
+  id: 'seams',
   afterDraw(chart, _args, opts) {
-    if (opts.index == null || opts.index < 0) return;
-    const x = chart.scales.x.getPixelForValue(opts.index);
-    const { top, bottom } = chart.chartArea;
-    const { ctx } = chart;
-    ctx.save();
-    ctx.strokeStyle = '#FBBF24';
-    ctx.setLineDash([3, 3]);
-    ctx.globalAlpha = 0.7;
-    ctx.beginPath();
-    ctx.moveTo(x, top);
-    ctx.lineTo(x, bottom);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#FBBF24';
-    ctx.font = '9px sans-serif';
-    const label = 'v2 reset';
-    const flip = x + 4 + ctx.measureText(label).width > chart.chartArea.right;
-    ctx.textAlign = flip ? 'right' : 'left';
-    ctx.fillText(label, flip ? x - 4 : x + 4, top + 9);
-    ctx.restore();
+    for (const { index, label } of opts.marks ?? []) {
+      if (index == null || index < 0) continue;
+      const x = chart.scales.x.getPixelForValue(index);
+      const { top, bottom } = chart.chartArea;
+      const { ctx } = chart;
+      ctx.save();
+      ctx.strokeStyle = '#FBBF24';
+      ctx.setLineDash([3, 3]);
+      ctx.globalAlpha = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#FBBF24';
+      ctx.font = '9px sans-serif';
+      const flip = x + 4 + ctx.measureText(label).width > chart.chartArea.right;
+      ctx.textAlign = flip ? 'right' : 'left';
+      ctx.fillText(label, flip ? x - 4 : x + 4, top + 9);
+      ctx.restore();
+    }
   },
 };
 
@@ -83,8 +85,11 @@ const EquityChart = ({ algos }) => {
     };
   });
 
-  // First snapshot at or after the v2 reset (−1 = seam outside this range)
-  const v2Index = allTs.findIndex((ts) => ts >= EXPERIMENT_V2);
+  // First snapshot at or after each seam (−1 = seam outside this range)
+  const seamMarks = [
+    { ts: EXPERIMENT_V2, label: 'v2 reset' },
+    { ts: EXPERIMENT_V3, label: 'v3' },
+  ].map(({ ts, label }) => ({ index: allTs.findIndex((t) => t >= ts), label }));
 
   const options = {
     responsive: true,
@@ -95,7 +100,7 @@ const EquityChart = ({ algos }) => {
       tooltip: {
         callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtUsd(ctx.parsed.y)}` },
       },
-      v2Seam: { index: v2Index },
+      seams: { marks: seamMarks },
     },
     scales: {
       x: { ticks: { color: '#6B7280', maxTicksLimit: 8 }, grid: { color: '#1F2937' } },
@@ -127,7 +132,7 @@ const EquityChart = ({ algos }) => {
       <div className="relative h-72 lg:h-[420px]">
         {loading && allTs.length === 0
           ? <div className="h-full flex items-center justify-center text-gray-600">Loading…</div>
-          : <Line data={{ labels, datasets }} options={options} plugins={[v2SeamPlugin]} />}
+          : <Line data={{ labels, datasets }} options={options} plugins={[seamsPlugin]} />}
       </div>
     </div>
   );

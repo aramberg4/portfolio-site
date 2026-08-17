@@ -21,6 +21,12 @@ export const EXPERIMENT_START = Date.UTC(2026, 6, 16) / 1000;
 // Sharp Follow, regime seam for everyone else — drawn on the equity chart.
 export const EXPERIMENT_V2 = Date.UTC(2026, 6, 22, 0, 37, 37) / 1000;
 
+// v3 (Aug 17 2026): day-33 risk overhaul — per-event exposure caps, Insider
+// Echo/Sharp Follow exit stacks + 30d time-stop, Inverse Losers favorite-fade
+// guard. Existing >30d positions bulk-exit on the first poll after deploy,
+// so curves show a seam here — drawn on the equity chart.
+export const EXPERIMENT_V3 = Date.UTC(2026, 7, 17, 23, 14, 56) / 1000;
+
 // One stable color per algo (Everyman is the gray benchmark).
 // Validated 2026-07-21 with the dataviz six-checks validator on the
 // gray-900 (#111827) surface — passes lightness band, chroma floor,
