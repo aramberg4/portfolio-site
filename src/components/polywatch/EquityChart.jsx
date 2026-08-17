@@ -85,11 +85,15 @@ const EquityChart = ({ algos }) => {
     };
   });
 
-  // First snapshot at or after each seam (−1 = seam outside this range)
+  // First snapshot at or after each seam. A seam older than the visible range
+  // gets −1 (not drawn) — otherwise findIndex would clamp it to the left edge.
   const seamMarks = [
     { ts: EXPERIMENT_V2, label: 'v2 reset' },
     { ts: EXPERIMENT_V3, label: 'v3' },
-  ].map(({ ts, label }) => ({ index: allTs.findIndex((t) => t >= ts), label }));
+  ].map(({ ts, label }) => ({
+    index: allTs.length > 0 && ts >= allTs[0] ? allTs.findIndex((t) => t >= ts) : -1,
+    label,
+  }));
 
   const options = {
     responsive: true,
