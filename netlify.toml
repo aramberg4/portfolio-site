@@ -26,6 +26,11 @@
   status = 200
 
 [[redirects]]
+  from = "/polywatch-djdjdjekekek"
+  to = "/polywatch-djdjdjekekek-postmortem.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

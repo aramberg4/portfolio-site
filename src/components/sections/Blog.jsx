@@ -5,6 +5,16 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 // redirects — use plain <a> tags, not react-router Links.
 const posts = [
   {
+    id: 4,
+    series: 'Polywatch · Field Notes',
+    date: '2026-08-23',
+    title: 'We copied a hot streak named Djdjdjekekek. The streak ended the day we started.',
+    description:
+      'Top 10 Mirror’s worst weekend: a 48-day-old wallet on a $5M heater ranked onto the roster, the mirror put 41% of equity behind its weekend sports bets, and every seat gate was arithmetically blind to it. What held, what failed, and the five rules shipping before next weekend.',
+    url: '/polywatch-djdjdjekekek',
+    tags: ['Prediction Markets', 'Post-Mortem', 'Data Analysis']
+  },
+  {
     id: 3,
     series: 'Polywatch · Field Notes',
     date: '2026-08-17',
