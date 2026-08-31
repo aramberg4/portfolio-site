@@ -16,6 +16,7 @@ export const GIFT_TIERS = [
       { id: 'dragon-shield-lathril-sleeves', href: 'https://www.dragonshield.com/products/legendary-series-lathril-blade-of-elves-matte-dual-art-sleeves', name: 'Dragon Shield Matte Dual Art Sleeves', tag: 'Magic: The Gathering', price: '~$25' },
       { id: 'mtg-card-binder', href: 'https://www.amazon.com/Vault-Binder-Trading-Loading-Pokemon/dp/B071V91LGC/', name: 'MTG Card Binder', tag: 'Magic: The Gathering', price: '~$25–30' },
       { id: 'lego-delorean', href: 'https://www.lego.com/en-us/product/time-machine-from-back-to-the-future-77256', name: 'LEGO DeLorean · Speed Champions', tag: 'LEGO', price: '~$28' },
+      { id: 'steam-gift-card', href: 'https://store.steampowered.com/digitalgiftcards/', name: 'Steam Gift Card', tag: 'Gaming', price: 'any amount' },
     ],
   },
   {
