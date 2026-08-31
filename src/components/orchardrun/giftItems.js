@@ -50,10 +50,9 @@ export const GIFT_TIERS = [
     price: 'group gift · ~$280–490',
     note: 'Big swings — a few people chipping in together makes these easy.',
     items: [
-      { id: 'taylormade-putter', href: 'https://www.dickssportinggoods.com/p/taylormade-2024-spider-tour-3-putter-24tymmspdrtr24rd3ptr/24tymmspdrtr24rd3ptr', name: 'TaylorMade Spider Tour Putter', tag: 'Golf', price: '~$280–330' },
       { id: 'strixhaven-collector-box', href: 'https://manapool.com/sealed/sos/collector-booster-box', name: 'Secrets of Strixhaven Collector Box', tag: 'Magic: The Gathering', price: '~$485–490' },
       { id: 'le-creuset-dutch-oven', href: 'https://www.lecreuset.com/signature-round-deep-oven-chambray-6-5-qt/21195026434051.html', name: 'Le Creuset Dutch Oven · 6.5 qt', tag: 'Home', price: '~$290–300' },
-      { id: 'ping-g430-driver', href: 'https://www.golfdiscount.com/products/ping-g430-max-driver?variant=50771365167402', name: 'PING G430 MAX Driver', tag: 'Golf', price: '~$400–420' },
+      { id: 'nintendo-switch-2', href: 'https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/', name: 'Nintendo Switch 2', tag: 'Gaming', price: '~$450' },
     ],
   },
 ];
