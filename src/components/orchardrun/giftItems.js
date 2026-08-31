@@ -40,7 +40,7 @@ export const GIFT_TIERS = [
     note: "Easy to halve with a friend — or grab solo if you're feeling generous.",
     items: [
       { id: 'drake-maye-jersey', href: 'https://www.nflshop.com/new-england-patriots/mens-new-england-patriots-drake-maye-nike-navy-player-game-jersey/t-92607074+p-7966231445327+z-7-478603087', name: 'Drake Maye Patriots Jersey', tag: 'Apparel · Football', price: '~$130' },
-      { id: 'patagonia-fleece', href: 'https://www.patagonia.com/product/mens-better-sweater-fleece-jacket/25528.html?dwvar_25528_color=NAUT', name: 'Patagonia Better Sweater Fleece', tag: 'Apparel · Nautilus Tan', price: '~$139' },
+      { id: 'patagonia-synchilla-fleece', href: 'https://www.patagonia.com/product/mens-lightweight-synchilla-snap-t-fleece-pullover/25551.html?dwvar_25551_color=SMTB', name: 'Patagonia Lightweight Synchilla Snap-T · Summit Blue', tag: 'Apparel · Summit Blue', price: '~$129' },
       { id: 'hobbit-gift-bundle', href: 'https://manapool.com/sealed/hob/gift-bundle', name: 'The Hobbit Gift Bundle', tag: 'Magic: The Gathering', price: '~$170–195' },
     ],
   },
