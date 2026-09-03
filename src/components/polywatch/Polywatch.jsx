@@ -8,7 +8,11 @@ import AlgoDetail from './AlgoDetail';
 import DeltaStrip from './DeltaStrip';
 
 const Polywatch = () => {
-  const { algos, error, loading } = useAlgos();
+  const { algos: allAlgos, error, loading } = useAlgos();
+  // Retired algos (API status 'retired') take no new entries and leave the
+  // board entirely — standings, equity curves, edge strip, ticker, drill-down.
+  // Their history stays in the API; the field notes carry the write-up.
+  const algos = allAlgos.filter((a) => a.status !== 'retired');
   const [selectedId, setSelectedId] = useState(null);
   // Default the drill-down to the current leader (API sorts by return desc)
   const selected = algos.find((a) => a.id === selectedId) || algos[0] || null;
@@ -25,11 +29,15 @@ const Polywatch = () => {
           </span>
         </div>
         <p className="mt-2 text-gray-400 max-w-3xl">
-          Seven algorithms paper-trade Polymarket in real time, each following a different
+          Six algorithms paper-trade Polymarket in real time, each following a different
           hypothesis about the whales, insiders, and smart money my monitor classifies —
           plus one that simply mirrors the all-time profit leaderboard's top 10. Same $10K
           bankroll — different convictions. Everyman copies everything and serves as the
-          benchmark.{' '}
+          benchmark. A seventh, Inverse Losers, was retired on day 50 —{' '}
+          <a href="/polywatch-day50" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+            here's why
+          </a>
+          .{' '}
           <a href="/polywatch-monitor.html" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
             About the monitor behind the feed →
           </a>

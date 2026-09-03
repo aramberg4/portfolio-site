@@ -11,7 +11,7 @@ const projects = [
   {
     id: 6,
     title: 'Polywatch',
-    description: 'Seven algorithmic paper-trading bots race on Polymarket in real time, each testing a different theory about whose money to follow — whales, insiders, smart money, or the leaderboard elite. Live standings, equity curves, and a full trade log, benchmarked against a copy-everything control.',
+    description: 'Six algorithmic paper-trading bots race on Polymarket in real time, each testing a different theory about whose money to follow — whales, insiders, smart money, or the leaderboard elite. Live standings, equity curves, and a full trade log, benchmarked against a copy-everything control.',
     image: polywatch,
     technologies: ['React', 'Chart.js', 'Node.js', 'SQLite', 'Polymarket APIs'],
     liveUrl: '/polywatch',
