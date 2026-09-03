@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two algos in the red at day 50. One had a bad idea; the other had a bad implementation. | Polywatch Field Notes</title>
+<meta name="description" content="Day-50 verdicts on the two losing paper-trading algos: Inverse Losers is retired — no expectancy mechanism survived the favorite-fade guard and its book was hedging itself. Insider Echo lives — its entire loss sits in sub-40¢ longshot copies, so it gets an entry floor and another month.">
+<meta property="og:title" content="Two algos in the red at day 50. One had a bad idea; the other had a bad implementation.">
+<meta property="og:description" content="Inverse Losers is retired: losers lose on price, not direction, and the post-fix book held both sides of the same Fed markets. Insider Echo gets a 40¢ entry floor: copies below it went 6-for-28, copies above it beat the control.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/favicon.ico">
+<style>* { box-sizing: border-box; }</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #FAFAF8;
+    --ink: #1D2126;
+    --muted: #5C6B70;
+    --faint: #E3E7E5;
+    --accent: #059669;
+    --pos: #059669;
+    --neg: #C2453A;
+    --card: #F0F3F1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14181B;
+      --ink: #E7E9E4;
+      --muted: #93A1A6;
+      --faint: #2A3134;
+      --accent: #16A97C;
+      --pos: #16A97C;
+      --neg: #E06055;
+      --card: #1B2124;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14181B; --ink: #E7E9E4; --muted: #93A1A6; --faint: #2A3134;
+    --accent: #16A97C; --pos: #16A97C; --neg: #E06055; --card: #1B2124;
+  }
+  :root[data-theme="light"] {
+    --ground: #FAFAF8; --ink: #1D2126; --muted: #5C6B70; --faint: #E3E7E5;
+    --accent: #059669; --pos: #059669; --neg: #C2453A; --card: #F0F3F1;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.62;
+    font-size: 1.0625rem;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .mono, .stat, table, figcaption, .bar-label, .eyebrow, .rulecard h3, .legend {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  article { max-width: 68ch; margin: 0 auto; padding: 3.5rem 0 5rem; }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.14; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .dek { font-size: 1.15rem; color: var(--muted); font-style: italic; margin: 0 0 2.4rem; text-wrap: balance; }
+  h2 {
+    font-size: 1.35rem; font-weight: 600; margin: 2.8rem 0 0.8rem;
+    letter-spacing: -0.005em; text-wrap: balance;
+  }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  .stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 2.5rem; }
+  .stat {
+    flex: 1 1 10rem; background: var(--card); border-radius: 6px;
+    padding: 0.9rem 1rem 0.8rem; border-top: 2px solid var(--accent);
+  }
+  .stat .n { font-size: 1.75rem; font-weight: 700; line-height: 1.1; display: block; }
+  .stat .n.neg { color: var(--neg); }
+  .stat .l { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+
+  figure { margin: 1.8rem 0 2rem; }
+  figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+  .barchart { display: flex; flex-direction: column; gap: 0.55rem; }
+  .barrow { display: grid; grid-template-columns: 12.5rem 1fr; gap: 0.7rem; align-items: center; }
+  .bar-label { font-size: 0.78rem; color: var(--ink); text-align: right; line-height: 1.3; }
+  .bar-track { position: relative; height: 22px; }
+  .bar-track.zeroed::before {
+    content: ""; position: absolute; left: 62.5%; top: -4px; bottom: -4px;
+    width: 1px; background: var(--faint);
+  }
+  .bar { position: absolute; top: 2px; height: 18px; border-radius: 0 4px 4px 0; }
+  .bar.negative { border-radius: 4px 0 0 4px; }
+  .bar-val {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  @media (max-width: 540px) {
+    .barrow { grid-template-columns: 1fr; gap: 0.15rem; }
+    .bar-label { text-align: left; }
+  }
+
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-wrap .gridline { stroke: var(--faint); stroke-width: 1; }
+  .chart-wrap .axis-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; fill: var(--muted);
+  }
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--muted); margin-top: 0.5rem; }
+  .legend span::before { content: ""; display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 0.4rem; border-radius: 2px; }
+  .legend .k-insider::before { background: var(--accent); }
+  .legend .k-fade::before { background: var(--neg); }
+  .legend .k-control::before { background: var(--muted); }
+
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 1.8rem; }
+  table { border-collapse: collapse; font-size: 0.82rem; width: 100%; min-width: 34rem; }
+  th { text-align: left; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--faint); }
+  td { padding: 0.42rem 0.9rem 0.42rem 0; border-bottom: 1px solid var(--faint); }
+  td.num, th.num { text-align: right; }
+  td .neg { color: var(--neg); font-weight: 600; }
+  td .pos { color: var(--pos); font-weight: 600; }
+  tr.hl td { background: var(--card); }
+
+  .rulecards { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+  .rulecard { background: var(--card); border-radius: 6px; padding: 0.95rem 1.1rem; }
+  .rulecard h3 { font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem; font-weight: 600; }
+  .rulecard p { font-size: 0.95rem; margin: 0; color: var(--ink); }
+
+  .verdict { font-size: 0.95rem; background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 1.2rem 0 1.6rem; }
+  .verdict .vl { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.25rem; font-weight: 600; }
+  .verdict.bad { border-left-color: var(--neg); }
+  .verdict.bad .vl { color: var(--neg); }
+
+  .foot { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--faint); font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<article>
+  <p class="eyebrow">Polywatch · Field Notes · 2026-09-02</p>
+  <h1>Two algos in the red at day 50. One had a bad idea; the other had a bad implementation.</h1>
+  <p class="dek">Fifty days in, five of the seven paper-trading algorithms are green. The two that aren't failed for different reasons. Inverse Losers has no mechanism left once you stop it fading favorites, and its book was quietly hedging itself — it's retired. Insider Echo's entire loss sits in copies entered below 40¢, and the rest of its book beats the control — it gets an entry floor and another month.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n neg">$9,317</span><span class="l">Insider Echo equity</span></div>
+    <div class="stat"><span class="n neg">$9,184</span><span class="l">Inverse Losers equity</span></div>
+    <div class="stat"><span class="n neg">6-for-28</span><span class="l">Insider Echo copies under 40¢</span></div>
+    <div class="stat"><span class="n">4 of 72</span><span class="l">fadeable prints Inverse Losers took, post-fix</span></div>
+  </div>
+
+  <p>Polywatch runs seven paper-trading algorithms against live Polymarket data, each seeded with $10,000 and each expressing a different theory about whose trades are worth copying or fading. <a href="/polywatch-day33">The day-33 retrospective</a> ended with a to-do list, and one item on it had a deadline: decide Inverse Losers' fate before the September 16 Fed meeting. Day 50 is that decision — and since Insider Echo has drifted into the red alongside it, we put both algos through the same question. <strong>Did the thesis fail, or did we?</strong> The honest version of that question has two very different answers, and the answers are what this post is about.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Algo</th><th class="num">Equity</th><th class="num">Settled</th><th class="num">Win rate</th><th class="num">Realized</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Top 10 Mirror</td><td class="num">$14,323</td><td class="num">1,457</td><td class="num">56%</td><td class="num"><span class="pos">+$4,563</span></td></tr>
+        <tr><td>Kitchen Sink</td><td class="num">$11,043</td><td class="num">70</td><td class="num">59%</td><td class="num"><span class="pos">+$845</span></td></tr>
+        <tr><td>Crowd Surge</td><td class="num">$10,977</td><td class="num">81</td><td class="num">59%</td><td class="num"><span class="pos">+$644</span></td></tr>
+        <tr><td>Sharp Follow</td><td class="num">$10,182</td><td class="num">176</td><td class="num">58%</td><td class="num"><span class="pos">+$75</span></td></tr>
+        <tr><td>Everyman (control)</td><td class="num">$9,766</td><td class="num">105</td><td class="num">71%</td><td class="num"><span class="neg">−$207</span></td></tr>
+        <tr class="hl"><td>Insider Echo</td><td class="num">$9,317</td><td class="num">91</td><td class="num">60%</td><td class="num"><span class="neg">−$1,147</span></td></tr>
+        <tr class="hl"><td>Inverse Losers</td><td class="num">$9,184</td><td class="num">11</td><td class="num">27%</td><td class="num"><span class="neg">−$705</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 660 240" role="img" aria-label="Sunday-close equity from July 26 to August 30 for Insider Echo, Inverse Losers and the Everyman control. Inverse Losers starts at 10,908, drops to about 9,280 after the July Fed meeting and flatlines around 9,200. Insider Echo oscillates between 9,600 and 10,100 and ends at 9,354. Everyman drifts between 9,750 and 10,130 and ends at 9,784.">
+        <line class="gridline" x1="46" x2="616" y1="200" y2="200"></line>
+        <line class="gridline" x1="46" x2="616" y1="120" y2="120"></line>
+        <line class="gridline" x1="46" x2="616" y1="40" y2="40"></line>
+        <text class="axis-label" x="42" y="203.5" text-anchor="end">$9K</text>
+        <text class="axis-label" x="42" y="123.5" text-anchor="end">$10K</text>
+        <text class="axis-label" x="42" y="43.5" text-anchor="end">$11K</text>
+        <text class="axis-label" x="46" y="232">Jul 26</text>
+        <text class="axis-label" x="274" y="232" text-anchor="middle">Aug 9</text>
+        <text class="axis-label" x="502" y="232" text-anchor="middle">Aug 23</text>
+        <text class="axis-label" x="616" y="232" text-anchor="end">Aug 30</text>
+        <polyline fill="none" stroke="var(--muted)" stroke-width="1.75" stroke-dasharray="5 4" stroke-linejoin="round"
+          points="46,131.4 160,139.9 274,112.1 388,109.7 502,111.4 616,137.3"></polyline>
+        <polyline fill="none" stroke="var(--neg)" stroke-width="2.25" stroke-linejoin="round"
+          points="46,47.4 160,177.3 274,184.5 388,179.6 502,182.3 616,185.4"></polyline>
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2.25" stroke-linejoin="round"
+          points="46,131.8 160,152.9 274,152.4 388,108.7 502,149.0 616,171.7"></polyline>
+        <circle cx="46" cy="47.4" r="3.5" fill="var(--neg)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="616" cy="171.7" r="3.5" fill="var(--accent)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="616" cy="185.4" r="3.5" fill="var(--neg)" stroke="var(--ground)" stroke-width="2"></circle>
+        <text class="axis-label" x="56" y="44" text-anchor="start">Jul 26: Inverse Losers "leads" at $10,908</text>
+      </svg>
+      <div class="legend"><span class="k-insider">Insider Echo</span><span class="k-fade">Inverse Losers</span><span class="k-control">Everyman (control)</span></div>
+    </div>
+    <figcaption>Equity at each Sunday's last snapshot, 2026-07-26 → 08-30. Inverse Losers' opening "lead" was <a href="/polywatch-inverse-losers">unrealized Fed-market marks</a> that resolved to nothing three days later; it has not moved since. Insider Echo's dip after Aug 16 is the period covered below.</figcaption>
+  </figure>
+
+  <h2>Insider Echo: the loss has an address</h2>
+  <p>Insider Echo is the purest hypothesis on the board: copy every buy from a wallet the classifier labels <em>insider</em>, and let the exit stack — take-profit, stop-loss, a 90¢ ride latch, a 30-day time-stop — manage the rest. Fifty days in it has settled 91 positions, won 55 of them, and lost $1,147 doing it. A 60% win rate that loses money usually means the losses are bigger than the wins. Here it means something more specific: <strong>the losses all come from one place</strong>.</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">Under 20¢ (16 settles, 2 wins)</span>
+        <div class="bar-track zeroed"><div class="bar negative" style="right:37.5%; width:55.0%; background:var(--neg)"></div><span class="bar-val" style="left:64%">−$1,481</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">20–40¢ (12, 4 wins)</span>
+        <div class="bar-track zeroed"><div class="bar negative" style="right:37.5%; width:49.7%; background:var(--neg)"></div><span class="bar-val" style="left:64%">−$1,337</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">40–60¢ (18, 10 wins)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:15.1%; background:var(--pos)"></div><span class="bar-val" style="left:79%">+$407</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">60–80¢ (22, 18 wins)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:30.7%; background:var(--pos)"></div><span class="bar-val" style="left:94.5%">+$826</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">80¢ and up (23, 21 wins)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:16.3%; background:var(--pos)"></div><span class="bar-val" style="left:80%">+$438</span></div>
+      </div>
+    </div>
+    <figcaption>Insider Echo realized PnL on all 91 settled positions, grouped by our entry price. Everything entered below 40¢ lost; everything entered at 40¢ or above made money.</figcaption>
+  </figure>
+
+  <p>Split the book at 40¢ and it becomes two different algorithms. The 28 copies entered below that line went <strong>6-for-28 and lost $2,818 on $4,753 deployed — a −59% return</strong>. The 63 copies entered at 40¢ or above went 49-for-63 and made <strong>+$1,671 on $12,510, or +13.4%</strong> — better than Everyman, the indiscriminate control, and in the same range as Kitchen Sink, the best-designed algo on the board.</p>
+  <p>The exit rules confirm the diagnosis rather than complicating it. All 21 stop-losses fired on sub-40¢ longshots, for −$2,250 combined. That looks damning for the stop until you check what happened to those markets afterward: every stopped position that has since resolved went to zero. The stops saved money. Resolution exits made +$568, the 30-day time-stop made +$354 on six positions, take-profits made +$181. <strong>Every mechanism in the algo works. The entries into cheap markets are the whole problem.</strong></p>
+
+  <h2>The trade that explains the rest</h2>
+  <p>The single largest loss is a tidy case study. On August 17 at 19:09 UTC, a wallet the classifier had labeled an insider — 101 markets, 47% win rate, $42K lifetime PnL, seven weeks old — bought <em>Wes Moore to win the 2028 Democratic nomination</em>. Here is what the market looked like around that print:</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Time (UTC)</th><th>Who</th><th>Action</th><th class="num">Price</th><th class="num">Size</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Aug 17 11:47</td><td>Some other wallet</td><td>Buys Yes</td><td class="num">1.6¢</td><td class="num">$1,262</td></tr>
+        <tr><td>Aug 17 18:45</td><td>Another</td><td>Sells Yes</td><td class="num">1.9¢</td><td class="num">$4</td></tr>
+        <tr class="hl"><td>Aug 17 19:09</td><td>"Insider"</td><td>Buys Yes</td><td class="num">10.1¢</td><td class="num">$5,933</td></tr>
+        <tr class="hl"><td>Aug 17 19:14</td><td>"Insider"</td><td>Buys Yes</td><td class="num">9.4¢</td><td class="num">$13,930</td></tr>
+        <tr class="hl"><td>Aug 17 19:17</td><td><strong>Insider Echo</strong></td><td>Copies Yes</td><td class="num">10.4¢</td><td class="num">$505</td></tr>
+        <tr><td>Aug 17 23:25</td><td><strong>Insider Echo</strong></td><td>Stop-loss</td><td class="num">1.8¢</td><td class="num"><span class="neg">−$420</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The market was at 1.6¢ that morning. One wallet swept $20,000 into it and pushed the price to 10¢. We bought three minutes later at 10.4¢. Four hours after that it was back at 1.8¢, and the stop fired for −$420 — <strong>37% of Insider Echo's entire net loss</strong> in one position. We didn't copy an insider's information. We copied his slippage.</p>
+  <div class="verdict bad"><span class="vl">Mechanism</span>In a thin longshot market, a large buyer's own print <em>is</em> the price. Copying it at full size, at that price, after the sweep, is buying the top of a spike he created. The pattern needs a cheap market to work; at 40¢ and up, a $20K sweep can't move a book that far.</div>
+
+  <h2>What the "insider" label actually means now</h2>
+  <p>This raised an uncomfortable question about the classifier itself. Wes Moore's buyer had 101 markets. The three source wallets that cost Insider Echo the most — a crypto-heavy trader with $919K lifetime profit and 425 resolved bets, a geopolitics trader with $420K and 316, and a 287-market generalist — don't look like anyone's mental picture of an insider either. They look like high-volume professionals on hot streaks.</p>
+  <p>The classifier's documentation still says <em>insider</em> means a concentrated wallet with ten markets or fewer. The code stopped checking the market count some time ago; today the label means <strong>young wallet, at least 60% in one category, positive lifetime PnL</strong>. That drift admits exactly the wallets above. So we asked the data whether tightening the label back would have helped, restricted to the 40¢-and-up copies that we're keeping:</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Source wallet's market count</th><th class="num">Settles (≥40¢)</th><th class="num">Wins</th><th class="num">Realized</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>25 or fewer — the "true insider" archetype</td><td class="num">4</td><td class="num">1</td><td class="num"><span class="neg">−$602</span></td></tr>
+        <tr><td>26 to 100</td><td class="num">4</td><td class="num">3</td><td class="num"><span class="neg">−$10</span></td></tr>
+        <tr><td>More than 100</td><td class="num">55</td><td class="num">45</td><td class="num"><span class="pos">+$2,284</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The wallets that fit the archetype we <em>thought</em> we were copying went 1-for-4 and lost money. The high-volume "insiders" went 45-for-55 and made all of it. Tightening the label would have deleted the profitable population and kept the losing one. So the label stays as it is, with its documentation corrected to say what it does — and we're being honest about what survived: not "people with private information buy mispriced longshots," which the data contradicts, but <strong>"young, category-focused winners are well-priced when they buy at 40¢ or above."</strong> That's a narrower claim. It's also the one with 63 settles behind it.</p>
+
+  <div class="verdict"><span class="vl">Verdict · Insider Echo</span>Modify, don't retire. The thesis is untested more than falsified: the classifier fed us mostly non-insiders, and the loss lives entirely in one mechanically explainable sub-population. v3 ships a <strong>40¢ entry floor</strong> — it removes about a quarter of the signal (224 of 857 insider prints since July 22) and every one of the 28 losing longshot copies. No stop-loss change, no label change. Re-judged at day 80: the floored book has to stay ahead of Everyman on realized PnL, or the retirement question comes back.</div>
+  <p>Two things we considered and didn't ship. A <em>price-impact guard</em> — skip copies where the print sits far above the pre-trade mark — would need a price-history fetch on every signal, and the floor already removes every instance we've observed. And the label tightening, for the reason in the table. We'd rather make one change with 91 settles of evidence behind it than three changes with one.</p>
+
+  <h2>Inverse Losers: no mechanism survived the fix</h2>
+  <p>Inverse Losers watches wallets that have lost at least $5,000 across ten or more resolved bets, and when one of them makes a big buy, it buys the opposite side. <a href="/polywatch-inverse-losers">Its July post-mortem</a> found the flaw in that logic: the losers were buying "Fed holds rates" at 72–93¢, the favorite, the thing that then happened, and the fade was buying 7¢ lottery tickets against them. Losers lose on <em>price</em>, not direction. The day-33 fix stopped the algo fading anything bought above 65¢, and added a per-event concentration cap so six fish couldn't pile the book into one macro print again.</p>
+  <p>Sixteen days later, here is the book that fix produced:</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>September FOMC market</th><th>Side we hold</th><th class="num">Shares</th><th class="num">Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Fed raises rates 25 bps</td><td>No</td><td class="num">676</td><td class="num">$384</td></tr>
+        <tr><td>Fed raises rates 25 bps</td><td>Yes</td><td class="num">610</td><td class="num">$195</td></tr>
+        <tr><td>No change in rates</td><td>No</td><td class="num">193</td><td class="num">$111</td></tr>
+        <tr><td>No change in rates</td><td>Yes</td><td class="num">523</td><td class="num">$320</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The algo holds <strong>both sides of both markets</strong>. On the rate-hike market, 676 shares of No against 610 shares of Yes: a net position of 66 shares, built by paying the spread and a penny of slippage on 1,286. The fish disagree with each other, and an algo that fades all of them ends up hedged flat and out of pocket. September's Fed markets are 59% of the open book, which is roughly where July's were. The event cap did its job — the book stopped adding — but a cap doesn't turn a self-hedge into a position.</p>
+  <p>Signal scarcity finished the argument. Since the fix, fish wallets made <strong>72 fadeable buys</strong> — at or below 65¢, $10K or larger, from 16 different wallets. The algo filled <strong>four</strong> of them; the saturated event cap blocked the rest. At that rate it would take past year-end to reach even fifty settled positions, and the day-33 review had already named scarcity as the binding constraint. The record it will retire with is eleven settles, three wins, −$705 — seven of the eight losses being the July Fed cluster where the fish went seven-for-seven.</p>
+  <p>And the pool of "fish" was never as clean as the gate suggests. Five of the 24 wallets that triggered fades now show <em>positive</em> lifetime PnL — one at +$919K, one at +$552K — because the classifier's PnL figure at signal time was built from a truncated activity history. Others are hedgers whose realized PnL is negative by construction: one fish shows −$288K realized against +$403K unrealized. A wallet like that isn't losing; it's mid-trade. Fading its legs is fading noise.</p>
+
+  <div class="verdict bad"><span class="vl">Verdict · Inverse Losers</span>Retire. The favorite-fade fix removed the one systematic thing losers do, and nothing with an expectancy argument remained: coin-flip fades, hedged against each other, from a wallet pool the gate can't keep clean, at a fill rate that will never produce a verdict. Continuing would be running the same experiment a third time. Entries are off as of today. The 18 open positions ($1,721 at cost) run to resolution — most of them on September 16 — so the record closes on settlements, not marks. The algo stays on the dashboard as a closed chapter.</div>
+  <p>The counter-evidence, for the record: strip the July Fed cluster out and the settled record is three wins in four, +$290. Four positions is not a sample, and we said in July that ten wasn't a verdict either. It still isn't. The verdict is about the design, not the tally.</p>
+
+  <h2>What we're taking from this</h2>
+  <div class="rulecards">
+    <div class="rulecard"><h3>1 · "Thesis or implementation" has a test</h3><p>Slice the losses. If they concentrate in a sub-population with a mechanical explanation and the remainder beats the control, the implementation is wrong. If the losses are diffuse and no slice has an expectancy argument, the thesis is wrong. Insider Echo passed that test; Inverse Losers didn't.</p></div>
+    <div class="rulecard"><h3>2 · A fix that starves the signal is a retirement in slow motion</h3><p>The day-33 guard was correct and left Inverse Losers with four fills in sixteen days. An algo that can't reach a decidable sample isn't being tested — it's being kept.</p></div>
+    <div class="rulecard"><h3>3 · Check what the label means today, not what it meant when named</h3><p>"Insider" had drifted into "young concentrated winner" without anyone deciding it should. That turned out to be fine — the high-volume version is the profitable one — but we only know that because we checked before tightening it.</p></div>
+    <div class="rulecard"><h3>4 · Every prescription gets a deadline and a fallback</h3><p>Day 33 said "ship the cap and the price condition before September 16, or retire it." Both shipped, the book still didn't work, and the "or" clause is why this decision took a day instead of a quarter.</p></div>
+  </div>
+  <p>Five algos green, one on probation with a floor under it, one retired with its positions running out. The next scheduled look is day 80, when Insider Echo v3 has a month of floored entries to show — and, presumably, when Top 10 Mirror has taught us its next lesson.</p>
+
+  <p class="foot">Method note: all figures from the live Polywatch database — paper positions, fills, equity snapshots, ingested wallet trades and wallet profiles — queried 2026-09-03 ≈ 01:00 UTC. Equity is cash plus positions at last mark; realized figures are settled positions only. Insider Echo and Sharp Follow track from their July 22 reset; Inverse Losers from its July 23 relaunch. "Fadeable prints" are BUYs of $10K or more at ≤65¢ by wallets meeting the fish gate (lifetime PnL below −$5K, ≥10 resolved bets) between 2026-08-17 22:00 UTC and query time. Wallet identities are public Polymarket data; source wallets are described rather than named. Paper trading throughout; no real capital at risk.</p>
+</article>
+</body>
+</html>

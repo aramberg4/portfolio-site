@@ -5,6 +5,16 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 // redirects — use plain <a> tags, not react-router Links.
 const posts = [
   {
+    id: 5,
+    series: 'Polywatch · Field Notes',
+    date: '2026-09-02',
+    title: 'Two algos in the red at day 50. One had a bad idea; the other had a bad implementation.',
+    description:
+      'Day-50 verdicts on the two losing paper algos. Inverse Losers is retired: losers lose on price, not direction, and its post-fix book held both sides of the same Fed markets. Insider Echo gets a 40¢ entry floor: copies below it went 6-for-28 and lost $2,818; copies above it beat the control.',
+    url: '/polywatch-day50',
+    tags: ['Prediction Markets', 'Retrospective', 'Data Analysis']
+  },
+  {
     id: 4,
     series: 'Polywatch · Field Notes',
     date: '2026-08-23',
