@@ -37,11 +37,12 @@ export const GIFT_TIERS = [
   {
     no: '03',
     name: 'Split a Bushel',
-    price: 'split between two · ~$130–195',
+    price: 'split between two · ~$100–195',
     note: "Easy to halve with a friend — or grab solo if you're feeling generous.",
     items: [
       { id: 'drake-maye-jersey', href: 'https://www.nflshop.com/new-england-patriots/mens-new-england-patriots-drake-maye-nike-navy-player-game-jersey/t-92607074+p-7966231445327+z-7-478603087', name: 'Drake Maye Patriots Jersey', tag: 'Apparel · Football', price: '~$130' },
       { id: 'patagonia-synchilla-fleece', href: 'https://www.patagonia.com/product/mens-lightweight-synchilla-snap-t-fleece-pullover/25551.html?dwvar_25551_color=SMTB', name: 'Patagonia Lightweight Synchilla Snap-T · Summit Blue', tag: 'Apparel · Summit Blue', price: '~$129' },
+      { id: 'lodge-dutch-oven', href: 'https://www.lodgecastiron.com/products/7-5-quart-enamel-dutch-oven?variant=55087414346100', name: 'Lodge Enameled Dutch Oven · 7.5 qt · Desert Sage', tag: 'Home · Desert Sage', price: '~$100–120' },
       { id: 'hobbit-gift-bundle', href: 'https://manapool.com/sealed/hob/gift-bundle', name: 'The Hobbit Gift Bundle', tag: 'Magic: The Gathering', price: '~$170–195' },
     ],
   },
@@ -52,7 +53,6 @@ export const GIFT_TIERS = [
     note: 'Big swings — a few people chipping in together makes these easy.',
     items: [
       { id: 'strixhaven-collector-box', href: 'https://manapool.com/sealed/sos/collector-booster-box', name: 'Secrets of Strixhaven Collector Box', tag: 'Magic: The Gathering', price: '~$485–490' },
-      { id: 'le-creuset-dutch-oven', href: 'https://www.lecreuset.com/signature-round-deep-oven-chambray-6-5-qt/21195026434051.html', name: 'Le Creuset Dutch Oven · 6.5 qt', tag: 'Home', price: '~$290–300' },
       { id: 'nintendo-switch-2', href: 'https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/', name: 'Nintendo Switch 2', tag: 'Gaming', price: '~$450' },
     ],
   },
