@@ -5,7 +5,7 @@ export const GIFT_TIERS = [
     no: '01',
     name: 'By the Handful',
     price: 'grab a few · ~$10–25 each',
-    note: 'Small stuff — pick three or four and call it one gift.',
+    note: 'Small stuff — pick a few and call it one gift.',
     items: [
       { id: 'golf-divot-tool', href: 'https://www.amazon.com/dp/B0C41V3QJJ', name: 'Golf Divot Tool', tag: 'Golf', price: '~$10–20' },
       { id: 'golf-ball-stamp', href: 'https://www.amazon.com/QUBI-Reusable-Self-Inking-Identify-Accessories/dp/B0DZF9TVK4/', name: 'Golf Ball Stamp', tag: 'Golf', price: '~$15–20' },
