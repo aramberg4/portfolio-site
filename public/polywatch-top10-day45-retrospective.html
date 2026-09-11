@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 10 Mirror is up 130%. Here's every rule change that got it there. | Polywatch Field Notes</title>
+<meta name="description" content="Forty-five days after we wiped and rebuilt Top 10 Mirror, it has turned $10,000 into $22,959 on 1,682 settled positions. A retrospective on the five decisions that made it work, the five source wallets that produced the gains, and the concentration numbers we're not going to pretend away.">
+<meta property="og:title" content="Top 10 Mirror is up 130%. Here's every rule change that got it there.">
+<meta property="og:description" content="Top 10 Mirror: $10,000 → $22,959 in 45 days, 1,682 settled positions, 57% win rate. The decisions that did it — lifetime rank, a bot gate we removed and put back, exact mirror exits, conviction sizing, and cutting the tail after our worst weekend — and the five wallets behind 96% of the profit.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/favicon.ico">
+<style>* { box-sizing: border-box; }</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #FAFAF8;
+    --ink: #1D2126;
+    --muted: #5C6B70;
+    --faint: #E3E7E5;
+    --accent: #059669;
+    --pos: #059669;
+    --neg: #C2453A;
+    --card: #F0F3F1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14181B;
+      --ink: #E7E9E4;
+      --muted: #93A1A6;
+      --faint: #2A3134;
+      --accent: #16A97C;
+      --pos: #16A97C;
+      --neg: #E06055;
+      --card: #1B2124;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14181B; --ink: #E7E9E4; --muted: #93A1A6; --faint: #2A3134;
+    --accent: #16A97C; --pos: #16A97C; --neg: #E06055; --card: #1B2124;
+  }
+  :root[data-theme="light"] {
+    --ground: #FAFAF8; --ink: #1D2126; --muted: #5C6B70; --faint: #E3E7E5;
+    --accent: #059669; --pos: #059669; --neg: #C2453A; --card: #F0F3F1;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.62;
+    font-size: 1.0625rem;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .mono, .stat, table, figcaption, .bar-label, .eyebrow, .rulecard h3, .legend, .tooltip {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  article { max-width: 68ch; margin: 0 auto; padding: 3.5rem 0 5rem; }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.14; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .dek { font-size: 1.15rem; color: var(--muted); font-style: italic; margin: 0 0 2.4rem; text-wrap: balance; }
+  h2 {
+    font-size: 1.35rem; font-weight: 600; margin: 2.8rem 0 0.8rem;
+    letter-spacing: -0.005em; text-wrap: balance;
+  }
+  h3.dec { font-size: 1.08rem; font-weight: 600; margin: 2rem 0 0.5rem; }
+  h3.dec .k { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.2rem; }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  .stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 2.5rem; }
+  .stat {
+    flex: 1 1 10rem; background: var(--card); border-radius: 6px;
+    padding: 0.9rem 1rem 0.8rem; border-top: 2px solid var(--accent);
+  }
+  .stat .n { font-size: 1.75rem; font-weight: 700; line-height: 1.1; display: block; }
+  .stat .n.neg { color: var(--neg); }
+  .stat .l { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+
+  figure { margin: 1.8rem 0 2rem; }
+  figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+  .barchart { display: flex; flex-direction: column; gap: 0.55rem; }
+  .barrow { display: grid; grid-template-columns: 12.5rem 1fr; gap: 0.7rem; align-items: center; }
+  .bar-label { font-size: 0.78rem; color: var(--ink); text-align: right; line-height: 1.3; }
+  .bar-track { position: relative; height: 22px; }
+  .bar-track.zeroed::before {
+    content: ""; position: absolute; left: 62.5%; top: -4px; bottom: -4px;
+    width: 1px; background: var(--faint);
+  }
+  .bar { position: absolute; top: 2px; height: 18px; border-radius: 0 4px 4px 0; }
+  .bar.negative { border-radius: 4px 0 0 4px; }
+  .bar-val {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  @media (max-width: 540px) {
+    .barrow { grid-template-columns: 1fr; gap: 0.15rem; }
+    .bar-label { text-align: left; }
+  }
+
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-wrap .gridline { stroke: var(--faint); stroke-width: 1; }
+  .chart-wrap .axis-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; fill: var(--muted);
+  }
+  .chart-wrap .era { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--card); border: 1px solid var(--faint); border-radius: 5px;
+    padding: 0.4rem 0.6rem; font-size: 0.72rem; line-height: 1.5; white-space: nowrap; z-index: 2;
+  }
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--muted); margin-top: 0.5rem; }
+
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 1.8rem; }
+  table { border-collapse: collapse; font-size: 0.82rem; width: 100%; min-width: 34rem; }
+  th { text-align: left; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--faint); }
+  td { padding: 0.42rem 0.9rem 0.42rem 0; border-bottom: 1px solid var(--faint); }
+  td.num, th.num { text-align: right; }
+  td .neg { color: var(--neg); font-weight: 600; }
+  td .pos { color: var(--pos); font-weight: 600; }
+  tr.hl td { background: var(--card); }
+
+  .rulecards { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+  .rulecard { background: var(--card); border-radius: 6px; padding: 0.95rem 1.1rem; }
+  .rulecard h3 { font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem; font-weight: 600; }
+  .rulecard p { font-size: 0.95rem; margin: 0; color: var(--ink); }
+
+  .verdict { font-size: 0.95rem; background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 1.2rem 0 1.6rem; }
+  .verdict .vl { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.25rem; font-weight: 600; }
+  .verdict.bad { border-left-color: var(--neg); }
+  .verdict.bad .vl { color: var(--neg); }
+
+  .foot { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--faint); font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<article>
+  <p class="eyebrow">Polywatch · Field Notes · 2026-09-11</p>
+  <h1>Top 10 Mirror is up 130%. Here's every rule change that got it there.</h1>
+  <p class="dek">Forty-five days after we wiped Top 10 Mirror and rebuilt it, the algorithm has turned $10,000 into $22,959 on 1,682 settled positions. This is the post-mortem we've been waiting to write: which decisions produced the gains, which wallets actually delivered them, and — because the numbers insist on it — how concentrated the whole thing is.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n">$22,959</span><span class="l">equity, from $10,000</span></div>
+    <div class="stat"><span class="n">+130%</span><span class="l">in 45 days</span></div>
+    <div class="stat"><span class="n">1,682</span><span class="l">settled · 57% win rate</span></div>
+    <div class="stat"><span class="n neg">$8,793</span><span class="l">the low, Aug 25</span></div>
+  </div>
+
+  <p>The first thing we ever published about this project was <a href="/polywatch-top10">a post-mortem titled "It Lost Money — Fast."</a> Top 10 Mirror v1 copied the ten wallets at the top of Polymarket's all-time profit leaderboard, discovered that eight of them were dormant and two were arbitrage bots, and gave back 8% of its bankroll in twelve days. On July 28 we wiped the book, reset the cash to $10,000, and restarted with a different theory of who deserves a seat. Every post since has been about something going wrong. <strong>This one is about the thing that went right</strong>, written with the same rigor we'd apply if it hadn't.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Algo</th><th class="num">Equity</th><th class="num">Settled</th><th class="num">Win rate</th><th class="num">Realized</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Top 10 Mirror</td><td class="num">$22,959</td><td class="num">1,682</td><td class="num">57%</td><td class="num"><span class="pos">+$12,745</span></td></tr>
+        <tr><td>Crowd Surge</td><td class="num">$10,858</td><td class="num">99</td><td class="num">60%</td><td class="num"><span class="pos">+$171</span></td></tr>
+        <tr><td>Kitchen Sink</td><td class="num">$10,553</td><td class="num">90</td><td class="num">57%</td><td class="num"><span class="neg">−$60</span></td></tr>
+        <tr><td>Insider Echo</td><td class="num">$9,594</td><td class="num">103</td><td class="num">62%</td><td class="num"><span class="neg">−$708</span></td></tr>
+        <tr><td>Sharp Follow</td><td class="num">$9,582</td><td class="num">203</td><td class="num">55%</td><td class="num"><span class="neg">−$605</span></td></tr>
+        <tr><td>Everyman (control)</td><td class="num">$9,328</td><td class="num">128</td><td class="num">71%</td><td class="num"><span class="neg">−$112</span></td></tr>
+        <tr><td>Inverse Losers (retired)</td><td class="num">$9,132</td><td class="num">12</td><td class="num">25%</td><td class="num"><span class="neg">−$737</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Six algorithms have settled 635 positions between them and made, combined, −$2,051. The seventh has settled 1,682 and made $12,745. It is not close, and it has not been close since mid-August. The equity curve below is where the rest of this post lives.</p>
+
+  <figure>
+    <div class="chart-wrap" id="eqchart">
+      <svg viewBox="0 0 660 262" role="img" aria-label="Top 10 Mirror daily closing equity from July 28 to September 11, 2026. Starts at 10,000, reaches 14,064 on August 21, falls to 8,967 at the August 24 close, recovers to 14,437 by September 2, then climbs steeply to 22,959 on September 11. Vertical markers show the v4 change on August 17, the Djdjdjekekek fixes on August 24, and the bot-gate revert on September 2.">
+        <line class="gridline" x1="46" x2="616" y1="220" y2="220"></line>
+        <line class="gridline" x1="46" x2="616" y1="170" y2="170"></line>
+        <line class="gridline" x1="46" x2="616" y1="120" y2="120"></line>
+        <line class="gridline" x1="46" x2="616" y1="70" y2="70"></line>
+        <line class="gridline" x1="46" x2="616" y1="20" y2="20"></line>
+        <line x1="46" x2="616" y1="195" y2="195" stroke="var(--muted)" stroke-width="1" stroke-dasharray="5 4" opacity="0.6"></line>
+        <text class="axis-label" x="42" y="223.5" text-anchor="end">$8K</text>
+        <text class="axis-label" x="42" y="173.5" text-anchor="end">$12K</text>
+        <text class="axis-label" x="42" y="123.5" text-anchor="end">$16K</text>
+        <text class="axis-label" x="42" y="73.5" text-anchor="end">$20K</text>
+        <text class="axis-label" x="42" y="23.5" text-anchor="end">$24K</text>
+        <text class="axis-label" x="46" y="252">Jul 28</text>
+        <text class="axis-label" x="223.3" y="252" text-anchor="middle">Aug 11</text>
+        <text class="axis-label" x="400.7" y="252" text-anchor="middle">Aug 25</text>
+        <text class="axis-label" x="616" y="252" text-anchor="end">Sep 11</text>
+        <line class="era" x1="299.3" x2="299.3" y1="14" y2="234"></line>
+        <line class="era" x1="388.0" x2="388.0" y1="14" y2="234"></line>
+        <line class="era" x1="502.0" x2="502.0" y1="14" y2="234"></line>
+        <text class="axis-label" x="303" y="12">Aug 17 · v4 gate loosened</text>
+        <text class="axis-label" x="392" y="232">Aug 24 · fixes</text>
+        <text class="axis-label" x="506" y="12">Sep 2 · gate reverted</text>
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2.25" stroke-linejoin="round"
+          points="46.0,195.0 58.7,199.0 71.3,197.3 84.0,188.2 96.7,198.1 109.3,185.8 122.0,202.9 134.7,198.8 147.3,198.5 160.0,194.4 172.7,202.6 185.3,197.0 198.0,184.3 210.7,184.1 223.3,185.5 236.0,170.4 248.7,164.1 261.3,165.7 274.0,150.8 286.7,150.6 299.3,160.3 312.0,160.1 324.7,178.4 337.3,160.9 350.0,144.2 362.7,178.6 375.3,198.6 388.0,207.9 400.7,198.6 413.3,188.7 426.0,181.8 438.7,169.0 451.3,184.4 464.0,164.6 476.7,148.4 489.3,149.8 502.0,139.5 514.7,143.1 527.3,133.4 540.0,142.4 552.7,144.5 565.3,124.9 578.0,84.6 590.7,61.1 603.3,54.9 616.0,33.0"></polyline>
+        <circle cx="350.0" cy="144.2" r="3.5" fill="var(--accent)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="388.0" cy="207.9" r="3.5" fill="var(--neg)" stroke="var(--ground)" stroke-width="2"></circle>
+        <circle cx="616.0" cy="33.0" r="3.5" fill="var(--accent)" stroke="var(--ground)" stroke-width="2"></circle>
+        <text class="axis-label" x="344" y="138" text-anchor="end">$14,064 · Aug 21</text>
+        <text class="axis-label" x="396" y="222" text-anchor="start">$8,967 · Aug 24</text>
+        <text class="axis-label" x="610" y="30" text-anchor="end">$22,959 · Sep 11</text>
+        <line id="eq-cross" x1="0" x2="0" y1="14" y2="234" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3" visibility="hidden"></line>
+      </svg>
+      <div class="tooltip" id="eq-tip"></div>
+    </div>
+    <figcaption>Top 10 Mirror equity at each UTC day's last snapshot, 2026-07-28 → 09-11. The dashed horizontal line is the $10,000 starting cash. Intraday low was $8,793 on Aug 25 at 05:02 UTC. Hover for values.</figcaption>
+  </figure>
+
+  <script>
+  (function () {
+    var D = [["2026-07-28",9998],["2026-07-29",9682],["2026-07-30",9814],["2026-07-31",10541],["2026-08-01",9752],["2026-08-02",10735],["2026-08-03",9364],["2026-08-04",9695],["2026-08-05",9723],["2026-08-06",10051],["2026-08-07",9393],["2026-08-08",9839],["2026-08-09",10859],["2026-08-10",10870],["2026-08-11",10762],["2026-08-12",11971],["2026-08-13",12474],["2026-08-14",12346],["2026-08-15",13537],["2026-08-16",13549],["2026-08-17",12780],["2026-08-18",12790],["2026-08-19",11327],["2026-08-20",12731],["2026-08-21",14064],["2026-08-22",11310],["2026-08-23",9711],["2026-08-24",8967],["2026-08-25",9714],["2026-08-26",10508],["2026-08-27",11058],["2026-08-28",12079],["2026-08-29",10844],["2026-08-30",12429],["2026-08-31",13731],["2026-09-01",13618],["2026-09-02",14437],["2026-09-03",14155],["2026-09-04",14931],["2026-09-05",14210],["2026-09-06",14043],["2026-09-07",15604],["2026-09-08",18833],["2026-09-09",20712],["2026-09-10",21209],["2026-09-11",22959]];
+    var X0 = 46, X1 = 616, N = D.length;
+    var wrap = document.getElementById('eqchart');
+    var svg = wrap.querySelector('svg');
+    var tip = document.getElementById('eq-tip');
+    var cross = document.getElementById('eq-cross');
+    var fmt = function (v) { return '$' + Math.round(v).toLocaleString(); };
+    function onMove(ev) {
+      var r = svg.getBoundingClientRect();
+      var vx = (ev.clientX - r.left) / r.width * 660;
+      if (vx < X0 - 6 || vx > X1 + 6) { onLeave(); return; }
+      var i = Math.round((Math.min(Math.max(vx, X0), X1) - X0) / (X1 - X0) * (N - 1));
+      var row = D[i];
+      var x = X0 + i / (N - 1) * (X1 - X0);
+      cross.setAttribute('x1', x); cross.setAttribute('x2', x);
+      cross.setAttribute('visibility', 'visible');
+      var pct = ((row[1] / 10000 - 1) * 100).toFixed(1);
+      tip.innerHTML = row[0].slice(5).replace('-', '/') + '<br>' +
+        'Equity <strong>' + fmt(row[1]) + '</strong><br>' +
+        (pct >= 0 ? '+' : '') + pct + '% vs start';
+      tip.style.display = 'block';
+      var px = x / 660 * r.width;
+      tip.style.left = Math.min(px + 12, r.width - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '18px';
+    }
+    function onLeave() { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); }
+    wrap.addEventListener('mousemove', onMove);
+    wrap.addEventListener('mouseleave', onLeave);
+  })();
+  </script>
+
+  <h2>What the algorithm actually does</h2>
+  <p>Every six hours, Top 10 Mirror pulls Polymarket's profit leaderboards — all-time, 30-day and 7-day — and ranks the union of them by <em>lifetime</em> profit. A wallet earns one of ten seats if it clears a stack of gates: it has traded in the last 60 days, it isn't a bot, its history is at least 90 days old, it hasn't lost a quarter of its lifetime record in the past month, and it has qualified on three consecutive refreshes. Seated wallets are polled every minute. When one buys, we buy the same outcome, sized to how big their bet was relative to their scale, capped at 10% of equity per market and 15% per source. When they sell, we sell. Otherwise we hold to resolution. That's it — no take-profit, no stop-loss, no opinion about the match.</p>
+  <p>The current roster holds nine wallets, with four more waiting out the hysteresis window. Since July 28 the mirror has copied <strong>95 different wallets</strong> across 3,526 buys and $197,594 of notional — about twenty turns of the bankroll in six and a half weeks.</p>
+
+  <h2>The five decisions</h2>
+  <p>The gains didn't come from one insight. They came from a sequence of rule changes, each one made in response to a specific failure, and three of them were reversals of things we'd shipped earlier. Here they are in the order they mattered.</p>
+
+  <h3 class="dec"><span class="k">Decision 1 · July 27</span>Rank by lifetime profit, not the hot streak</h3>
+  <p>v1 seated whoever topped the all-time board and got arb bots and dormant whales. The obvious fix — rank by 30-day profit — would have seated whoever was on a heater, and heaters end. v3 split the difference: <strong>candidates come from every window, but the ranking key is lifetime PnL</strong>. A losing month doesn't eject a proven winner; only a catastrophic one does. The very first roster this rule produced included a wallet named beachboy4, seated at 01:59 UTC on July 28. It is the only seat that has never turned over, and it has since made <strong>$5,770</strong> — 45% of everything the algorithm has realized.</p>
+
+  <h3 class="dec"><span class="k">Decision 2 · July 27, undone August 17, restored September 2</span>Keep the bots out — and put the gate back when we took it out</h3>
+  <p>The v3 bot gate was simple: a wallet trading more than five times an hour, or holding both sides of more than one market, is a market-maker and doesn't get a seat. On August 17 we replaced it with something smarter — a matched-notional arbitrage test that let directional wallets trade as fast as they liked — because the frequency ceiling was excluding a high-clip accumulator we wanted to copy. Here is what the two regimes did:</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">v3 · Jul 28–Aug 17 (333 settles)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:16.9%; background:var(--pos)"></div><span class="bar-val" style="left:80.5%">+10.2%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">v4 · Aug 17–24 (678)</span>
+        <div class="bar-track zeroed"><div class="bar negative" style="right:37.5%; width:10.6%; background:var(--neg)"></div><span class="bar-val" style="left:64%">−6.4%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">v4 + fixes · Aug 24–Sep 2 (441)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:13.3%; background:var(--pos)"></div><span class="bar-val" style="left:77%">+8.0%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">gate restored · Sep 2–11 (230)</span>
+        <div class="bar-track zeroed"><div class="bar" style="left:62.5%; width:37.5%; background:var(--pos)"></div><span class="bar-val" style="left:64%; color:var(--ground)">+22.6%</span></div>
+      </div>
+    </div>
+    <figcaption>Realized return on cost for positions <em>opened</em> in each rule era. v4 is the only era that lost money, and it lost it at the highest turnover the algorithm has ever run.</figcaption>
+  </figure>
+
+  <p>The arb test detected arbitrage and said nothing about volume. Sports scalpers running 10 to 55 trades an hour passed cleanly, capital deployed went from <strong>$2,036 a day to $10,516 a day</strong>, and one anonymous wallet alone generated 443 of our settled positions and lost $2,556 on them. Every paper fill pays a penny of modeled slippage, so at five times the turnover the structural drag went from 0.4% of bankroll per day to 1.7%. The five-per-hour ceiling had been doing a job nobody named: it was the turnover limiter. We put it back on September 2. The positions opened since are 146-for-230 and have returned 22.6% on cost.</p>
+  <div class="verdict"><span class="vl">The diagnosis that kept us going</span>On August 25, with equity at $8,793 and the book down 12%, we ran the numbers gross of slippage: the mirror signal was +$1,013. Slippage paid was $2,085. The sign of the P&amp;L had been flipped by turnover, not by the quality of the copies. That's the finding that made "fix the turnover" the answer instead of "retire the algo." Total slippage paid to date is $3,752, so the same book gross of that drag is up roughly $16,500.</div>
+
+  <h3 class="dec"><span class="k">Decision 3 · July 16</span>Copy the exit, not just the entry</h3>
+  <p>The mirror keeps a separate lot for every source wallet in every market. When a source sells, we sell that lot, at the market's price at that moment, and nothing else. This is older than v3 — it dates from the original engine build — but it is the reason the algorithm can hold to resolution without a stop-loss. <strong>244 positions have closed on a mirrored sell, 137 of them winners, for +$2,355.</strong> The other 1,438 rode to resolution: 821 winners, +$10,390. The sources' own risk management is doing the work a stop-loss would do, and doing it with information we don't have.</p>
+
+  <h3 class="dec"><span class="k">Decision 4 · July 15, tightened August 17 and 23</span>Size to conviction and to equity</h3>
+  <p>A copy is sized as a fraction of current equity — 5% at full scale — multiplied by how large the source's bet was relative to a $100,000 reference. A wallet nibbling $500 gets us a $25 position; a wallet swinging $50,000 gets us $2,500. Two things follow. First, the copies are biggest exactly where the source was surest. Second, because the fraction is of <em>equity</em> rather than starting cash, the same rule that placed $500 bets in July was placing $1,100 bets by September. The run from $14,000 to $23,000 in the second week of September is partly the sources winning and partly compounding doing what compounding does.</p>
+  <p>The caps arrived later, each after a bruise: 10% of equity per market from day one, a halved cap for wallets seated less than a week (August 17), and a 15% aggregate cap per source wallet (August 23). None of them make money. All of them are why a bad weekend is a drawdown and not a wipeout.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Our entry price</th><th class="num">Settled</th><th class="num">Wins</th><th class="num">Deployed</th><th class="num">Realized</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Under 20¢</td><td class="num">45</td><td class="num">5</td><td class="num">$1,659</td><td class="num"><span class="neg">−$895</span></td></tr>
+        <tr><td>20–40¢</td><td class="num">243</td><td class="num">75</td><td class="num">$17,878</td><td class="num"><span class="neg">−$1,115</span></td></tr>
+        <tr class="hl"><td>40–60¢</td><td class="num">720</td><td class="num">389</td><td class="num">$84,964</td><td class="num"><span class="pos">+$10,574</span></td></tr>
+        <tr><td>60–80¢</td><td class="num">428</td><td class="num">293</td><td class="num">$58,927</td><td class="num"><span class="pos">+$4,269</span></td></tr>
+        <tr><td>80¢ and up</td><td class="num">246</td><td class="num">196</td><td class="num">$25,573</td><td class="num"><span class="neg">−$88</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Sizing also lands the book where the edge is. Nearly half of all settled positions were entered between 40¢ and 60¢ — coin-flip-priced sports markets where a good bettor's read is worth the most — and that bucket made <strong>$10,574 of the $12,745</strong>. Longshots under 40¢ lost $2,010, which is the same lesson <a href="/polywatch-day50">Insider Echo taught us at day 50</a>, arriving from a different direction. We haven't put a floor on the mirror. The sources rarely go there, and when a proven wallet does, the one that hit paid 3-to-1 (see below).</p>
+
+  <h3 class="dec"><span class="k">Decision 5 · August 23–24</span>Cut the tail after the worst weekend</h3>
+  <p><a href="/polywatch-djdjdjekekek">The Djdjdjekekek weekend</a> cost $1,958 and taught us that lifetime ranking is blind to young wallets: for a 48-day-old account, the lifetime record <em>is</em> the streak. Three rules shipped within 48 hours. A wallet's history must be at least 90 days old to be seated. No source can hold more than 15% of equity in open positions. And a newcomer has to qualify on three consecutive refreshes — twelve hours minimum — before it gets a seat, while drops remain immediate. Slow to trust, fast to cut. The positions opened after those rules went live are 408-for-671 and have made $12,831; the positions opened in the seven days before them lost $4,137.</p>
+
+  <h2>The five wallets</h2>
+  <p>Ninety-five source wallets have been copied. Fifty-one of them made money for the book, thirty-nine lost it, and the gross split is +$26,036 against −$13,290. But the distribution is nowhere near even. These five, summed across every position we opened on their signal, are the story:</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">beachboy4 (39 settles, 27 W)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:78%; background:var(--pos)"></div><span class="bar-val" style="left:79.5%">+$5,770</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">Talvez10 (57, 33 W)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:35.2%; background:var(--pos)"></div><span class="bar-val" style="left:36.7%">+$2,607</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">TennisLove (5, 5 W)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:18.6%; background:var(--pos)"></div><span class="bar-val" style="left:20.1%">+$1,374</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">xifutloong3 (22, 15 W)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:17.8%; background:var(--pos)"></div><span class="bar-val" style="left:19.3%">+$1,318</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">S-Works (19, 15 W)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:16.5%; background:var(--pos)"></div><span class="bar-val" style="left:18%">+$1,217</span></div>
+      </div>
+    </div>
+    <figcaption>Realized PnL summed over every Top 10 Mirror position attributed to each source wallet, 2026-07-28 → 09-11. Names are the wallets' public Polymarket display names. None of the five has an open position that changes the ranking.</figcaption>
+  </figure>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Source</th><th class="num">Settled</th><th class="num">Win rate</th><th class="num">Deployed</th><th class="num">Realized</th><th class="num">Return</th><th>Where the money came from</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>beachboy4</td><td class="num">39</td><td class="num">69%</td><td class="num">$24,811</td><td class="num"><span class="pos">+$5,770</span></td><td class="num">23.3%</td><td>MLS moneylines, US Open tennis</td></tr>
+        <tr><td>Talvez10</td><td class="num">57</td><td class="num">58%</td><td class="num">$10,086</td><td class="num"><span class="pos">+$2,607</span></td><td class="num">25.8%</td><td>MLB totals and moneylines, UFC</td></tr>
+        <tr><td>TennisLove</td><td class="num">5</td><td class="num">100%</td><td class="num">$2,969</td><td class="num"><span class="pos">+$1,374</span></td><td class="num">46.3%</td><td>National Bank Open, one day (Aug 16)</td></tr>
+        <tr><td>xifutloong3</td><td class="num">22</td><td class="num">68%</td><td class="num">$5,092</td><td class="num"><span class="pos">+$1,318</span></td><td class="num">25.9%</td><td>Mixed sports, Aug 16 → Sep 8</td></tr>
+        <tr><td>S-Works</td><td class="num">19</td><td class="num">79%</td><td class="num">$6,598</td><td class="num"><span class="pos">+$1,217</span></td><td class="num">18.4%</td><td>Dota 2 (The International), MLB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>beachboy4</strong> is the whole thesis in one wallet. Seated on the first refresh because of a lifetime record, not a streak; never dropped; deployed more of our capital than any other source; and returned 23% on it across two different sports. Its August was +$2,063 on 27 settles — steady MLS work, including a −$1,323 loss on CF Montréal that the per-market cap kept from being worse. Its September is +$3,707 on 12, and $2,854 of that is a single position: <strong>Ben Shelton to beat Carlos Alcaraz at the US Open, bought at 25¢ for $951, paid $1.00</strong>. That one trade is 22% of everything the algorithm has realized. We'll come back to it.</p>
+  <p><strong>Talvez10</strong> is the opposite shape: 57 settles at a 58% win rate, average position around $175, grinding MLB over/unders at 45 to 55¢. No single position made more than $534. It's the source we'd point to if someone asked what a copyable edge looks like at low variance, and it has been the mirror's most consistent earner since the gate revert — 20-for-30 and +$1,974 since September 2.</p>
+  <p><strong>TennisLove</strong> was on the roster for a single day. It produced five copies at the National Bank Open on August 16, all five won, and it has not produced a fill since. <strong>xifutloong3</strong> and <strong>S-Works</strong> are the middle of the distribution: seated for weeks, mid-twenties settle counts, win rates near 70%, returns near 20%. S-Works' two best positions were Dota 2 series at The International, bought at 43¢ and 63¢.</p>
+
+  <h2>What we're not going to pretend</h2>
+  <p>The five wallets above sum to <strong>$12,286 — 96% of realized profit</strong>. The other ninety sources, across 1,540 settled positions and $139,445 deployed, netted +$459. That's a return of 0.3% on the bulk of the book. Read one way, the algorithm's job is to find the beachboy4s and stay out of the way while the long tail washes; the gates and caps exist so the tail can't take the book down while it does. Read the other way, five wallets is not a sample, and one of them was seated for a day.</p>
+  <p>The timing is lumpy, too. The week of September 7 produced $8,626 of realized profit on 106 settles — <strong>two-thirds of the all-time figure in five days</strong>, with a 25¢ tennis upset at the center of it. Strip the Shelton position out and the mirror is still up 101%, which is still the best thing we've built; but the difference between a 100% algorithm and a 130% one, on this book, is one match.</p>
+  <p>And it is, so far, a sports algorithm. Of 1,682 settles, 1,500 were sports and made $12,830. The 182 non-sports positions — Fed decisions, geopolitics, crypto, Minecraft challenges — netted −$84. The leaderboard's genuine bettors are sports bettors, and the copies inherit that. Whether the same seat rules would find edge in election season is a question the data can't answer yet.</p>
+  <div class="verdict"><span class="vl">What we do believe</span>Forty-five days, 1,682 settles, four rule eras, and a full round trip through a 37% drawdown. Three of the four rule eras were profitable on cost; the one that lost money ran the loosened gate before any cap on the tail existed. That's the claim the evidence actually supports: not that the mirror has a 130% edge, but that <strong>the seat rules reliably put the book on genuine bettors, and genuine bettors at the top of Polymarket's lifetime board have been worth copying</strong>. The size of the payoff has been decided by a handful of them.</div>
+
+  <h2>What we're taking from this</h2>
+  <div class="rulecards">
+    <div class="rulecard"><h3>1 · The signal was fine; the plumbing was the P&amp;L</h3><p>Three of the five decisions were about turnover, sizing and caps, not about who to copy. The one time we loosened the plumbing to improve the signal, we lost 6% in a week. Gross of slippage, the copies have been positive in every era.</p></div>
+    <div class="rulecard"><h3>2 · Rank on the long record, gate on the short one</h3><p>Lifetime profit picks the wallets; liveness, seasoning and the 30-day loss cap decide whether the record is still live and still theirs. Splitting the ranking key from the gates is what let a July seat still be earning in September.</p></div>
+    <div class="rulecard"><h3>3 · Reversals are decisions too</h3><p>The gate revert and the liveness widening were both us undoing our own work with a number attached. The willingness to ship "we were wrong on August 17" on September 2 is worth more than either rule.</p></div>
+    <div class="rulecard"><h3>4 · Diagnose at the bottom, not the top</h3><p>The most useful analysis in this project happened at $8,793, and it said the losses were mechanical. Had we judged the algorithm on its equity curve that morning, it would be retired, and this post would be another post-mortem.</p></div>
+    <div class="rulecard"><h3>5 · Report the concentration with the return</h3><p>Ninety-six percent from five wallets and twenty-two percent from one match are not footnotes; they're the shape of the result. The next checkpoint for this algorithm is whether the sixth, seventh and eighth wallets show up.</p></div>
+  </div>
+  <p>Top 10 Mirror is still running the September 2 rules unchanged, with nine seats filled and four wallets in the hysteresis queue. The next scheduled look is day 80, alongside Insider Echo's probation review. Between now and then the roster gets to prove that the beachboy4 seat was the rule working, and not the rule getting lucky.</p>
+
+  <p class="foot">Method note: all figures from the live Polywatch database — paper positions, fills, equity snapshots and the wallet-names table — queried 2026-09-11 ≈ 15:00 UTC. Top 10 Mirror's history starts at the July 28 reset; the v1/v2 book covered in the first post is archived separately and excluded here. Equity is cash plus open positions at last mark; "realized" and "settled" mean closed or resolved positions only (86 positions, $8,594 at cost, remain open with +$270 unrealized). Per-source figures sum realized PnL over positions attributed to that wallet's signals, wallet addresses normalized to 42 characters before grouping; the five named wallets carry no open positions. Rule eras are split at deploy timestamps: 2026-08-17 18:00 UTC (v4), 08-24 00:39 (seasoning gate and source cap; hysteresis followed at 01:21), 09-02 12:00 (gate revert and 60-day liveness). "Sports" is a title-keyword classification and will misfile a handful of markets. Slippage is the paper model's 1¢ per share on every fill. Display names are public Polymarket data. Paper trading throughout; no real capital at risk.</p>
+</article>
+</body>
+</html>
