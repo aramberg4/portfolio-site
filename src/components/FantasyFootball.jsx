@@ -593,6 +593,9 @@ const FantasyFootball = () => {
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div>
+            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+              <strong style={{ color: '#9ca3af' }}>Adj PF / Adj PA</strong> — your average points scored (PF) and points scored against you (PA) per season, regular season only, corrected for scoring inflation. Each season&apos;s points are scaled by how that year&apos;s league-wide scoring compares to the all-time average, so 1,500 points in a low-scoring year counts for more than 1,500 in a high-scoring year.
+            </p>
             {/* Stats Table */}
             <div className="rounded-xl overflow-hidden" style={{ backgroundColor: '#1f2937', border: '1px solid #374151', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
               <div className="p-6" style={{ borderBottom: '1px solid #374151' }}>
@@ -979,9 +982,20 @@ const FantasyFootball = () => {
         {/* Most Talented Tab */}
         {activeTab === 'talent' && (
           <div>
-            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem', textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
-              <strong style={{ color: '#9ca3af' }}>Adj PF</strong> is era-adjusted for scoring inflation (each season rebased to the league&apos;s all-time per-game average). <strong style={{ color: '#9ca3af' }}>Scoring Strength</strong> and <strong style={{ color: '#9ca3af' }}>Finish Strength</strong> are how you ranked within that year&apos;s field (% of the league you beat), so a 6-team year counts fairly against a 10-team year. Components are standardized (z-scored) and scaled to 50 = league-average team. The Overview tab lists both raw (Avg PF/PA) and adjusted (Adj PF/PA) points.
-            </p>
+            <div style={{ color: '#6b7280', fontSize: '0.75rem', marginBottom: '1.5rem', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: '#9ca3af' }}>Adj PF / Adj PA</strong> — your average points scored (PF) and points scored against you (PA) per season, regular season only, corrected for scoring inflation. Each season&apos;s points are scaled by how that year&apos;s league-wide scoring compares to the all-time average, so 1,500 points in a low-scoring year counts for more than 1,500 in a high-scoring year.
+              </p>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: '#9ca3af' }}>Scoring Strength</strong> — where your season point total ranked in the league each year, averaged across your seasons. 100% = you outscored every team every year; 0% = you were the lowest scorer every year.
+              </p>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: '#9ca3af' }}>Standings Strength</strong> — where you finished in the regular-season standings each year (wins and losses, before the playoffs), averaged the same way. 100% = 1st place every year. Playoff results are not part of this score; they count toward Success Rankings instead.
+              </p>
+              <p style={{ margin: 0 }}>
+                Both strengths are percentages of the league you beat, so finishing 1st in a 6-team year and 1st in a 10-team year both count as 100%. The Talent score blends Adj PF (55%), Scoring Strength (30%), and Standings Strength (15%), scaled so 50 = a league-average team.
+              </p>
+            </div>
             <RankedCards
               title="Talent Rankings"
               teams={sortedByTalent}
@@ -989,7 +1003,7 @@ const FantasyFootball = () => {
               metrics={[
                 { label: 'Adj PF', key: 'avgAdjPF', weight: '55%', format: v => v.toLocaleString() },
                 { label: 'Scoring Strength', key: 'scoringPct', weight: '30%', format: v => `${Math.round(v * 100)}%` },
-                { label: 'Finish Strength', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
+                { label: 'Standings Strength', key: 'regPct', weight: '15%', format: v => `${Math.round(v * 100)}%` },
               ]}
             />
           </div>
