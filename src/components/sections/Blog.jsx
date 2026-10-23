@@ -5,6 +5,16 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 // redirects — use plain <a> tags, not react-router Links.
 const posts = [
   {
+    id: 7,
+    series: 'Polywatch · Field Notes',
+    date: '2026-10-23',
+    title: '100 days of paper trading: one algo tripled, and two turned out to be the same algo',
+    description:
+      'Day 100. Top 10 Mirror has turned $10,000 into $31,435. Crowd Surge and Kitchen Sink sit at +17.9% and +17.8% because 94% of their trades are the same, so Kitchen Sink retires. And shadow live trading: it matches paper trade-for-trade but copies only about two-thirds of it, so real money waits on two weeks at 80% fidelity.',
+    url: '/polywatch-day100',
+    tags: ['Prediction Markets', 'Retrospective', 'Data Analysis']
+  },
+  {
     id: 6,
     series: 'Polywatch · Field Notes',
     date: '2026-09-11',

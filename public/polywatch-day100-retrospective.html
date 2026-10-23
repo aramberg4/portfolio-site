@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 days of paper trading: one algo tripled, and two turned out to be the same algo | Polywatch Field Notes</title>
+<meta name="description" content="Day 100 of Polywatch paper trading. Top 10 Mirror has turned $10,000 into $31,435. Crowd Surge and Kitchen Sink both sit near +17.8% because they take 94% of the same trades, so Kitchen Sink is being retired. And an update on shadow live trading against Polymarket US: what has been hard, and the bar it has to clear before real money.">
+<meta property="og:title" content="100 days of paper trading: one algo tripled, and two turned out to be the same algo">
+<meta property="og:description" content="Top 10 Mirror: $10,000 → $31,435. Crowd Surge and Kitchen Sink: +17.9% and +17.8% on 94% shared trades, so one is retiring. Shadow live trading tracks paper trade-for-trade but copies only about two-thirds of it, and real money waits on two straight weeks at 80% or better.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/favicon.ico">
+<style>* { box-sizing: border-box; }</style>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #FAFAF8;
+    --ink: #1D2126;
+    --muted: #5C6B70;
+    --faint: #E3E7E5;
+    --accent: #059669;
+    --pos: #059669;
+    --neg: #C2453A;
+    --card: #F0F3F1;
+    --alt: #7C6AC4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14181B;
+      --ink: #E7E9E4;
+      --muted: #93A1A6;
+      --faint: #2A3134;
+      --accent: #16A97C;
+      --pos: #16A97C;
+      --neg: #E06055;
+      --card: #1B2124;
+      --alt: #A796E8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14181B; --ink: #E7E9E4; --muted: #93A1A6; --faint: #2A3134;
+    --accent: #16A97C; --pos: #16A97C; --neg: #E06055; --card: #1B2124; --alt: #A796E8;
+  }
+  :root[data-theme="light"] {
+    --ground: #FAFAF8; --ink: #1D2126; --muted: #5C6B70; --faint: #E3E7E5;
+    --accent: #059669; --pos: #059669; --neg: #C2453A; --card: #F0F3F1; --alt: #7C6AC4;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    line-height: 1.62;
+    font-size: 1.0625rem;
+    margin: 0;
+    padding: 0 1.25rem;
+  }
+  .mono, .stat, table, figcaption, .bar-label, .eyebrow, .rulecard h3, .legend, .tooltip {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  article { max-width: 68ch; margin: 0 auto; padding: 3.5rem 0 5rem; }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.14; font-weight: 600;
+    letter-spacing: -0.01em; margin: 0 0 0.9rem; text-wrap: balance;
+  }
+  .dek { font-size: 1.15rem; color: var(--muted); font-style: italic; margin: 0 0 2.4rem; text-wrap: balance; }
+  h2 {
+    font-size: 1.35rem; font-weight: 600; margin: 2.8rem 0 0.8rem;
+    letter-spacing: -0.005em; text-wrap: balance;
+  }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  .stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 2.5rem; }
+  .stat {
+    flex: 1 1 10rem; background: var(--card); border-radius: 6px;
+    padding: 0.9rem 1rem 0.8rem; border-top: 2px solid var(--accent);
+  }
+  .stat .n { font-size: 1.75rem; font-weight: 700; line-height: 1.1; display: block; }
+  .stat .n.neg { color: var(--neg); }
+  .stat .l { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.35rem; }
+
+  figure { margin: 1.8rem 0 2rem; }
+  figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+  .barchart { display: flex; flex-direction: column; gap: 0.55rem; }
+  .barrow { display: grid; grid-template-columns: 12.5rem 1fr; gap: 0.7rem; align-items: center; }
+  .bar-label { font-size: 0.78rem; color: var(--ink); text-align: right; line-height: 1.3; }
+  .bar-track { position: relative; height: 22px; }
+  .bar { position: absolute; top: 2px; height: 18px; border-radius: 0 4px 4px 0; }
+  .bar-val {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  @media (max-width: 540px) {
+    .barrow { grid-template-columns: 1fr; gap: 0.15rem; }
+    .bar-label { text-align: left; }
+  }
+
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-wrap .gridline { stroke: var(--faint); stroke-width: 1; }
+  .chart-wrap .axis-label {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; fill: var(--muted);
+  }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--card); border: 1px solid var(--faint); border-radius: 5px;
+    padding: 0.4rem 0.6rem; font-size: 0.72rem; line-height: 1.5; white-space: nowrap; z-index: 2;
+  }
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--muted); margin-top: 0.5rem; }
+  .legend .sw { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 0.4rem; border-radius: 2px; }
+
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 1.8rem; }
+  table { border-collapse: collapse; font-size: 0.82rem; width: 100%; min-width: 34rem; }
+  th { text-align: left; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.68rem; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--faint); }
+  td { padding: 0.42rem 0.9rem 0.42rem 0; border-bottom: 1px solid var(--faint); }
+  td.num, th.num { text-align: right; }
+  td .neg { color: var(--neg); font-weight: 600; }
+  td .pos { color: var(--pos); font-weight: 600; }
+  tr.hl td { background: var(--card); }
+
+  .rulecards { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+  .rulecard { background: var(--card); border-radius: 6px; padding: 0.95rem 1.1rem; }
+  .rulecard h3 { font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.4rem; font-weight: 600; }
+  .rulecard p { font-size: 0.95rem; margin: 0; color: var(--ink); }
+
+  .verdict { font-size: 0.95rem; background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 1.2rem 0 1.6rem; }
+  .verdict .vl { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.25rem; font-weight: 600; }
+
+  .foot { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--faint); font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<article>
+  <p class="eyebrow">Polywatch · Field Notes · 2026-10-23</p>
+  <h1>100 days of paper trading: one algo tripled, and two turned out to be the same algo</h1>
+  <p class="dek">On day 100, Top 10 Mirror is at $31,435 from $10,000. Crowd Surge and Kitchen Sink finished within $15 of each other at roughly +17.8%. That isn't a coincidence: they take 94% of the same trades, so we're retiring one. Meanwhile, Top 10 Mirror has been running in shadow against a real exchange for almost four weeks. It matches paper trade-for-trade, but copies only about two-thirds of paper's trades, and we've set the bar it has to clear before it trades real money.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n">$31,435</span><span class="l">Top 10 Mirror, from $10,000</span></div>
+    <div class="stat"><span class="n">+17.8%</span><span class="l">Crowd Surge ≈ Kitchen Sink</span></div>
+    <div class="stat"><span class="n">94%</span><span class="l">of their cost in the same markets</span></div>
+    <div class="stat"><span class="n">~74%</span><span class="l">shadow fidelity · bar is 80%</span></div>
+  </div>
+
+  <h2>The scoreboard</h2>
+  <p>Polywatch started paper trading on July 16 with six algorithms and $10,000 each. A seventh, Top 10 Mirror, was <a href="/polywatch-top10">rebuilt from scratch on July 28</a>. Here's where all seven stand on day 100:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Algo</th><th class="num">Equity</th><th class="num">Return</th><th class="num">Settled</th><th class="num">Win rate</th><th class="num">Realized</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Top 10 Mirror</td><td class="num">$31,435</td><td class="num"><span class="pos">+214%</span></td><td class="num">2,233</td><td class="num">57%</td><td class="num"><span class="pos">+$23,399</span></td></tr>
+        <tr><td>Crowd Surge</td><td class="num">$11,791</td><td class="num"><span class="pos">+17.9%</span></td><td class="num">203</td><td class="num">62%</td><td class="num"><span class="pos">+$846</span></td></tr>
+        <tr><td>Kitchen Sink</td><td class="num">$11,776</td><td class="num"><span class="pos">+17.8%</span></td><td class="num">179</td><td class="num">59%</td><td class="num"><span class="pos">+$682</span></td></tr>
+        <tr><td>Sharp Follow</td><td class="num">$9,108</td><td class="num"><span class="neg">−8.9%</span></td><td class="num">390</td><td class="num">56%</td><td class="num"><span class="neg">−$1,134</span></td></tr>
+        <tr><td>Inverse Losers (retired)</td><td class="num">$9,028</td><td class="num"><span class="neg">−9.7%</span></td><td class="num">22</td><td class="num">36%</td><td class="num"><span class="neg">−$1,022</span></td></tr>
+        <tr><td>Everyman (control)</td><td class="num">$8,896</td><td class="num"><span class="neg">−11.0%</span></td><td class="num">203</td><td class="num">68%</td><td class="num"><span class="neg">−$862</span></td></tr>
+        <tr><td>Insider Echo</td><td class="num">$8,740</td><td class="num"><span class="neg">−12.6%</span></td><td class="num">133</td><td class="num">62%</td><td class="num"><span class="neg">−$1,495</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Since the <a href="/polywatch-top10-day45">day-45 retrospective</a>, Top 10 Mirror has added another 37%. It peaked at $36,983 on September 27 and has given back 15% since, mostly in one bad October weekend for its sources. Everything else has moved by single digits.</p>
+  <p>Only two algorithms besides Top 10 Mirror are in the black: Crowd Surge and Kitchen Sink. Both are about 29 points ahead of Everyman, the control that copies every qualifying signal without judgment. The bottom of the table hasn't moved much either. Even with <a href="/polywatch-day50">the 40¢ floor it got at day 50</a>, Insider Echo is still below the control. Sharp Follow is only two points above it. The rest of this post covers the two algorithms in second place and the one in first.</p>
+
+  <h2>Crowd Surge and Kitchen Sink are one algorithm with two exits</h2>
+  <p>On paper they're different ideas. <strong>Crowd Surge</strong> enters when two or more tracked wallets buy the same outcome within 24 hours. <strong>Kitchen Sink</strong> adds up a conviction score: +3 for an insider, +2 for smart money, +1 for a decent whale, +1 for a $25K+ trade, and +1 for each extra wallet. It enters at 4. One counts wallets; the other weighs them.</p>
+  <p>In practice the score crosses 4 almost exactly when a second tracked wallet joins in. Two smart-money wallets already score 5. So both algorithms fire on the same events, usually within minutes of each other:</p>
+
+  <figure>
+    <div class="chart-wrap" id="twinchart">
+      <svg viewBox="0 0 660 262" role="img" aria-label="Daily closing equity for Crowd Surge, Kitchen Sink and the Everyman control from July 16 to October 23, 2026. Crowd Surge and Kitchen Sink track each other closely, separating by at most about $700 in late September, and both end near $11,780. Everyman ends at $8,896.">
+        <line class="gridline" x1="46" x2="616" y1="197.8" y2="197.8"></line>
+        <line class="gridline" x1="46" x2="616" y1="86.7" y2="86.7"></line>
+        <line class="gridline" x1="46" x2="616" y1="31.1" y2="31.1"></line>
+        <line x1="46" x2="616" y1="142.2" y2="142.2" stroke="var(--muted)" stroke-width="1" stroke-dasharray="5 4" opacity="0.6"></line>
+        <text class="axis-label" x="42" y="201.3" text-anchor="end">$9K</text>
+        <text class="axis-label" x="42" y="145.7" text-anchor="end">$10K</text>
+        <text class="axis-label" x="42" y="90.2" text-anchor="end">$11K</text>
+        <text class="axis-label" x="42" y="34.6" text-anchor="end">$12K</text>
+        <text class="axis-label" x="46" y="252">Jul 16</text>
+        <text class="axis-label" x="224.5" y="252" text-anchor="middle">Aug 16</text>
+        <text class="axis-label" x="397.2" y="252" text-anchor="middle">Sep 15</text>
+        <text class="axis-label" x="616" y="252" text-anchor="end">Oct 23</text>
+        <polyline fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linejoin="round" opacity="0.55" points="46.0,142.2 51.8,142.6 57.5,144.2 63.3,143.8 69.0,144.1 74.8,146.9 80.5,150.2 86.3,151.1 92.1,150.6 97.8,149.2 103.6,150.1 109.3,153.7 115.1,150.5 120.8,145.6 126.6,151.8 132.4,161.7 138.1,162.4 143.9,156.1 149.6,155.8 155.4,148.2 161.2,142.1 166.9,145.6 172.7,133.7 178.4,134.8 184.2,136.7 189.9,141.4 195.7,137.9 201.5,145.1 207.2,145.7 213.0,136.1 218.7,136.8 224.5,135.1 230.2,137.3 236.0,138.9 241.8,136.6 247.5,133.9 253.3,137.2 259.0,134.0 264.8,136.2 270.5,138.9 276.3,140.5 282.1,137.8 287.8,134.4 293.6,153.7 299.3,146.4 305.1,154.2 310.8,157.7 316.6,162.0 322.4,156.1 328.1,145.7 333.9,152.2 339.6,152.8 345.4,152.9 351.2,154.2 356.9,153.7 362.7,152.1 368.4,161.6 374.2,176.4 379.9,176.0 385.7,173.7 391.5,182.7 397.2,185.7 403.0,193.3 408.7,192.8 414.5,190.9 420.2,192.1 426.0,190.8 431.8,190.4 437.5,185.3 443.3,179.9 449.0,180.6 454.8,185.8 460.5,181.8 466.3,182.9 472.1,181.7 477.8,191.2 483.6,198.1 489.3,200.2 495.1,201.2 500.8,202.9 506.6,209.7 512.4,208.2 518.1,208.9 523.9,209.7 529.6,210.3 535.4,209.7 541.2,208.9 546.9,207.2 552.7,205.6 558.4,205.8 564.2,201.6 569.9,201.2 575.7,204.6 581.5,203.4 587.2,204.8 593.0,203.8 598.7,203.8 604.5,204.4 610.2,204.6 616.0,203.6"></polyline>
+        <polyline fill="none" stroke="var(--alt)" stroke-width="2" stroke-linejoin="round" points="46.0,142.2 51.8,142.2 57.5,141.7 63.3,141.7 69.0,143.2 74.8,146.1 80.5,143.4 86.3,135.5 92.1,132.9 97.8,126.6 103.6,125.2 109.3,125.7 115.1,125.8 120.8,123.8 126.6,128.2 132.4,143.1 138.1,143.8 143.9,134.3 149.6,134.0 155.4,120.3 161.2,114.1 166.9,122.7 172.7,103.0 178.4,104.7 184.2,104.2 189.9,113.8 195.7,109.4 201.5,95.7 207.2,101.8 213.0,88.7 218.7,88.7 224.5,87.9 230.2,85.1 236.0,85.6 241.8,83.9 247.5,82.1 253.3,84.3 259.0,82.7 264.8,84.8 270.5,85.1 276.3,87.7 282.1,85.7 287.8,78.0 293.6,83.6 299.3,80.9 305.1,83.5 310.8,87.3 316.6,91.2 322.4,84.3 328.1,70.0 333.9,80.9 339.6,81.2 345.4,79.2 351.2,82.1 356.9,83.7 362.7,80.3 368.4,96.6 374.2,114.2 379.9,116.7 385.7,111.2 391.5,105.8 397.2,103.8 403.0,91.3 408.7,90.8 414.5,87.4 420.2,89.4 426.0,78.4 431.8,77.3 437.5,82.8 443.3,79.3 449.0,83.7 454.8,86.4 460.5,86.6 466.3,84.7 472.1,79.9 477.8,77.8 483.6,95.4 489.3,99.9 495.1,96.9 500.8,83.6 506.6,61.8 512.4,60.8 518.1,62.7 523.9,64.2 529.6,69.5 535.4,57.9 541.2,59.4 546.9,61.3 552.7,56.9 558.4,56.1 564.2,51.9 569.9,53.1 575.7,51.8 581.5,50.9 587.2,49.3 593.0,54.2 598.7,45.6 604.5,46.8 610.2,41.7 616.0,43.6"></polyline>
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="46.0,142.2 51.8,142.2 57.5,141.7 63.3,141.7 69.0,143.2 74.8,146.1 80.5,137.8 86.3,122.3 92.1,122.5 97.8,119.3 103.6,118.6 109.3,119.7 115.1,121.0 120.8,129.6 126.6,135.9 132.4,146.3 138.1,146.9 143.9,140.0 149.6,138.3 155.4,125.9 161.2,120.6 166.9,128.3 172.7,106.8 178.4,109.7 184.2,107.8 189.9,109.1 195.7,107.3 201.5,110.5 207.2,110.2 213.0,109.8 218.7,109.3 224.5,109.0 230.2,106.9 236.0,107.1 241.8,106.0 247.5,104.0 253.3,105.3 259.0,104.6 264.8,106.6 270.5,106.2 276.3,110.4 282.1,106.6 287.8,100.5 293.6,93.4 299.3,90.7 305.1,92.7 310.8,90.3 316.6,92.3 322.4,88.0 328.1,82.3 333.9,85.9 339.6,85.6 345.4,84.6 351.2,85.2 356.9,84.0 362.7,81.7 368.4,86.7 374.2,97.5 379.9,100.4 385.7,93.2 391.5,86.6 397.2,83.3 403.0,70.6 408.7,69.0 414.5,65.4 420.2,67.7 426.0,54.4 431.8,52.2 437.5,56.1 443.3,41.7 449.0,46.2 454.8,52.4 460.5,50.8 466.3,48.2 472.1,40.5 477.8,61.1 483.6,88.5 489.3,98.6 495.1,99.1 500.8,86.0 506.6,66.1 512.4,65.7 518.1,67.5 523.9,69.4 529.6,74.1 535.4,67.7 541.2,68.8 546.9,70.2 552.7,67.2 558.4,66.9 564.2,61.2 569.9,60.4 575.7,58.6 581.5,57.7 587.2,57.1 593.0,54.8 598.7,46.7 604.5,50.1 610.2,41.9 616.0,42.7"></polyline>
+        <text class="axis-label" x="472" y="32" text-anchor="middle">Sep 28 · widest gap, $709</text>
+        <text class="axis-label" x="610" y="196" text-anchor="end">Everyman $8,896</text>
+        <line id="tw-cross" x1="0" x2="0" y1="14" y2="234" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3" visibility="hidden"></line>
+      </svg>
+      <div class="tooltip" id="tw-tip"></div>
+    </div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--accent)"></span>Crowd Surge</span>
+      <span><span class="sw" style="background:var(--alt)"></span>Kitchen Sink</span>
+      <span><span class="sw" style="background:var(--muted)"></span>Everyman (control)</span>
+    </div>
+    <figcaption>Each algo's equity at the last snapshot of each UTC day, 2026-07-16 → 10-23. The dashed line is the $10,000 starting cash. Hover for values.</figcaption>
+  </figure>
+
+  <script>
+  (function () {
+    var D = [["2026-07-16",10000,10000,10000],["2026-07-17",10001,10001,9994],["2026-07-18",10009,10009,9964],["2026-07-19",10009,10009,9971],["2026-07-20",9983,9983,9967],["2026-07-21",9931,9931,9916],["2026-07-22",10080,9979,9856],["2026-07-23",10358,10121,9841],["2026-07-24",10355,10167,9849],["2026-07-25",10413,10282,9874],["2026-07-26",10426,10306,9858],["2026-07-27",10406,10297,9794],["2026-07-28",10382,10295,9851],["2026-07-29",10227,10331,9940],["2026-07-30",10114,10253,9827],["2026-07-31",9927,9984,9649],["2026-08-01",9915,9971,9637],["2026-08-02",10040,10142,9751],["2026-08-03",10070,10148,9755],["2026-08-04",10293,10394,9893],["2026-08-05",10389,10506,10003],["2026-08-06",10251,10351,9939],["2026-08-07",10638,10706,10153],["2026-08-08",10586,10675,10134],["2026-08-09",10619,10684,10099],["2026-08-10",10597,10512,10015],["2026-08-11",10629,10590,10077],["2026-08-12",10571,10837,9949],["2026-08-13",10576,10728,9938],["2026-08-14",10584,10963,10110],["2026-08-15",10592,10964,10098],["2026-08-16",10598,10977,10129],["2026-08-17",10636,11029,10088],["2026-08-18",10633,11020,10060],["2026-08-19",10652,11049,10102],["2026-08-20",10688,11083,10149],["2026-08-21",10664,11043,10091],["2026-08-22",10678,11071,10148],["2026-08-23",10642,11033,10108],["2026-08-24",10649,11028,10059],["2026-08-25",10572,10981,10031],["2026-08-26",10642,11018,10080],["2026-08-27",10751,11156,10140],["2026-08-28",10878,11056,9794],["2026-08-29",10927,11103,9924],["2026-08-30",10892,11057,9784],["2026-08-31",10935,10989,9722],["2026-09-01",10899,10919,9644],["2026-09-02",10976,11042,9751],["2026-09-03",11079,11300,9937],["2026-09-04",11013,11104,9820],["2026-09-05",11019,11099,9809],["2026-09-06",11037,11134,9808],["2026-09-07",11027,11082,9785],["2026-09-08",11048,11054,9794],["2026-09-09",11090,11114,9823],["2026-09-10",11000,10822,9651],["2026-09-11",10805,10504,9384],["2026-09-12",10753,10460,9392],["2026-09-13",10883,10558,9433],["2026-09-14",11002,10655,9272],["2026-09-15",11061,10692,9217],["2026-09-16",11290,10916,9080],["2026-09-17",11318,10925,9090],["2026-09-18",11383,10987,9123],["2026-09-19",11342,10950,9103],["2026-09-20",11581,11148,9126],["2026-09-21",11621,11169,9133],["2026-09-22",11550,11069,9224],["2026-09-23",11810,11133,9321],["2026-09-24",11729,11053,9310],["2026-09-25",11616,11004,9215],["2026-09-26",11646,11001,9287],["2026-09-27",11692,11035,9268],["2026-09-28",11831,11122,9289],["2026-09-29",11461,11160,9118],["2026-09-30",10967,10842,8994],["2026-10-01",10785,10761,8956],["2026-10-02",10776,10816,8938],["2026-10-03",11012,11056,8907],["2026-10-04",11371,11448,8786],["2026-10-05",11377,11465,8813],["2026-10-06",11345,11432,8799],["2026-10-07",11310,11404,8786],["2026-10-08",11227,11309,8774],["2026-10-09",11341,11518,8785],["2026-10-10",11322,11490,8800],["2026-10-11",11297,11457,8831],["2026-10-12",11350,11535,8860],["2026-10-13",11355,11551,8855],["2026-10-14",11458,11625,8931],["2026-10-15",11472,11605,8938],["2026-10-16",11506,11628,8878],["2026-10-17",11522,11644,8899],["2026-10-18",11532,11673,8874],["2026-10-19",11573,11585,8891],["2026-10-20",11719,11740,8891],["2026-10-21",11659,11717,8881],["2026-10-22",11805,11810,8878],["2026-10-23",11791,11776,8896]];
+    var X0 = 46, X1 = 616, N = D.length;
+    var wrap = document.getElementById('twinchart');
+    var svg = wrap.querySelector('svg');
+    var tip = document.getElementById('tw-tip');
+    var cross = document.getElementById('tw-cross');
+    var fmt = function (v) { return '$' + Math.round(v).toLocaleString(); };
+    function onMove(ev) {
+      var r = svg.getBoundingClientRect();
+      var vx = (ev.clientX - r.left) / r.width * 660;
+      if (vx < X0 - 6 || vx > X1 + 6) { onLeave(); return; }
+      var i = Math.round((Math.min(Math.max(vx, X0), X1) - X0) / (X1 - X0) * (N - 1));
+      var row = D[i];
+      var x = X0 + i / (N - 1) * (X1 - X0);
+      cross.setAttribute('x1', x); cross.setAttribute('x2', x);
+      cross.setAttribute('visibility', 'visible');
+      var gap = row[1] - row[2];
+      tip.innerHTML = row[0].slice(5).replace('-', '/') + '<br>' +
+        'Crowd Surge <strong>' + fmt(row[1]) + '</strong><br>' +
+        'Kitchen Sink <strong>' + fmt(row[2]) + '</strong><br>' +
+        'Gap ' + (gap >= 0 ? '+' : '−') + fmt(Math.abs(gap)) + '<br>' +
+        'Everyman ' + fmt(row[3]);
+      tip.style.display = 'block';
+      var px = x / 660 * r.width;
+      tip.style.left = Math.min(px + 12, r.width - tip.offsetWidth - 4) + 'px';
+      tip.style.top = '18px';
+    }
+    function onLeave() { tip.style.display = 'none'; cross.setAttribute('visibility', 'hidden'); }
+    wrap.addEventListener('mousemove', onMove);
+    wrap.addEventListener('mouseleave', onLeave);
+  })();
+  </script>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th></th><th class="num">Crowd Surge</th><th class="num">Kitchen Sink</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Markets entered (outcome-level)</td><td class="num">128</td><td class="num">121</td></tr>
+        <tr class="hl"><td>…of which the other algo also entered</td><td class="num">112</td><td class="num">112</td></tr>
+        <tr><td>Share of cost in shared markets</td><td class="num">94%</td><td class="num">94%</td></tr>
+        <tr><td>Shared markets entered within 5 min of each other</td><td class="num" colspan="2" style="text-align:center">100 of 112</td></tr>
+        <tr><td>Take-profit exits</td><td class="num">42 · <span class="pos">+$3,097</span></td><td class="num">20 · <span class="pos">+$2,142</span></td></tr>
+        <tr><td>Held to resolution</td><td class="num">88 · <span class="pos">+$911</span></td><td class="num">92 · <span class="pos">+$1,772</span></td></tr>
+        <tr><td>Stop-loss exits</td><td class="num">73 · <span class="neg">−$3,161</span></td><td class="num">67 · <span class="neg">−$3,232</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The 16 markets only Crowd Surge entered and the 9 only Kitchen Sink entered add up to about 6% of either book. Everything else is the same trade, entered at the same moment.</p>
+  <p>The real difference is the exit. Crowd Surge takes profit at +50%. Kitchen Sink waits for +60%, and once a position is marked above 90¢ it rides to resolution. As a result Crowd Surge cashes out early twice as often. Kitchen Sink makes roughly the same money by holding more of its winners to the end, and the stop-losses cost both the same.</p>
+  <p>Daily returns are correlated at 0.76. The two curves have drifted up to $709 apart, but they always came back together. So for 100 days we've been running an A/B test of two exit policies on identical entries without meaning to, and <strong>it's a tie</strong>.</p>
+  <p>One caveat applies to both: only about half the gain is banked. Realized profit is +$846 and +$682. The rest is unrealized, spread over the 65 to 67 positions each algo still has open.</p>
+
+  <div class="verdict"><span class="vl">Verdict</span>They're redundant, and merging them doesn't produce anything new. Merge the entry rules and you get the same entries; pick either exit and history says you get the same result. <strong>We're retiring Kitchen Sink and keeping Crowd Surge.</strong> Crowd Surge's rule is the simpler one, explains itself in a sentence, and has settled more positions. Kitchen Sink stops opening new positions today, and its open book runs to resolution the way Inverse Losers' did. Its seat is free for an idea that doesn't already exist on the board.</div>
+
+  <h2>Shadow live trading: matching every trade it takes, but not taking enough</h2>
+  <p>Since September 28, Top 10 Mirror has had a shadow: a $1,000 book that turns each of its signals into an order against <strong>Polymarket US</strong>. That's the regulated US exchange and the only venue we'll put real money on. The shadow uses real US order books, real prices and real fees, and sends nothing. It answers one question: if we flipped the switch, would the live book do what the paper book does?</p>
+  <p>For the trades it takes, the answer is yes. Since October 6 the shadow only enters when paper enters. <strong>Of the 98 positions both books have settled, all 98 came out the same way</strong>, and the shadow's average return per position is 1.3 points below paper's. That gap is about the exchange fees, which average 3.1% of cost.</p>
+  <p>The problem is how much it takes. <span style="color:var(--neg)">Paper copies wallets on Polymarket's international exchange; the shadow has to place every one of those trades on a separate exchange with its own catalog and its own market IDs.</span> Measured by paper's cost, the shadow copied <strong>53%</strong> of paper's trading in the first week of October, <strong>62%</strong> the next week, and <strong>67%</strong> the week after that.</p>
+
+  <figure>
+    <div class="barchart">
+      <div class="barrow">
+        <span class="bar-label">Copied by the shadow</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:66.5%; background:var(--pos)"></div><span class="bar-val" style="left:68%">66.5%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">On US · tennis &amp; UEFA not matched</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:14.2%; background:var(--neg)"></div><span class="bar-val" style="left:15.7%">14.2%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">Not listed on US at all</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:9.7%; background:var(--muted)"></div><span class="bar-val" style="left:11.2%">9.7%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">On US · market not open yet</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:5.5%; background:var(--neg)"></div><span class="bar-val" style="left:7%">5.5%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">On US · politics &amp; macro (deferred)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:2.4%; background:var(--neg)"></div><span class="bar-val" style="left:3.9%">2.4%</span></div>
+      </div>
+      <div class="barrow">
+        <span class="bar-label">On US · order rules (size, price, line)</span>
+        <div class="bar-track"><div class="bar" style="left:0; width:1.7%; background:var(--neg)"></div><span class="bar-val" style="left:3.2%">1.7%</span></div>
+      </div>
+    </div>
+    <figcaption>Where Top 10 Mirror's paper trading went, Oct 12–23, as a share of paper cost. Red is a market Polymarket US lists that the shadow didn't trade. Grey is a market US doesn't offer, which no live book could have copied.</figcaption>
+  </figure>
+
+  <h2>What's been hard</h2>
+  <div class="rulecards">
+    <div class="rulecard"><h3>1 · The two exchanges don't share a key</h3><p>Every trade has to be translated from one exchange's market to the other's. Team codes differ (<span class="mono">epl-che-bou</span> vs <span class="mono">epl-cfc-bor</span>), league prefixes differ, and tennis uses different player codes entirely (<span class="mono">medvede-paul</span> vs <span class="mono">danmed-tompau</span>). For most US leagues and esports a shared game ID bridges the gap. For tennis and the European cups, the US side doesn't carry one.</p></div>
+    <div class="rulecard"><h3>2 · Some markets simply aren't there</h3><p>NATO-versus-Russia contracts, small tennis challengers and first-half spreads all exist on the international exchange and not on the US one. That was almost 10% of paper's cost in the window above, and no amount of engineering recovers it.</p></div>
+    <div class="rulecard"><h3>3 · The market is sometimes closed when the signal arrives</h3><p>Some NFL, MLB and NBA markets map correctly but show as not open at the moment a source wallet buys. We don't yet know if that's a real pre-game window on the US side or a timing problem on ours.</p></div>
+    <div class="rulecard"><h3>4 · The first two weeks were plumbing</h3><p>Day one produced zero fills: every signal failed to map. Since then we've fixed night games dated a day apart on the two exchanges, a spread ladder quoted from one team's side, rate-limit errors during bursts of signals on the same game, and the esports and soccer slug mismatches. Each fix moved coverage up a few points.</p></div>
+  </div>
+
+  <p>One number made us more patient about all this. Over the last three weeks, the paper trades the shadow missed netted <strong>−$45</strong>: 45 winners, 35 losers. Missing them hasn't cost the shadow any edge so far; it has only made the shadow a noisier copy of paper. That changed what we're measuring. Coverage isn't a profit test. It's a fidelity test.</p>
+
+  <h2>The decision: an 80% fidelity bar</h2>
+  <p>We considered making paper trade US-listed markets only. That would make the two books match by definition, and it would prove nothing. Paper stays on the international exchange as the benchmark. Instead we've defined what the shadow is graded on:</p>
+  <div class="verdict"><span class="vl">The go-live bar</span><strong>Fidelity</strong> = the share of paper's cost the shadow copied, out of the paper cost it <em>could</em> have copied. Markets Polymarket US doesn't list are excluded; everything US does list counts, whatever the reason we missed it. A market we can't confirm either way also counts as a miss. <strong>Real money goes in after two consecutive weeks at 80% or better.</strong></div>
+  <p>On that definition, October 12–23 comes out at about <strong>74%</strong>. With unlisted markets set aside, the most the shadow could reach is around 90%. Three pieces of work close the gap:</p>
+  <div class="rulecards">
+    <div class="rulecard"><h3>Match by start time and names</h3><p>When the slug and the game ID both fail, look up the US events that start within an hour of the international one and match on the players or teams. Tennis and the European cups were 14 points of paper's cost on their own, enough to clear 80% in a typical week.</p></div>
+    <div class="rulecard"><h3>Find out why markets read as closed</h3><p>Another 5.5 points belongs to games that already map. If it's a pre-open window, we can queue the entry; if it's a brief status flip, we can retry.</p></div>
+    <div class="rulecard"><h3>Report fidelity every week</h3><p>The shadow's daily report will carry the week's fidelity and a count of consecutive weeks at 80% or better, plus the list of markets excluded as unlisted, so a translation miss can't hide among them.</p></div>
+  </div>
+  <p>Politics and macro markets stay paper-only for now. Only about a third of them have a US version, and they're worth about two points. We'll come back to them once the sports book is clearing the bar.</p>
+  <p>So day 100 looks like this. The algorithm worth trading has tripled on paper. Its shadow copy gets every trade it takes right. Real money waits on two weeks at 80% fidelity.</p>
+
+  <p class="foot">Method note: all figures from the live Polywatch database, queried 2026-10-23 ≈ 16:00 UTC; open positions keep moving equity after that. Day 1 is 2026-07-16. Top 10 Mirror's history starts at the July 28 rebuild. Equity is cash plus open positions at last mark; "realized" and "settled" mean closed or resolved positions only. Crowd Surge/Kitchen Sink overlap compares positions by market and outcome; entry gaps use each algo's first entry per market. Daily-return correlation is computed on the 100 daily closes plotted above. Shadow figures are given as percentages; the shadow sends no orders. Shadow tracking statistics cover positions opened since October 6, when shadow entries were tied to paper entries. "Not listed on US" was checked market by market against the Polymarket US API; two of the unlisted tennis challengers are a best determination, not a certainty. Weekly coverage figures before October 12 use the simpler copied-cost share. Paper trading throughout; no real capital at risk.</p>
+</article>
+</body>
+</html>
