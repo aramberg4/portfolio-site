@@ -53,7 +53,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden pt-20">
 
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-gray-900 to-green-900/20"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/20 via-gray-900 to-green-900/20"></div>
 
       {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
@@ -82,7 +82,7 @@ export default function LandingPage() {
               <h2 className="text-xl sm:text-2xl lg:text-3xl text-blue-400 mb-6">
                 WebDev | E-Commerce | AI
               </h2>
-              <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto lg:mx-0 mb-6"></div>
+              <div className="h-1 w-24 bg-linear-to-r from-blue-500 to-green-400 mx-auto lg:mx-0 mb-6"></div>
             </div>
 
             <div className="mb-8">
@@ -95,7 +95,7 @@ export default function LandingPage() {
                 {skills.map((skill, index) => (
                   <span
                     key={skill}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-white rounded-full text-sm font-medium border border-blue-500/30 hover:border-blue-400/50 transition-all duration-200 hover:scale-105"
+                    className="px-4 py-2 bg-linear-to-r from-blue-500/20 to-green-400/20 text-white rounded-full text-sm font-medium border border-blue-500/30 hover:border-blue-400/50 transition-all duration-200 hover:scale-105"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     {skill}
@@ -124,7 +124,7 @@ export default function LandingPage() {
           <div className="flex justify-center lg:justify-end animate-slide-up">
             <div className="relative">
               <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-blue-500 p-1 shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300">
-                <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-blue-500/10 to-green-400/10 backdrop-blur-sm">
+                <div className="w-full h-full rounded-full overflow-hidden bg-linear-to-br from-blue-500/10 to-green-400/10 backdrop-blur-xs">
                   <img
                     src={banner}
                     alt="Austin Ramberg"
@@ -134,8 +134,8 @@ export default function LandingPage() {
               </div>
 
               {/* Floating decoration */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-500 to-green-400 rounded-full opacity-80 animate-bounce-slow"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-full opacity-60 animate-pulse"></div>
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-linear-to-r from-blue-500 to-green-400 rounded-full opacity-80 animate-bounce-slow"></div>
+              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-linear-to-r from-green-400 to-blue-500 rounded-full opacity-60 animate-pulse"></div>
               <div style={{
                 position: 'absolute',
                 top: '-16px',

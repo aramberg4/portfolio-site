@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import LandingPage from './sections/LandingPage';
 import AboutMe from './sections/AboutMe';
 import Projects from './sections/Projects';
@@ -10,19 +10,19 @@ import Polywatch from './polywatch/Polywatch';
 import OrchardRun from './orchardrun/OrchardRun';
 
 const Main = () => (
-    <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route exact path="/aboutme" component={AboutMe} />
-        <Route exact path="/projects" component={Projects} />
-        <Route exact path="/blog" component={Blog} />
-        <Route exact path="/nfl-target-share" component={NFLTargetShare} />
-        <Route exact path="/fantasy-football" component={FantasyFootball} />
-        <Route exact path="/polywatch" component={Polywatch} />
+    <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/aboutme" element={<AboutMe />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/nfl-target-share" element={<NFLTargetShare />} />
+        <Route path="/fantasy-football" element={<FantasyFootball />} />
+        <Route path="/polywatch" element={<Polywatch />} />
         {/* Unlisted — shared by direct link only */}
-        <Route exact path="/austins-30th" component={OrchardRun} />
+        <Route path="/austins-30th" element={<OrchardRun />} />
         {/* Same invite without the gift list, for guests who aren't expected to bring one */}
-        <Route exact path="/orchard-day" render={() => <OrchardRun showGifts={false} />} />
-    </Switch>
+        <Route path="/orchard-day" element={<OrchardRun showGifts={false} />} />
+    </Routes>
 );
 
 export default Main;

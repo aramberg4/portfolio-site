@@ -100,7 +100,7 @@ export default function AboutMe() {
     <div className="relative overflow-hidden min-h-screen bg-gray-900 py-16 pt-24">
 
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
       {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
@@ -124,7 +124,7 @@ export default function AboutMe() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
             About Me
           </h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
+          <div className="h-1 w-24 bg-linear-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
             I'm a passionate software engineer who bridges the gap between innovative technology and exceptional user experiences.
             With expertise spanning web development, e-commerce, and AI, I bring both technical depth and creative vision to every project.
@@ -142,7 +142,7 @@ export default function AboutMe() {
                     <h3 className="text-xl font-bold text-white mb-2">{exp.role}</h3>
                     <p className="text-blue-400 font-medium">{exp.company}</p>
                   </div>
-                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30">
+                  <span className="px-3 py-1 bg-linear-to-r from-blue-500/20 to-green-400/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30">
                     {exp.period}
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export default function AboutMe() {
                   {exp.technologies.map((tech, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30"
+                      className="px-3 py-1 bg-linear-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30"
                     >
                       {tech}
                     </span>
@@ -176,7 +176,7 @@ export default function AboutMe() {
                   {skillGroup.items.map((skill, skillIndex) => (
                     <span
                       key={skillIndex}
-                      className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-sm font-medium border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-200"
+                      className="px-3 py-1 bg-linear-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-sm font-medium border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-200"
                     >
                       {skill}
                     </span>
@@ -219,7 +219,7 @@ export default function AboutMe() {
             {personalQualities.map((quality, index) => (
               <div key={index} className="bg-gray-800 rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-gradient-to-r from-blue-500/20 to-green-400/20 rounded-full border border-blue-500/30">
+                  <div className="p-3 bg-linear-to-r from-blue-500/20 to-green-400/20 rounded-full border border-blue-500/30">
                     {quality.icon}
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function AboutMe() {
               href="https://github.com/aramberg4"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
             >
               <BriefcaseIcon className="w-5 h-5" />
               View My Work

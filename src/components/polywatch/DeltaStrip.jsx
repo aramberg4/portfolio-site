@@ -31,7 +31,7 @@ const DeltaStrip = ({ algos }) => {
             <span className="relative h-4">
               <span className="absolute left-1/2 -top-1 -bottom-1 w-px bg-gray-500" />
               <span
-                className="absolute top-0.5 h-3 rounded-sm"
+                className="absolute top-0.5 h-3 rounded-xs"
                 style={{
                   backgroundColor: color.bg,
                   ...(delta >= 0

@@ -1,9 +1,148 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-accent-50: #f0fdf4;
+  --color-accent-100: #dcfce7;
+  --color-accent-200: #bbf7d0;
+  --color-accent-300: #86efac;
+  --color-accent-400: #4ade80;
+  --color-accent-500: #22c55e;
+  --color-accent-600: #16a34a;
+  --color-accent-700: #15803d;
+  --color-accent-800: #166534;
+  --color-accent-900: #14532d;
+
+  --font-sans: Inter, ui-sans-serif, system-ui;
+  --font-mono: JetBrains Mono, ui-monospace, monospace;
+  --font-serif: Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif;
+
+  --animate-fade-in: fadeIn 0.5s ease-in;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-bounce-slow: bounce 2s infinite;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility bg-gradient-modern {
+  /* Enhanced gradient compatibility */
+  background: linear-gradient(
+    135deg,
+    rgba(30, 58, 138, 0.1) 0%,
+    rgba(17, 24, 39, 1) 50%,
+    rgba(20, 83, 45, 0.1) 100%
+  );
+}
+
+@utility bg-gradient-card {
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.2) 0%,
+    rgba(74, 222, 128, 0.2) 100%
+  );
+}
+
+@utility border-gradient {
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+@utility particle {
+  /* Particle animation with better compatibility */
+  width: 4px;
+  height: 4px;
+  background: rgba(96, 165, 250, 0.2);
+  border-radius: 50%;
+  position: absolute;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@utility animate-fade-custom {
+  /* Custom animations */
+  animation: fadeIn 0.5s ease-in;
+}
+
+@utility animate-slide-custom {
+  animation: slideUp 0.5s ease-out;
+}
+
+@utility animate-bounce-custom {
+  animation: bounceCustom 2s infinite;
+}
+
+@utility fill-ticker-track {
+  /* Polywatch fill ticker marquee — track holds the list twice, so -50% lands
+     exactly on the start of the second copy for a seamless loop */
+  display: inline-block;
+  animation: tickerScroll linear infinite;
+  will-change: transform;
+
+  .fill-ticker:hover & {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility fill-ticker {
+  &:hover .fill-ticker-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    overflow-x: auto;
+  }
+}
 
 @layer base {
   body {
@@ -12,30 +151,6 @@
 }
 
 @layer utilities {
-  /* Enhanced gradient compatibility */
-  .bg-gradient-modern {
-    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(17, 24, 39, 1) 50%, rgba(20, 83, 45, 0.1) 100%);
-  }
-
-  .bg-gradient-card {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2) 0%, rgba(74, 222, 128, 0.2) 100%);
-  }
-
-  .border-gradient {
-    border: 1px solid rgba(59, 130, 246, 0.3);
-  }
-
-  /* Particle animation with better compatibility */
-  .particle {
-    width: 4px;
-    height: 4px;
-    background: rgba(96, 165, 250, 0.2);
-    border-radius: 50%;
-    position: absolute;
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* Custom animations */
   @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -51,46 +166,12 @@
     50% { transform: translateY(0); }
   }
 
-  .animate-fade-custom {
-    animation: fadeIn 0.5s ease-in;
-  }
-
-  .animate-slide-custom {
-    animation: slideUp 0.5s ease-out;
-  }
-
-  .animate-bounce-custom {
-    animation: bounceCustom 2s infinite;
-  }
-
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-
-  /* Polywatch fill ticker marquee — track holds the list twice, so -50% lands
-     exactly on the start of the second copy for a seamless loop */
   @keyframes tickerScroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
-  }
-
-  .fill-ticker-track {
-    display: inline-block;
-    animation: tickerScroll linear infinite;
-    will-change: transform;
-  }
-
-  .fill-ticker:hover .fill-ticker-track {
-    animation-play-state: paused;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .fill-ticker {
-      overflow-x: auto;
-    }
-    .fill-ticker-track {
-      animation: none;
-    }
   }
 }

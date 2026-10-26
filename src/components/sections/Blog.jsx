@@ -10,7 +10,7 @@ const posts = [
     date: '2026-10-23',
     title: '100 days of paper trading: one algo tripled, and two turned out to be the same algo',
     description:
-      'Day 100. Top 10 Mirror has turned $10,000 into $31,435. Crowd Surge and Kitchen Sink sit at +17.9% and +17.8% because 94% of their trades are the same, so Kitchen Sink retires. And shadow live trading: it matches paper trade-for-trade but copies only about two-thirds of it, so real money waits on two weeks at 80% fidelity.',
+      'Day 100. Top 10 Mirror has turned $10,000 into $31,435. Crowd Surge and Kitchen Sink sit at +17.9% and +17.8% because 94% of their trades are the same, so Kitchen Sink retires. And shadow-sm live trading: it matches paper trade-for-trade but copies only about two-thirds of it, so real money waits on two weeks at 80% fidelity.',
     url: '/polywatch-day100',
     tags: ['Prediction Markets', 'Retrospective', 'Data Analysis']
   },
@@ -82,7 +82,7 @@ const PostCard = ({ post }) => (
     className="block bg-gray-800 rounded-xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group"
   >
     <div className="flex items-center gap-3 mb-3 text-xs font-medium">
-      <span className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-green-400 text-white">
+      <span className="px-3 py-1 rounded-full bg-linear-to-r from-blue-500 to-green-400 text-white">
         {post.series}
       </span>
       <span className="text-gray-400">{post.date}</span>
@@ -100,7 +100,7 @@ const PostCard = ({ post }) => (
       {post.tags.map((tag) => (
         <span
           key={tag}
-          className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30"
+          className="px-3 py-1 bg-linear-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30"
         >
           {tag}
         </span>
@@ -117,7 +117,7 @@ export default function Blog() {
   return (
     <div className="relative overflow-hidden min-h-screen bg-gray-900 py-16 pt-24 font-serif">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
@@ -125,7 +125,7 @@ export default function Blog() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
             Blog
           </h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
+          <div className="h-1 w-24 bg-linear-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Field notes from my live experiments — what worked, what broke,
             and what the data actually said.

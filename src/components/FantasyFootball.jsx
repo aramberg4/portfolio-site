@@ -1077,7 +1077,7 @@ function RankedCards({ title, teams, scoreKey, metrics }) {
             <div style={{ display: 'flex', alignItems: 'center', padding: '1.25rem 1.5rem', gap: '1.5rem' }}>
               {/* Rank */}
               <div
-                className="rounded-full font-bold flex-shrink-0"
+                className="rounded-full font-bold shrink-0"
                 style={{
                   width: 40, height: 40,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',

@@ -100,13 +100,13 @@ const ProjectCard = ({ project }) => {
           alt={project.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
 
         {/* Project Type Badge */}
         <div className="absolute top-4 left-4">
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
             project.featured
-              ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white'
+              ? 'bg-linear-to-r from-blue-500 to-green-400 text-white'
               : 'bg-gray-900/80 text-gray-300'
           }`}>
             {project.type}
@@ -129,7 +129,7 @@ const ProjectCard = ({ project }) => {
           {project.technologies.map((tech, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-200"
+              className="px-3 py-1 bg-linear-to-r from-blue-500/20 to-green-400/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-200"
             >
               {tech}
             </span>
@@ -142,7 +142,7 @@ const ProjectCard = ({ project }) => {
             project.isInternal ? (
               <Link
                 to={project.liveUrl}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
               >
                 <ArrowTopRightOnSquareIcon className="w-4 h-4" />
                 Try Demo
@@ -152,7 +152,7 @@ const ProjectCard = ({ project }) => {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
               >
                 <ArrowTopRightOnSquareIcon className="w-4 h-4" />
                 Visit Site
@@ -185,7 +185,7 @@ export default function Projects() {
     <div className="relative overflow-hidden min-h-screen bg-gray-900 py-16 pt-24">
 
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
       {/* Enhanced animated background particles */}
       <div className="absolute inset-0">
@@ -209,7 +209,7 @@ export default function Projects() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
             My Projects
           </h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
+          <div className="h-1 w-24 bg-linear-to-r from-blue-500 to-green-400 mx-auto mb-6"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             A collection of projects showcasing my expertise in web development,
             algorithms, and full-stack applications.
@@ -253,7 +253,7 @@ export default function Projects() {
             href="https://github.com/aramberg4"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-green-400 text-white rounded-lg font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105"
           >
             <CodeBracketIcon className="w-5 h-5" />
             View All on GitHub

@@ -225,7 +225,7 @@ const NFLTargetShare = () => {
   return (
     <div className="relative overflow-hidden min-h-screen bg-gray-900 py-16 pt-24">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-900/10 via-gray-900 to-green-900/10"></div>
 
       {/* Animated background particles */}
       <div className="absolute inset-0">
@@ -262,7 +262,7 @@ const NFLTargetShare = () => {
           {/* Data Notice */}
           {dataNotice && (
             <div className="mb-6 max-w-3xl mx-auto">
-              <div className="px-6 py-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-xl shadow-sm">
+              <div className="px-6 py-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-xl shadow-xs">
                 <p className="text-sm font-medium">
                   <span role="img" aria-label="calendar">📅</span> {dataNotice}
                 </p>
@@ -270,7 +270,7 @@ const NFLTargetShare = () => {
             </div>
           )}
 
-          <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-green-400 mx-auto mb-8"></div>
+          <div className="h-1 w-32 bg-linear-to-r from-blue-500 to-green-400 mx-auto mb-8"></div>
           <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
             Interactive visualization of pass-catcher target distribution by team and week.
             Perfect for fantasy football analysis and NFL insights.
@@ -347,7 +347,7 @@ const NFLTargetShare = () => {
           <button
             onClick={loadTargetShareData}
             disabled={loading}
-            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-green-400 text-white rounded-xl font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:scale-100 shadow-lg hover:shadow-xl"
+            className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-500 to-green-400 text-white rounded-xl font-medium hover:from-blue-600 hover:to-green-500 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:scale-100 shadow-lg hover:shadow-xl"
           >
             <ArrowPathIcon className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             {loading ? 'Loading...' : 'Refresh'}

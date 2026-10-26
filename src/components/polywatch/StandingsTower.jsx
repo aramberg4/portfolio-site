@@ -22,12 +22,12 @@ const StandingsTower = ({ algos, selectedId, onSelect }) => {
               ${isSel ? 'bg-gray-700/60' : 'hover:bg-gray-700/30'}`}
           >
             <span className="font-mono text-sm text-gray-500 text-right">{i + 1}</span>
-            <span className="h-7 rounded-sm" style={{ backgroundColor: color.bg }} />
+            <span className="h-7 rounded-xs" style={{ backgroundColor: color.bg }} />
             <span className="min-w-0">
               <span className="block text-sm font-semibold text-white truncate">
                 {algo.name}
                 {algo.id === 'everyman' && (
-                  <span className="ml-2 align-middle text-[9px] uppercase tracking-wide text-gray-500 border border-gray-600 rounded px-1 py-px">
+                  <span className="ml-2 align-middle text-[9px] uppercase tracking-wide text-gray-500 border border-gray-600 rounded-sm px-1 py-px">
                     benchmark
                   </span>
                 )}

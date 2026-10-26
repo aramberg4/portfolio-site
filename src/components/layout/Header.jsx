@@ -25,11 +25,11 @@ export default function Header() {
   }));
 
   return (
-    <nav className="bg-gradient-to-r from-blue-500 to-green-400 shadow-lg">
+    <nav className="bg-linear-to-r from-blue-500 to-green-400 shadow-lg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">
-            <div className="flex flex-shrink-0 items-center">
+            <div className="flex shrink-0 items-center">
               <Link
                 to="/"
                 className="flex items-center space-x-2 text-white hover:text-gray-200 transition-colors duration-200"
@@ -71,7 +71,7 @@ export default function Header() {
           <div className="-mr-2 flex items-center sm:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center rounded-md bg-white/10 p-2 text-white hover:bg-white/20 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-200"
+              className="inline-flex items-center justify-center rounded-md bg-white/10 p-2 text-white hover:bg-white/20 hover:text-gray-200 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-200"
             >
               <span className="sr-only">Open main menu</span>
               {isMenuOpen ? (
@@ -91,7 +91,7 @@ export default function Header() {
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="sm:hidden">
-          <div className="space-y-1 pb-3 pt-2 bg-black/10 backdrop-blur-sm">
+          <div className="space-y-1 pb-3 pt-2 bg-black/10 backdrop-blur-xs">
             {updatedNavigation.map((item) =>
               item.external ? (
                 <a
